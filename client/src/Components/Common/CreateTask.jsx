@@ -33,7 +33,6 @@ const CreateTask = () => {
         },
       });
       alert(response.data);
-      // toast.success(response.data.message)
       navigate(`/dashboard/admin/${name}`)
     } catch (error) {
       console.error( error);
