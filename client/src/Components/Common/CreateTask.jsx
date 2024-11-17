@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 const CreateTask = () => {
   const [formData, setFormData] = useState({
