@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#showTask::-webkit-scrollbar{
+    display: none;
+}
+
+#scrollbar::-webkit-scrollbar{
+    display: none;
+}
+
+/* #menu{
+    display: none;
+} */
+
+#btn:focus ~ #menu{
+    display: block;
+}
