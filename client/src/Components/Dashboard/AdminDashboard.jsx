@@ -3,7 +3,7 @@ import Header from "../Common/Header";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "remixicon/fonts/remixicon.css";
-import ShowTask from "../Common/showTask";
+import ShowTask from "../Common/ShowTask.jsx"
 
 const AdminDashboard = () => {
   const [tasks, setTasks] = useState([]);
