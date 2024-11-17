@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TaskDetails = ({ task,refreshData }) => {
   const updateStatus = async (e) => {
@@ -10,7 +12,8 @@ const TaskDetails = ({ task,refreshData }) => {
         `${import.meta.env.VITE_backend}/task/status`,
         { id, status }
       );
-      alert(response.data);
+      // alert(response.data);
+      toast.success(response.data);
       refreshData();
     } catch (error) {
       console.log(error);
@@ -45,6 +48,7 @@ const TaskDetails = ({ task,refreshData }) => {
           </button>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

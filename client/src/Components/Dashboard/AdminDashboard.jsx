@@ -7,7 +7,6 @@ import ShowTask from "../Common/ShowTask.jsx"
 
 const AdminDashboard = () => {
   const [tasks, setTasks] = useState([]);
-
   const { name } = useParams();
 
   const getData = async () => {
@@ -46,7 +45,7 @@ const AdminDashboard = () => {
         </div>
         <div
           id="scrollbar"
-          className="w-full h-[85%] px-5 flex justify-between gap-2 overflow-y-auto"
+          className="w-full h-[85%] px-5 grid grid-cols-3 gap-4 overflow-y-auto"
         >
           {tasks.map((task) => (
             <ShowTask key={task._id} task={task} refreshData={getData}/>

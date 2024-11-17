@@ -3,6 +3,8 @@ import loginPic from "../../assets/Login-pic.jpg";
 import { useNavigate } from "react-router-dom";
 import icon from "../../assets/google.png";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,15 +24,20 @@ const Login = () => {
         `${import.meta.env.VITE_backend}/login`,
         { email, password }
       );
-      alert(response.data.message);
+      // alert(response.data.message);
+      toast.success(response.data.message)
       const user = response.data.name;
+     setTimeout(() => {
       if (response.data.role === "Admin") {
         navigate(`/dashboard/admin/${user}`);
       } else {
         navigate(`/dashboard/employee/${user}`);
       }
+     }, 1000);
     } catch (err) {
-      alert(err.response.data);
+      // alert(err.response.data);
+      toast.error(err.response.data);
+      console.log(err)
     }
     setEmail("");
     setPassword("");
@@ -119,6 +126,7 @@ const Login = () => {
           src={loginPic}
         />
       </div>
+      <ToastContainer />
     </div>
   );
 };

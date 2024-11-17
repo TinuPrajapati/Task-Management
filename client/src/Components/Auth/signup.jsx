@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import signupPic from "../../assets/Login-pic.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [user, setUser] = useState("");
@@ -40,11 +42,12 @@ const Signup = () => {
           admin: name,
         }
       );
-
-      alert("Signup successful!");
-
+      // alert("Signup successful!");
+      toast.success(response.data)
       // // Redirect to login or dashboard
-      navigate(`/dashboard/admin/${name}`);
+      setTimeout(() => {
+        navigate(`/dashboard/admin/${name}`);
+      }, 1000);
 
       // Clear form fields
       setUser("");
@@ -53,7 +56,9 @@ const Signup = () => {
       setPassword("");
     } catch (err) {
       // Error handling
-      alert(err.response?.data?.message || "An error occurred during signup");
+      // alert(err.response?.data?.message || "An error occurred during signup");
+      console.log(err)
+      toast.error(err.response.data)
     }
   };
 
@@ -162,6 +167,7 @@ const Signup = () => {
           alt="Signup Illustration"
         />
       </div>
+      <ToastContainer />
     </div>
   );
 };

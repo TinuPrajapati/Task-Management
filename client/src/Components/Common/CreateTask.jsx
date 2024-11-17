@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateTask = () => {
+  const {name} = useParams();
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     category: "",
     assignedTo: "",
@@ -10,10 +14,6 @@ const CreateTask = () => {
     completedDate: "",
     description: "",
   });
-
-  const {name} = useParams();
-
-  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -32,8 +32,11 @@ const CreateTask = () => {
           "Content-Type": "application/json",
         },
       });
-      alert(response.data);
-      navigate(`/dashboard/admin/${name}`)
+      // alert(response.data);
+      toast.success(response.data);
+      setTimeout(() => {
+        navigate(`/dashboard/admin/${name}`)
+      }, 1000);
     } catch (error) {
       console.error( error);
       alert("Error creating task. Please try again.");
@@ -131,6 +134,7 @@ const CreateTask = () => {
           Assign Task
         </button>
       </form>
+      <ToastContainer/>
     </div>
   );
 };
