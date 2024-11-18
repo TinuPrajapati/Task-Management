@@ -25,19 +25,19 @@ const Login = () => {
         { email, password }
       );
       // alert(response.data.message);
-      toast.success(response.data.message)
+      toast.success(response.data.message);
       const user = response.data.name;
-     setTimeout(() => {
-      if (response.data.role === "Admin") {
-        navigate(`/dashboard/admin/${user}`);
-      } else {
-        navigate(`/dashboard/employee/${user}`);
-      }
-     }, 1000);
+      setTimeout(() => {
+        if (response.data.role === "Admin") {
+          navigate(`/dashboard/admin/${user}`);
+        } else {
+          navigate(`/dashboard/employee/${user}`);
+        }
+      }, 1000);
     } catch (err) {
       // alert(err.response.data);
       toast.error(err.response.data);
-      console.log(err)
+      console.log(err);
     }
     setEmail("");
     setPassword("");
@@ -95,28 +95,6 @@ const Login = () => {
               Login
             </button>
           </form>
-          <div class="text-center">
-            <p>
-              Don't have an account?{" "}
-              <a href="register.html" class="underline font-semibold">
-                Register here.
-              </a>
-            </p>
-          </div>
-          {/* <div className="w-[50%] h-[12%] mt-4 flex justify-center items-center bg-gray-100">
-            <button
-              className="flex items-center px-6 py-3 bg-white border border-gray-300 rounded-md shadow-md hover:shadow-lg hover:bg-gray-50 active:scale-90 duration-500"
-            >
-              <img
-                src={icon}
-                alt="Google Logo"
-                className="w-6 h-6 mr-3"
-              />
-              <span className="text-gray-700 font-medium">
-                Sign Up with Google
-              </span>
-            </button>
-          </div> */}
         </div>
       </div>
 

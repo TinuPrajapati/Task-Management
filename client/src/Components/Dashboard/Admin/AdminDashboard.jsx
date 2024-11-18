@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Header from "../Common/Header";
+import Header from "../../Common/Header.jsx";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "remixicon/fonts/remixicon.css";
-import ShowTask from "../Common/ShowTask.jsx"
+import ShowTask from "./ShowTask.jsx"
 
 const AdminDashboard = () => {
   const [tasks, setTasks] = useState([]);

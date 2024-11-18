@@ -14,7 +14,10 @@ const TaskDetails = ({ task,refreshData }) => {
       );
       // alert(response.data);
       toast.success(response.data);
-      refreshData();
+      setTimeout(() => {
+        refreshData();
+      }, 1000);
+      
     } catch (error) {
       console.log(error);
     }

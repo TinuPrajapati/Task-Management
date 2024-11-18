@@ -12,7 +12,7 @@ const ShowTask = ({ task, refreshData }) => {
         `${import.meta.env.VITE_backend}/task/${id}`
       );
       // alert(response.data);
-      toast.success(response.data);
+      // toast.success(response.data);
       refreshData();
     } catch (error) {
       console.log(error);
@@ -26,7 +26,7 @@ const ShowTask = ({ task, refreshData }) => {
   return (
     <div
       key={task._id}
-      className="w-[100%] h-[70%] px-5 py-2 rounded-md flex flex-col justify-evenly text-xl flex-shrink-0 relative"
+      className="w-[100%] h-[100%] px-5 py-2 rounded-md flex flex-col justify-evenly text-xl flex-shrink-0 relative"
       style={{ backgroundColor: task.color }}
     >
       <h1>Employee Name: {task.assignedTo}</h1>

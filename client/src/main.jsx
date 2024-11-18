@@ -8,25 +8,36 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Login from "./Components/Auth/Login.jsx";
-import AdminDashboard from "./Components/Dashboard/AdminDashboard.jsx";
-import EmployeeDashboard from "./Components/Dashboard/EmployeeDashboard.jsx";
-import CreateTask from "./Components/Common/CreateTask.jsx";
-import Signup from "./Components/Auth/signup.jsx";
+import {
+  AdminDashboard,
+  AdminTask,
+  CreateEmployee,
+  CreateTask,
+  EmployeeDashboard,
+  Login,
+} from "./Components/index.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="" element={<Login />} />
-      <Route path="dashboard/admin/:name" element={<AdminDashboard />} />
-      <Route path="dashboard/employee/:name" element={<EmployeeDashboard />} />
-      <Route path="admin/:name/assgin_task" element={<CreateTask />} />
-      <Route path="admin/:name/create_user" element={<Signup />} />
+      <Route path="login" element={<Login />} />
+      {/* Access Admin and Employee Routes */}
+      <Route path="dashboard/">
+        <Route path="admin/:name" element={<AdminDashboard />} />
+        <Route path="employee/:name" element={<EmployeeDashboard />} />
+      </Route>
+      {/* Access Admin work Routes */}
+      <Route path="admin/:name/">
+        <Route path="assgin_task" element={<CreateTask />} />
+        <Route path="create_user" element={<CreateEmployee />} />
+        <Route path="all_task" element={<AdminTask/>} />
+      </Route>
     </Route>
-  ),{
-    future:{
+  ),
+  {
+    future: {
       v7_startTransition: true,
-    }
+    },
   }
 );
 

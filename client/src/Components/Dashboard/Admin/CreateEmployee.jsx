@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import signupPic from "../../assets/Login-pic.jpg";
+import signupPic from "../../../assets/Login-pic.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Signup = () => {
+const CreateEmployee = () => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
@@ -172,4 +172,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default CreateEmployee;

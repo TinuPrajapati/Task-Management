@@ -13,7 +13,7 @@ exports.login = async (req, res) => {
 
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword) {
-    return res.status(401).json({ message: "Invalid password" });
+    return res.status(401).json("Invalid password");
   }
   return res
     .status(200)
@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
 
 exports.tasks = async (req, res) => {
   const {name }= req.params
-  const allTask = await Task.find({assignedTo:name,status:"pending"});
+  const allTask = await Task.find({assignedTo:name});
   res.status(200).json(allTask);
 };
 
