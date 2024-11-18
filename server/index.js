@@ -13,7 +13,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://task-management-tinu.vercel.app",
+    origin: process.env.frontend_url,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
