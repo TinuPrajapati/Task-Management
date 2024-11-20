@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -7,6 +7,7 @@ import TaskOperation from "./TaskOperation";
 const CreateTask = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const [users,setUsers] = useState([])
   const [formData, setFormData] = useState({
     category: "",
     assignedTo: "",
@@ -16,10 +17,13 @@ const CreateTask = () => {
   });
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { name, value } = e.target;
+    if(name === "category"){
+      getData(value)
+    }
     setFormData((prev) => ({
       ...prev,
-      [id]: value,
+      [name]: value,
     }));
   };
   const handleSubmit = async (e) => {
@@ -46,8 +50,17 @@ const CreateTask = () => {
     }
   };
 
+  const getData = async (role)=>{
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/all_users`,{role})
+      setUsers(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <TaskOperation text="Assign Task" formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />
+    <TaskOperation text="Assign Task" formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} users={users} />
   );
 };
 

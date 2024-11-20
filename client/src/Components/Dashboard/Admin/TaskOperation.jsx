@@ -2,7 +2,13 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TaskOperation = ({ text, formData, handleChange, handleSubmit }) => {
+const TaskOperation = ({
+  text,
+  formData,
+  handleChange,
+  handleSubmit,
+  users,
+}) => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center gap-4 bg-gray-900 px-8 py-5 text-white ">
       <h1 className="text-3xl font-serif border-b-2">{text}</h1>
@@ -16,7 +22,7 @@ const TaskOperation = ({ text, formData, handleChange, handleSubmit }) => {
               Task Category:
             </label>
             <select
-              id="category"
+              name="category"
               value={formData.category}
               onChange={handleChange}
               className="w-[90%] h-[80%] rounded-md text-black border-none outline-none"
@@ -33,17 +39,17 @@ const TaskOperation = ({ text, formData, handleChange, handleSubmit }) => {
               Assign To:
             </label>
             <select
-              id="assignedTo"
+              name="assignedTo"
               value={formData.assignedTo}
               onChange={handleChange}
               className="w-[90%] h-[80%] rounded-md text-black border-none outline-none"
             >
               <option value="">Choose Employee</option>
-              <option value="Adam">Adam</option>
-              <option value="Eve">Eve</option>
-              <option value="Bob">Bob</option>
-              <option value="Tom">Tom</option>
-              <option value="John">John</option>
+              {(users.length>0) ? (
+                users.map((el) => <option value={el.name} key={el._id}>{el.name}</option>)
+              ) : 
+                <option value="">No Employees Found</option>
+              }
             </select>
           </div>
         </div>
@@ -54,7 +60,7 @@ const TaskOperation = ({ text, formData, handleChange, handleSubmit }) => {
             </label>
             <input
               type="text"
-              id="taskTitle"
+              name="taskTitle"
               placeholder="Enter Task Name"
               value={formData.taskTitle}
               onChange={handleChange}
@@ -67,7 +73,7 @@ const TaskOperation = ({ text, formData, handleChange, handleSubmit }) => {
             </label>
             <input
               type="text"
-              id="completedDate"
+              name="completedDate"
               placeholder="Enter how much time give for this task"
               value={formData.completedDate}
               onChange={handleChange}
@@ -80,7 +86,7 @@ const TaskOperation = ({ text, formData, handleChange, handleSubmit }) => {
             Task Description:
           </label>
           <textarea
-            id="description"
+            name="description"
             placeholder="Enter task description"
             value={formData.description}
             onChange={handleChange}

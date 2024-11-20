@@ -31,10 +31,10 @@ const EditTask = () => {
   },[])
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [id]: value,
+      [name]: value,
     }));
   };
   const handleSubmit = async (e) => {

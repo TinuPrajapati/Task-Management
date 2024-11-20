@@ -4,12 +4,17 @@ const Task = require("../models/taskModel");
 
 // Admin create new User
 exports.signup = async (req, res) => {
-  const { name, email, role, password, admin } = req.body;
+  const { name, email, role, password } = req.body;
 
   // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).json("User  already exists");
+  }
+  
+  const userName = await User.findOne({name});
+  if(userName){
+    return res.status(400).json("User name already exists. Please choose Different Name");
   }
 
   // Hash the password
@@ -78,7 +83,6 @@ exports.particularTask = async(req,res)=>{
 exports.updateTask = async (req, res) => {
   const { id } = req.params;
   const { category, assignedTo, taskTitle, completedDate, description } =req.body;
-  console.log(id)
   try {
     const task = await Task.findByIdAndUpdate(
       id,
@@ -99,3 +103,9 @@ exports.updateTask = async (req, res) => {
     res.status(404).json(error);
   }
 };
+
+exports.allUsers = async (req,res)=>{
+  const {role} = req.body;
+  const users = await User.find({role_type:role},"id name");
+  res.status(200).json(users)
+}

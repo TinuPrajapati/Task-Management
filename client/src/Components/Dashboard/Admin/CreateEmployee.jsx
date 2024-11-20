@@ -6,45 +6,46 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateEmployee = () => {
-  const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { name } = useParams();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    role: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const submitForm = async (e) => {
     e.preventDefault();
 
     // Validate inputs
-    if (!user) {
-      return alert("Please enter your name");
+    if (!formData.name) {
+      return toast.error("Please enter your name");
     }
-    if (!email) {
-      return alert("Please enter your email");
+    if (!formData.email) {
+      return toast.error("Please enter your email");
     }
-    if (!role) {
-      return alert("Please select your role");
+    if (!formData.role) {
+      return toast.error("Please select your role");
     }
-    if (!password) {
-      return alert("Please enter your password");
+    if (!formData.password) {
+      return toast.error("Please enter your password");
     }
 
     try {
-      // Send data to the backend
       const response = await axios.post(
-        `${import.meta.env.VITE_backend}/admin/signup`, // Backend URL from .env
-        {
-          name: user,
-          email,
-          role,
-          password,
-          admin: name,
-        }
+        `${import.meta.env.VITE_backend}/admin/signup`,
+        formData
       );
-      // alert("Signup successful!");
-      toast.success(response.data)
-      // // Redirect to login or dashboard
+      toast.success(response.data);
       setTimeout(() => {
         navigate(`/dashboard/admin/${name}`);
       }, 1000);
@@ -55,10 +56,8 @@ const CreateEmployee = () => {
       setRole("");
       setPassword("");
     } catch (err) {
-      // Error handling
-      // alert(err.response?.data?.message || "An error occurred during signup");
-      console.log(err)
-      toast.error(err.response.data)
+      console.log(err);
+      toast.error(err.response.data);
     }
   };
 
@@ -86,9 +85,9 @@ const CreateEmployee = () => {
                 id="name"
                 placeholder="Your Name"
                 name="name"
-                value={user}
+                value={formData.name}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setUser(e.target.value)}
+                onChange={handleChange}
               />
             </div>
 
@@ -101,9 +100,9 @@ const CreateEmployee = () => {
                 id="email"
                 placeholder="your@email.com"
                 name="email"
-                value={email}
+                value={formData.email}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
               />
             </div>
 
@@ -114,9 +113,9 @@ const CreateEmployee = () => {
               <select
                 id="role"
                 name="role"
-                value={role}
+                value={formData.role}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setRole(e.target.value)}
+                onChange={handleChange}
               >
                 <option value="">Choose role</option>
                 <option value="Admin">Admin</option>
@@ -136,9 +135,9 @@ const CreateEmployee = () => {
                 id="password"
                 placeholder="Password"
                 name="password"
-                value={password}
+                value={formData.password}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
               />
             </div>
 
