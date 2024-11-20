@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
 const Task = require("../models/taskModel");
 
+// Admin create new User
 exports.signup = async (req, res) => {
   const { name, email, role, password, admin } = req.body;
 
@@ -25,8 +26,16 @@ exports.signup = async (req, res) => {
   res.status(201).json("User  created successfully");
 };
 
-exports.task = async (req, res) => {
-  const { category, assignedTo, taskTitle, completedDate, description } = req.body;
+// Admin check All Task
+exports.allTasks = async (req, res) => {
+  const allTask = await Task.find();
+  res.status(200).json(allTask);
+};
+
+// Admin create new Task
+exports.createTask = async (req, res) => {
+  const { category, assignedTo, taskTitle, completedDate, description } =
+    req.body;
   const Colors = [
     "#0369a1", // bg-sky-700
     "#1d4ed8", // bg-blue-700
@@ -58,7 +67,35 @@ exports.task = async (req, res) => {
   }
 };
 
-exports.showTasks = async (req, res) => {
-  const allTask = await Task.find();
-  res.status(200).json(allTask);
+// Admin access particular task for update
+exports.particularTask = async(req,res)=>{
+  const {id} = req.params;
+  const task = await Task.findById(id);
+  res.status(200).json(task)
+}
+
+// Admin Update Particular Task
+exports.updateTask = async (req, res) => {
+  const { id } = req.params;
+  const { category, assignedTo, taskTitle, completedDate, description } =req.body;
+  console.log(id)
+  try {
+    const task = await Task.findByIdAndUpdate(
+      id,
+      {
+        category,
+        assignedTo,
+        taskTitle,
+        completedDate,
+        description,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).json("Task Update")
+  } catch (error) {
+    res.status(404).json(error);
+  }
 };

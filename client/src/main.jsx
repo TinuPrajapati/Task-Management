@@ -13,6 +13,7 @@ import {
   AdminTask,
   CreateEmployee,
   CreateTask,
+  EditTask,
   EmployeeDashboard,
   Login,
 } from "./Components/index.js";
@@ -28,9 +29,10 @@ const router = createBrowserRouter(
       </Route>
       {/* Access Admin work Routes */}
       <Route path="admin/:name/">
-        <Route path="assgin_task" element={<CreateTask />} />
+        <Route path="assign_task" element={<CreateTask />} />
         <Route path="create_user" element={<CreateEmployee />} />
         <Route path="all_task" element={<AdminTask/>} />
+        <Route path="edit_task/:id" element={<EditTask/>} />
       </Route>
     </Route>
   ),

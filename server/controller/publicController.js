@@ -2,6 +2,7 @@ const Task = require("../models/taskModel");
 const User = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 
+// User Login
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -20,30 +21,28 @@ exports.login = async (req, res) => {
     .json({ message: "User  login", role: user.role_type, name: user.name });
 };
 
+// Specific User Task
 exports.tasks = async (req, res) => {
-  const {name }= req.params
-  const allTask = await Task.find({assignedTo:name});
+  const { name } = req.params;
+  const allTask = await Task.find({ assignedTo: name });
   res.status(200).json(allTask);
 };
 
-exports.allTask = async (req,res)=>{
-  const allTask = await Task.find();
-  res.status(200).json(allTask);
-}
-
+// Specific User Task Status Updata
 exports.taskStatus = async (req, res) => {
   const { id, status } = req.body;
   const task = await Task.findByIdAndUpdate(
     id,
-    { status:status.toLowerCase() },
+    { status: status.toLowerCase() },
     { new: true, runValidators: true }
   );
-  res.status(200).json("Your task status Update")
+  res.status(200).json("Your task status Update");
 };
 
-exports.deleteTask = async (req,res)=>{
-  const {id}=req.params
-  console.log(id)
+// Specific user task delete
+exports.deleteTask = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
   const task = await Task.findByIdAndDelete(id);
-  res.status(200).json("Task deleted")
-}
+  res.status(200).json("Task deleted");
+};
