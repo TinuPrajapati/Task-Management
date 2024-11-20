@@ -42,7 +42,7 @@ const CreateTask = () => {
       // alert(response.data);
       toast.success(response.data);
       setTimeout(() => {
-        navigate(`/dashboard/admin/${name}`);
+        navigate(`/dashboard/admin/${name}/all_tasks`);
       }, 1000);
     } catch (error) {
       console.error(error);

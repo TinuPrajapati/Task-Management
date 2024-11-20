@@ -7,6 +7,7 @@ import TaskOperation from "./TaskOperation";
 const EditTask = () => {
   const { name,id } = useParams();
   const navigate = useNavigate();
+  const [users,setUsers] = useState([])
   const [formData, setFormData] = useState({
     category: "",
     assignedTo: "",
@@ -32,11 +33,15 @@ const EditTask = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if(name === "category"){
+      getUsers(value)
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,7 +58,7 @@ const EditTask = () => {
       // alert(response.data);
       toast.success(response.data);
       setTimeout(() => {
-        navigate(`/admin/${name}/all_task`);
+        navigate(`/admin/${name}/all_tasks`);
       }, 1000);
       
     } catch (error) {
@@ -62,8 +67,17 @@ const EditTask = () => {
     }
   };
 
+  const getUsers = async (role)=>{
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/all_users`,{role})
+      setUsers(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <TaskOperation text="Edit Task" formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />
+    <TaskOperation text="Edit Task" formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} users={users}  />
   );
 };
 
