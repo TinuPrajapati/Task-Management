@@ -1,26 +1,40 @@
-import React,{useEffect} from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
 const AllUsers = () => {
+  const token = Cookies.get(import.meta.env.VITE_cookies_name);
   const [users, setUsers] = React.useState([]);
   const { name } = useParams();
-
+  const navigate = useNavigate();
   const getData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_backend}/admin/all_users`
+        `${import.meta.env.VITE_backend}/admin/all_users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log(response.data.filter((el)=> el.role_type != "Admin"));
-      setUsers(response.data.filter((el)=> el.role_type != "Admin"));
+      setUsers(response.data.filter((el) => el.role_type != "Admin"));
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    const initializeDashboard = async () => {
+      const isValid = await checkCookieValidity(name,navigate);
+      if (isValid) {
+        getData();
+      }
+    };
+
+    initializeDashboard();
+  }, [name]);
 
   return (
     <div className="w-[100vw] h-[100vh] bg-gray-900 px-8 py-5 text-white flex flex-col gap-6">
@@ -47,7 +61,6 @@ const AllUsers = () => {
                 <p>Email : {el.email}</p>
                 <p>Role : {el.role_type}</p>
                 <p>Create : {new Date(el.createdAt).toLocaleDateString()}</p>
-
               </div>
             ))
           ) : (

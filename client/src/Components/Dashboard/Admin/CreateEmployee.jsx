@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import signupPic from "../../../assets/Login-pic.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
 const CreateEmployee = () => {
   const navigate = useNavigate();
@@ -60,6 +61,14 @@ const CreateEmployee = () => {
       toast.error(err.response.data);
     }
   };
+
+  useEffect(() => {
+    const initializeDashboard = async () => {
+      await checkCookieValidity(name, navigate);
+    };
+
+    initializeDashboard();
+  }, [name]);
 
   return (
     <div className="w-[100vw] h-[100vh] flex p-10">

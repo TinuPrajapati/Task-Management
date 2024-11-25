@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
 const ShowTask = ({ task, refreshData }) => {
   const navigate = useNavigate();
@@ -25,6 +26,14 @@ const ShowTask = ({ task, refreshData }) => {
   const display = (e) => {
     setShow(!show);
   };
+
+  useEffect(() => {
+    const initializeDashboard = async () => {
+      await checkCookieValidity(name, navigate);
+    };
+
+    initializeDashboard();
+  }, [name]);
 
   return (
     <div

@@ -1,13 +1,14 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import TaskOperation from "./TaskOperation";
+import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
 const EditTask = () => {
-  const { name,id } = useParams();
+  const { name, id } = useParams();
   const navigate = useNavigate();
-  const [users,setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     category: "",
     assignedTo: "",
@@ -27,14 +28,14 @@ const EditTask = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getData();
-  },[])
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if(name === "category"){
-      getUsers(value)
+    if (name === "category") {
+      getUsers(value);
     }
     setFormData((prev) => ({
       ...prev,
@@ -48,36 +49,48 @@ const EditTask = () => {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_backend}/admin/edit_task/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        formData
       );
       // alert(response.data);
       toast.success(response.data);
       setTimeout(() => {
         navigate(`/admin/${name}/all_tasks`);
       }, 1000);
-      
     } catch (error) {
       console.error(error);
       alert("Error creating task. Please try again.");
     }
   };
 
-  const getUsers = async (role)=>{
+  const getUsers = async (role) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/users`,{role})
-      setUsers(response.data)
+      const response = await axios.post(
+        `${import.meta.env.VITE_backend}/admin/users`,
+        { role }
+      );
+      setUsers(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
+  useEffect(() => {
+    const initializeDashboard = async () => {
+      await checkCookieValidity(name, navigate);
+    };
+
+    initializeDashboard();
+  }, [name]);
+
 
   return (
-    <TaskOperation text="Edit Task" formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} users={users}  />
+    <TaskOperation
+      text="Edit Task"
+      formData={formData}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      users={users}
+    />
   );
 };
 

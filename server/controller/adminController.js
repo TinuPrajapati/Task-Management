@@ -4,11 +4,6 @@ const Task = require("../models/taskModel");
 
 // Admin create new User
 exports.signup = async (req, res) => {
-  // const {username,role} = req.user;
-  // if(role!="admin"|| role != "ceo" || role!= "hr"){
-  //   return res.status(401).json("You are not authorized to perform this action")
-  // }
-
   const { name, email, role, password } = req.body;
 
   // Check if user already exists
@@ -16,10 +11,12 @@ exports.signup = async (req, res) => {
   if (existingUser) {
     return res.status(400).json("User  already exists");
   }
-  
-  const userName = await User.findOne({name});
-  if(userName){
-    return res.status(400).json("User name already exists. Please choose Different Name");
+
+  const userName = await User.findOne({ name });
+  if (userName) {
+    return res
+      .status(400)
+      .json("User name already exists. Please choose Different Name");
   }
 
   // Hash the password
@@ -78,16 +75,17 @@ exports.createTask = async (req, res) => {
 };
 
 // Admin access particular task for update
-exports.particularTask = async(req,res)=>{
-  const {id} = req.params;
+exports.particularTask = async (req, res) => {
+  const { id } = req.params;
   const task = await Task.findById(id);
-  res.status(200).json(task)
-}
+  res.status(200).json(task);
+};
 
 // Admin Update Particular Task
 exports.updateTask = async (req, res) => {
   const { id } = req.params;
-  const { category, assignedTo, taskTitle, completedDate, description } =req.body;
+  const { category, assignedTo, taskTitle, completedDate, description } =
+    req.body;
   try {
     const task = await Task.findByIdAndUpdate(
       id,
@@ -103,19 +101,19 @@ exports.updateTask = async (req, res) => {
         runValidators: true,
       }
     );
-    res.status(200).json("Task Update")
+    res.status(200).json("Task Update");
   } catch (error) {
     res.status(404).json(error);
   }
 };
 
-exports.Users = async (req,res)=>{
-  const {role} = req.body;
-  const users = await User.find({role_type:role},"id name");
-  res.status(200).json(users)
-}
-
-exports.allUser = async(req,res)=>{
-  const users = await User.find({},"id name email role_type createdAt");
+exports.Users = async (req, res) => {
+  const { role } = req.body;
+  const users = await User.find({ role_type: role }, "id name");
   res.status(200).json(users);
-}
+};
+
+exports.allUser = async (req, res) => {
+  const users = await User.find({}, "id name email role_type createdAt");
+  res.status(200).json(users);
+};

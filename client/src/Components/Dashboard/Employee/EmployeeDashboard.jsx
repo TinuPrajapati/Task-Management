@@ -4,6 +4,7 @@ import Task from "../../Common/TaskNumber.jsx"
 import TaskDetails from "./TaskDetails";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
 const EmployeeDashboard = () => {
   const { name } = useParams();
@@ -25,8 +26,15 @@ const EmployeeDashboard = () => {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    const initializeDashboard = async () => {
+      const isValid = await checkCookieValidity(name,navigate);
+      if (isValid) {
+        getData();
+      }
+    };
+
+    initializeDashboard();
+  }, [name]);
 
   return (
     <div className="w-[100vw] h-[100vh] bg-gray-900 px-8 py-5 text-white flex flex-col gap-6">

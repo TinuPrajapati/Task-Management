@@ -17,11 +17,14 @@ import {
   EditTask,
   EmployeeDashboard,
   Login,
+  NotFound,
 } from "./Components/index.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route>
+      <Route path="*" element={<NotFound/>}/>
+      <Route path="/" element={<App />}>
       <Route path="login" element={<Login />} />
       {/* Access Admin and Employee Routes */}
       <Route path="dashboard/">
@@ -36,6 +39,7 @@ const router = createBrowserRouter(
         <Route path="all_users" element={<AllUsers/>} />
         <Route path="edit_task/:id" element={<EditTask/>} />
       </Route>
+    </Route>
     </Route>
   ),
   {
