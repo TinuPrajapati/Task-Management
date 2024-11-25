@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import loginPic from "../../assets/Login-pic.jpg";
 import { useNavigate } from "react-router-dom";
-import icon from "../../assets/google.png";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,33 +14,53 @@ const Login = () => {
   const submimtForm = async (e) => {
     e.preventDefault();
     if (!email) {
-      alert("Please enter your email");
+      return toast.error("Please enter your email");
     }
     if (!password) {
-      alert("Please enter your password");
+      return toast.error("Please enter your password");
     }
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_backend}/login`,
         { email, password }
       );
-      // alert(response.data.message);
-      toast.success(response.data.message);
-      const user = response.data.name;
+
+      Cookies.set(import.meta.env.VITE_cookies_name, response.data);
+      getData();
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      toast.error(err.response.data);
+      console.log("Submit Details", err);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const token = Cookies.get(import.meta.env.VITE_cookies_name);
+      if (!token) {
+        return toast.error("Please Login again");
+      }
+      const response = await axios.get(
+        `${import.meta.env.VITE_backend}/protected-route`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.msg);
       setTimeout(() => {
         if (response.data.role === "Admin") {
-          navigate(`/dashboard/admin/${user}`);
+          navigate(`/dashboard/${response.data.role.toLowerCase()}/${response.data.username}`);
         } else {
-          navigate(`/dashboard/employee/${user}`);
+          navigate(`/dashboard/${response.data.role.toLowerCase()}/${response.data.username}`);
         }
       }, 1000);
-    } catch (err) {
-      // alert(err.response.data);
-      toast.error(err.response.data);
-      console.log(err);
+    } catch (error) {
+      toast.error(error.response.data);
+      console.log(`Check Token:${error}`);
     }
-    setEmail("");
-    setPassword("");
   };
 
   return (

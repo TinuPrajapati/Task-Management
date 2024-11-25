@@ -4,6 +4,11 @@ const Task = require("../models/taskModel");
 
 // Admin create new User
 exports.signup = async (req, res) => {
+  // const {username,role} = req.user;
+  // if(role!="admin"|| role != "ceo" || role!= "hr"){
+  //   return res.status(401).json("You are not authorized to perform this action")
+  // }
+
   const { name, email, role, password } = req.body;
 
   // Check if user already exists
@@ -104,8 +109,13 @@ exports.updateTask = async (req, res) => {
   }
 };
 
-exports.allUsers = async (req,res)=>{
+exports.Users = async (req,res)=>{
   const {role} = req.body;
   const users = await User.find({role_type:role},"id name");
   res.status(200).json(users)
+}
+
+exports.allUser = async(req,res)=>{
+  const users = await User.find({},"id name email role_type createdAt");
+  res.status(200).json(users);
 }

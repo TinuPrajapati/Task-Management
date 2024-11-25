@@ -1,6 +1,7 @@
 const Task = require("../models/taskModel");
 const User = require("../models/usersModel");
 const bcrypt = require("bcrypt");
+const jwt =require("jsonwebtoken");
 
 // User Login
 exports.login = async (req, res) => {
@@ -16,10 +17,17 @@ exports.login = async (req, res) => {
   if (!isValidPassword) {
     return res.status(401).json("Invalid password");
   }
+
+  const token = jwt.sign({role:user.role_type,username:user.name},"token");
   return res
     .status(200)
-    .json({ message: "User  login", role: user.role_type, name: user.name });
+    .json(token);
 };
+
+exports.data= async(req,res)=>{
+  const {username,role} = req.user;
+  res.status(200).json({username,role,msg:"User Login Successfully"});
+}
 
 // Specific User Task
 exports.tasks = async (req, res) => {

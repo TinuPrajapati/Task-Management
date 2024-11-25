@@ -69,7 +69,7 @@ const EditTask = () => {
 
   const getUsers = async (role)=>{
     try {
-      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/all_users`,{role})
+      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/users`,{role})
       setUsers(response.data)
     } catch (error) {
       console.log(error)

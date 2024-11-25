@@ -42,7 +42,7 @@ const CreateTask = () => {
       // alert(response.data);
       toast.success(response.data);
       setTimeout(() => {
-        navigate(`/dashboard/admin/${name}/all_tasks`);
+        navigate(`/admin/${name}/all_tasks`);
       }, 1000);
     } catch (error) {
       console.error(error);
@@ -52,7 +52,7 @@ const CreateTask = () => {
 
   const getData = async (role)=>{
     try {
-      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/all_users`,{role})
+      const response = await axios.post(`${import.meta.env.VITE_backend}/admin/users`,{role})
       setUsers(response.data)
     } catch (error) {
       console.log(error)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../Common/Header";
-import Task from "./TaskNumber";
+import Task from "../../Common/TaskNumber.jsx"
 import TaskDetails from "./TaskDetails";
 import { useParams } from "react-router-dom";
 import axios from "axios";
