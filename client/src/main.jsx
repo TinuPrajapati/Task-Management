@@ -35,8 +35,8 @@ const router = createBrowserRouter(
       <Route path="admin/:name/">
         <Route path="assign_task" element={<CreateTask />} />
         <Route path="create_user" element={<CreateEmployee />} />
-        <Route path="all_tasks" element={<AllTask/>} />
-        <Route path="all_users" element={<AllUsers/>} />
+        <Route path=":operation" element={<AllTask/>} />
+        {/* <Route path="all_users" element={<AllUsers/>} /> */}
         <Route path="edit_task/:id" element={<EditTask/>} />
       </Route>
     </Route>

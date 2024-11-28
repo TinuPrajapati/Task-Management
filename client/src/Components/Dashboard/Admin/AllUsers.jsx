@@ -5,19 +5,13 @@ import Cookies from "js-cookie";
 import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
 const AllUsers = () => {
-  const token = Cookies.get(import.meta.env.VITE_cookies_name);
-  const [users, setUsers] = React.useState([]);
   const { name } = useParams();
   const navigate = useNavigate();
+  const [users, setUsers] = React.useState([]);
   const getData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_backend}/admin/all_users`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${import.meta.env.VITE_backend}/admin/all_users`
       );
       setUsers(response.data.filter((el) => el.role_type != "Admin"));
     } catch (error) {
@@ -66,7 +60,7 @@ const AllUsers = () => {
           ) : (
             <div className="w-full h-full flex justify-center items-center text-3xl flex-col opacity-50 gap-4">
               <i class="ri-information-line text-9xl"></i>
-              <h1 className="font-serif">No Task Found </h1>
+              <h1 className="font-serif">No User Found </h1>
             </div>
           )}
         </div>

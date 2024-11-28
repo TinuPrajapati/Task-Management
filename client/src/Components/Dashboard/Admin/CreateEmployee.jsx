@@ -157,14 +157,6 @@ const CreateEmployee = () => {
               Signup
             </button>
           </form>
-          <div className="text-center">
-            <p>
-              Already have an account?{" "}
-              <a href="/login" className="underline font-semibold">
-                Login here.
-              </a>
-            </p>
-          </div>
         </div>
       </div>
 
