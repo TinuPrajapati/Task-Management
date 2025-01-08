@@ -3,16 +3,21 @@ import Login from "./Auth/Login";
 
 // From Commmon Folder
 import NotFound from "./Common/NotFound";
+import Dashboard from "./Dashboard/Dashboard";
 
-// From Admin Dashboard Folder
-import AdminDashboard from "./Dashboard/Admin/AdminDashboard";
-import CreateTask from "./Dashboard/Admin/CreateTask";
-import EditTask from "./Dashboard/Admin/EditTask";
-import CreateEmployee from "./Dashboard/Admin/CreateEmployee";
-import AllTask from "./Dashboard/Admin/AllTask";
-import AllUsers from "./Dashboard/Admin/AllUsers";
+// From Tasks Folder
+import AllProject from "./Project/AllProject";
+import CreateProject from "./Project/CreateProject";
 
-// From Employee Dashboard Folder
-import EmployeeDashboard from "./Dashboard/Employee/EmployeeDashboard";
+import AllUsers from "./All Users/AllUsers";
+import CreateEmployee from "./All Users/CreateEmployee";
 
-export {Login,NotFound,AdminDashboard,CreateEmployee,CreateTask,AllTask,EditTask,AllUsers,EmployeeDashboard};
+import Team from "./Team Project/Team";
+
+import SendEmail from "./Send Email/SendEmail";
+
+import Setting from "./Setting/Setting";
+
+import Report from "./Report/Report";
+
+export {Login,NotFound,Dashboard,AllProject,AllUsers,Team,SendEmail,Setting,Report,CreateProject,CreateEmployee};

@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        Nuntio: ["Nunito", "serif"],
+        Playfair: ["Playfair Display", "serif"],
+        Roboto: ["Roboto Slab", "system-ui"],
+        Lora: ["Lora", "system-ui"],
+      }
+    },
   },
   plugins: [],
 }

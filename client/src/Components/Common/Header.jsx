@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"
 
-
 const Header = ({greet,name}) => {
-  const navigate = useNavigate();
-  const logout = ()=>{
-    Cookies.remove(import.meta.env.VITE_cookies_name);
-    navigate("/login")
-  }
+ 
   return (
     <div className="w-full h-[20%] flex justify-between items-center px-2">
       <div className="text-2xl font-serif">

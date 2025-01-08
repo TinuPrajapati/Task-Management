@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import TaskOperation from "./TaskOperation";
+import TaskOperation from "../Admin/TaskOperation.jsx";
 import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
 
-const CreateTask = () => {
-  const { name } = useParams();
+const EditProject = () => {
+  const { name, d } = useParams();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
@@ -17,22 +17,38 @@ const CreateTask = () => {
     description: "",
   });
 
+  const getData = async () => {
+    try {
+      const respone = await axios.get(
+        `${import.meta.env.VITE_backend}/admin/task/${id}`
+      );
+      setFormData(respone.data);
+    } catch (error) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      getData(value);
+      getUsers(value);
     }
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_backend}/admin/assign_task`,
+      const response = await axios.put(
+        `${import.meta.env.VITE_backend}/admin/edit_task/${id}`,
         formData
       );
       // alert(response.data);
@@ -46,7 +62,7 @@ const CreateTask = () => {
     }
   };
 
-  const getData = async (role) => {
+  const getUsers = async (role) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_backend}/admin/users`,
@@ -57,6 +73,7 @@ const CreateTask = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     const initializeDashboard = async () => {
       await checkCookieValidity(name, navigate);
@@ -68,7 +85,7 @@ const CreateTask = () => {
 
   return (
     <TaskOperation
-      text="Assign Task"
+      text="Edit Task"
       formData={formData}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
@@ -77,4 +94,4 @@ const CreateTask = () => {
   );
 };
 
-export default CreateTask;
+export default EditProject;

@@ -7,7 +7,8 @@ const taskSchema = new mongoose.Schema({
     enum: ["Developer", "Designer", "HR", "All Employees"], // Enums for category options
   },
   assignedTo: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId, // Reference to User
+    ref: "User", // Model name to reference
     required: true,
   },
   taskTitle: {
@@ -15,7 +16,7 @@ const taskSchema = new mongoose.Schema({
     required: true,
   },
   completedDate: {
-    type: String,
+    type: Date, // Use Date type for better date handling
     required: true,
   },
   description: {
@@ -23,18 +24,14 @@ const taskSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  color:{
-    type:String,
-    required:true
+  status: {
+    type: String,
+    required: true,
+    enum: ["pending", "accept", "complete", "reject"],
+    default: "pending",
   },
-  status:{
-    type:String,
-    required:true,
-    enum:["pending","accept","complete","reject"],
-    default:"pending"
-  }
 }, { timestamps: true });
 
 const Task = mongoose.model("Task", taskSchema);
 
-module.exports = Task
+module.exports = Task;

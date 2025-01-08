@@ -17,6 +17,18 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:[true,"Please enter your password"],
+    },
+    number:{
+        type:Number,
+        required:[true,"Please enter your phone number"],
+    },
+    tasks:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Task",
+    },
+    favorite:{
+        type:Boolean,
+        default:false
     }
 },{
     timestamps:true

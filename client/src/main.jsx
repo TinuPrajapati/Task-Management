@@ -2,45 +2,29 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import {
-  AdminDashboard,
-  AllTask,
-  AllUsers,
-  CreateEmployee,
-  CreateTask,
-  EditTask,
-  EmployeeDashboard,
-  Login,
-  NotFound,
-} from "./Components/index.js";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import { AllProject, AllUsers, CreateEmployee, CreateProject, Dashboard, Login, NotFound, Report, SendEmail, Setting, Team} from "./Components/index.js";
+
+import { Provider } from 'react-redux'
+import store from "./app/store.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="*" element={<NotFound/>}/>
+      <Route path="*" element={<NotFound />} />
       <Route path="/" element={<App />}>
-      <Route path="login" element={<Login />} />
-      {/* Access Admin and Employee Routes */}
-      <Route path="dashboard/">
-        <Route path="admin/:name" element={<AdminDashboard />} />
-        <Route path=":employee/:name" element={<EmployeeDashboard />} />
+        <Route path="login" element={<Login />} />
+        <Route path="dashboard/:name" element={<Dashboard />} />
+        <Route path=":name/all_projects" element={<AllProject />} />
+        <Route path=":name/report" element={<Report />} />
+        <Route path=":name/all_users" element={<AllUsers />} />
+        <Route path=":name/create_user" element={<CreateEmployee />} />
+        <Route path=":name/team_project" element={<Team />} />
+        <Route path=":name/send_email" element={<SendEmail />} />
+        <Route path=":name/setting" element={<Setting />} />
+        <Route path=":name/create_project" element={<CreateProject/>}/>
       </Route>
-      {/* Access Admin work Routes */}
-      <Route path="admin/:name/">
-        <Route path="assign_task" element={<CreateTask />} />
-        <Route path="create_user" element={<CreateEmployee />} />
-        <Route path=":operation" element={<AllTask/>} />
-        {/* <Route path="all_users" element={<AllUsers/>} /> */}
-        <Route path="edit_task/:id" element={<EditTask/>} />
-      </Route>
-    </Route>
-    </Route>
+    </Route>  
   ),
   {
     future: {
@@ -51,6 +35,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );

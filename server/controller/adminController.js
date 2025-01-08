@@ -4,59 +4,51 @@ const Task = require("../models/taskModel");
 
 // Admin create new User
 exports.signup = async (req, res) => {
-  const { name, email, role, password } = req.body;
+  const { name, email, role, password, number } = req.body;
 
-  // Check if user already exists
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json("User  already exists");
+  try {
+    // Check if the email already exists
+    const existingUser = await User.findOne({ $or: [{ email }, { number }] });
+    if (existingUser) {
+      const message =
+        existingUser.email === email
+          ? "This email already exists"
+          : "This number already exists";
+      return res.status(400).json({ message });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
+    await User.create({
+      name,
+      email,
+      role_type: role,
+      password: hashedPassword,
+      number,
+    });
+
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
   }
-
-  const userName = await User.findOne({ name });
-  if (userName) {
-    return res
-      .status(400)
-      .json("User name already exists. Please choose Different Name");
-  }
-
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Create new user
-  await User.create({
-    name,
-    email,
-    role_type: role,
-    password: hashedPassword,
-  });
-
-  res.status(201).json("User  created successfully");
 };
 
-// Admin check All Task
+// Admin check all tasks
 exports.allTasks = async (req, res) => {
-  const allTask = await Task.find();
-  res.status(200).json(allTask);
+  try {
+    const allTask = await Task.find();
+    res.status(200).json(allTask);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
 };
 
 // Admin create new Task
 exports.createTask = async (req, res) => {
-  const { category, assignedTo, taskTitle, completedDate, description } =
+  const { category, assignedTo, taskTitle, completedDate, description, color } =
     req.body;
-  const Colors = [
-    "#0369a1", // bg-sky-700
-    "#1d4ed8", // bg-blue-700
-    "#3730a3", // bg-indigo-800
-    "#5b21b6", // bg-purple-800
-    "#be185d", // bg-pink-700
-    "#047857", // bg-green-700
-    "#047857", // bg-emerald-700
-    "#ca8a04", // bg-yellow-600
-    "#c2410c", // bg-orange-700
-    "#b91c1c", // bg-red-700
-  ];
-
-  const index = Math.floor(Math.random() * Colors.length);
   try {
     const newTask = new Task({
       category,
@@ -64,11 +56,11 @@ exports.createTask = async (req, res) => {
       taskTitle,
       completedDate,
       description,
-      color: Colors[index],
+      color,
     });
 
     await newTask.save();
-    res.status(201).json("Task created successfully");
+    res.status(201).json({ message: "Task created successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
@@ -77,15 +69,24 @@ exports.createTask = async (req, res) => {
 // Admin access particular task for update
 exports.particularTask = async (req, res) => {
   const { id } = req.params;
-  const task = await Task.findById(id);
-  res.status(200).json(task);
+
+  try {
+    const task = await Task.findById(id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
 };
 
 // Admin Update Particular Task
 exports.updateTask = async (req, res) => {
   const { id } = req.params;
-  const { category, assignedTo, taskTitle, completedDate, description } =
+  const { category, assignedTo, taskTitle, completedDate, description, color } =
     req.body;
+
   try {
     const task = await Task.findByIdAndUpdate(
       id,
@@ -95,25 +96,69 @@ exports.updateTask = async (req, res) => {
         taskTitle,
         completedDate,
         description,
+        color,
       },
       {
         new: true,
         runValidators: true,
       }
     );
-    res.status(200).json("Task Update");
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.status(200).json({ message: "Task updated successfully", task });
   } catch (error) {
-    res.status(404).json(error);
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
 
+// Fetch Users by Role
 exports.Users = async (req, res) => {
   const { role } = req.body;
-  const users = await User.find({ role_type: role }, "id name");
-  res.status(200).json(users);
+
+  try {
+    const users = await User.find({ role_type: role }, "_id name");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
 };
 
+// Fetch All Users
 exports.allUser = async (req, res) => {
-  const users = await User.find({}, "id name email role_type createdAt");
-  res.status(200).json(users);
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
 };
+
+exports.favoriteUser=async(req,res)=>{
+  const {id,favorite} = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(id,{favorite},{runValidators:true});
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json("User add in favorite list successfully");
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+}
+
+// Delete User bg Id
+exports.deleteUser = async (req,res)=>{
+  const {id} = req.params;
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json("User deleted successfully");
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+}
