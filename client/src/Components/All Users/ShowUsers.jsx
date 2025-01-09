@@ -3,12 +3,14 @@ import { CiMenuKebab } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 import { MdOutlineDateRange } from "react-icons/md";
+import { useNavigate,useParams } from "react-router-dom";
 
 const ShowUsers = ({el,handleDelete,handlefavorite}) => {
   const [favorite, setFavorite] = useState(el.favorite)
   const [display, setDisplay] = useState(false)
-
-  console.log(el)
+  const navigate = useNavigate()
+  const {name} = useParams()
+  
   const toggleFavorite = () => {
     const value = !favorite
     setFavorite(value);
@@ -17,6 +19,10 @@ const ShowUsers = ({el,handleDelete,handlefavorite}) => {
 
   const handleDisplay = () => {
     setDisplay(!display)
+  }
+
+  const move = () => {
+    navigate(`/${name}/edit/${el._id}`)
   }
   
   return (
@@ -31,9 +37,8 @@ const ShowUsers = ({el,handleDelete,handlefavorite}) => {
           <button onClick={handleDisplay}>
             <CiMenuKebab />
           </button>
-          <div className={` w-[30%] absolute border-2 border-yellow-400 bg-white font-semibold top-10 right-4 ${display ? "flex" : "hidden"} flex-col items-end px-3 py-1 rounded-md text-[1.1rem] duration-200`}>
-            <button className=" w-full py-1 text-end hover:bg-sky-400/50 hover:text-center hover:text-white duration-200 rounded-md active:scale-95 hover:font-bold">Edit</button>
-            <button className=" w-full py-1 text-end hover:bg-sky-400/50 hover:text-center hover:text-white duration-200 rounded-md active:scale-95 hover:font-bold">Duplicate</button>
+          <div className={` w-[25%] absolute border-2 border-yellow-400 bg-white font-semibold top-10 right-4 ${display ? "flex" : "hidden"} flex-col items-end px-3 py-1 rounded-md text-[1.1rem] duration-200`}>
+            <button className=" w-full py-1 text-end hover:bg-sky-400/50 hover:text-center hover:text-white duration-200 rounded-md active:scale-95 hover:font-bold" onClick={move}>Edit</button>
             <button className=" w-full py-1 text-end hover:bg-sky-400/50 hover:text-center hover:text-white duration-200 rounded-md active:scale-95 hover:font-bold" 
             onClick={() => handleDelete(el._id)}>Delete</button>
           </div>

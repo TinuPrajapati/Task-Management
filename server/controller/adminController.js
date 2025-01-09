@@ -114,12 +114,30 @@ exports.updateTask = async (req, res) => {
   }
 };
 
-// Fetch Users by Role
-exports.Users = async (req, res) => {
-  const { role } = req.body;
+// Fetch particular user
+exports.particularRoleUser = async (req, res) => {
+  const { role} = req.params;
+  try {
+    let response;
+    if(role == "All"){
+       response = await User.find({},"id name role_type");
+    }else{
+       response = await User.find({role_type:role},"id name role_type");
+    }
+    if (!response) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+exports.User = async (req, res) => {
+  const { id } = req.params;
 
   try {
-    const users = await User.find({ role_type: role }, "_id name");
+    const users = await User.findById(id, "name email role_type number");
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
@@ -136,22 +154,49 @@ exports.allUser = async (req, res) => {
   }
 };
 
-exports.favoriteUser=async(req,res)=>{
-  const {id,favorite} = req.body;
+exports.favoriteUser = async (req, res) => {
+  const { id, favorite } = req.body;
   try {
-    const user = await User.findByIdAndUpdate(id,{favorite},{runValidators:true});
+    const user = await User.findByIdAndUpdate(
+      id,
+      { favorite },
+      { runValidators: true }
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json("User add in favorite list successfully");
+    if (favorite) {
+      return res.status(200).json("User add in favorite list successfully");
+    } else {
+      return res
+        .status(200)
+        .json("User remove from favorite list successfully");
+    }
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
-}
+};
+
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, role_type, number, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    await User.findByIdAndUpdate(
+      id,
+      { name, email, role_type, number, password: hashedPassword },
+      { new: true, runValidators: true }
+    );
+    return res.status(200).json("User details updated successfully");
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
 
 // Delete User bg Id
-exports.deleteUser = async (req,res)=>{
-  const {id} = req.params;
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
   try {
     const user = await User.findByIdAndDelete(id);
     if (!user) {
@@ -161,4 +206,4 @@ exports.deleteUser = async (req,res)=>{
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
-}
+};

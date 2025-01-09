@@ -35,7 +35,7 @@ const TaskOperation = ({ text, formData, handleChange, handleSubmit, users }) =>
             <option value="Developer">Developer</option>
             <option value="Designer">Designer</option>
             <option value="HR">HR</option>
-            <option value="All Employees">All Employees</option>
+            <option value="All">All Employees</option>
           </select>
         </div>
         <div className="w-[50%] h-full flex flex-col gap-1">

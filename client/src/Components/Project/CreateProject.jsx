@@ -5,10 +5,12 @@ import axios from "axios";
 import TaskOperation from "./TaskOperation.jsx";
 import { checkCookieValidity } from "../../utils/cookiesValidation.js";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const CreateProject = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const token = Cookies.get(import.meta.env.VITE_cookies_name);
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     category: "",
@@ -49,15 +51,19 @@ const CreateProject = () => {
 
   const getData = async (role) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_backend}/admin/users`,
-        { role }
+      const response = await axios.get(
+        `${import.meta.env.VITE_backend}/admin/users/${role}`,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setUsers(response.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     const initializeDashboard = async () => {
       await checkCookieValidity(name, navigate);

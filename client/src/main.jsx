@@ -19,6 +19,7 @@ const router = createBrowserRouter(
         <Route path=":name/report" element={<Report />} />
         <Route path=":name/all_users" element={<AllUsers />} />
         <Route path=":name/create_user" element={<CreateEmployee />} />
+        <Route path=":name/edit/:id" element={<CreateEmployee />} />
         <Route path=":name/team_project" element={<Team />} />
         <Route path=":name/send_email" element={<SendEmail />} />
         <Route path=":name/setting" element={<Setting />} />
