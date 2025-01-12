@@ -1,23 +1,32 @@
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 
-const emailManager = async (email, admin_name) => {
-  const transporter = nodemailer.createTransport({
-    host: "gmail",
-    port: 465,
-    secure: true, // true for port 465, false for other ports
-    auth: {
-      user: "tinup2580@gmail.com",
-      pass: "fzvr ncuu kbnk xejl",
-    },
-  });
+const transporter = nodemailer.createTransport({
+  host: process.env.mailer_host,
+  port: parseInt(process.env.mailer_port), 
+  secure: process.env.mailer_port,
+  auth: {
+    user: process.env.mailer_email,
+    pass: process.env.mailer_password,
+  },
+  tls: {
+    rejectUnauthorized: false, 
+  },
+});
 
-  const info = await transporter.sendMail({
-    from: `${admin_name}`, // sender address
-    to: email, // list of receivers
-    subject: "Your company Id and password", // Subject line
-    text:"Your company id"
-  });
-  console.log("Message sent: %s", info.messageId);
-};
+// Main function to send emails
+async function main(to, subject, html) {
+  try {
+    const info = await transporter.sendMail({
+      from: `"Task Manager Team" <${process.env.mailer_email}>`, // Sender address
+      to, // Receiver address
+      subject, // Email subject
+      html, // Email content (HTML)
+    });
 
-module.exports = emailManager;
+    return info;
+  } catch (error) {
+    return error;
+  }
+}
+
+module.exports = main;

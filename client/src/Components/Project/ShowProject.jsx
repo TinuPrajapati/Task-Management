@@ -3,9 +3,11 @@ import { FaStar } from "react-icons/fa";
 import { CiStar, CiMenuKebab } from "react-icons/ci";
 import { MdOutlineDateRange } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
+import useAuthCheck from "../../Custom Hook/useAuthCheck";
 
 const ShowProject = ({ el, handleDelete, handleFavorite }) => {
   const {name} = useParams()
+  useAuthCheck(name);
   const navigate = useNavigate()
   const [favorite, setFavorite] = useState(el.favorite);
   const [display, setDisplay] = useState(false);

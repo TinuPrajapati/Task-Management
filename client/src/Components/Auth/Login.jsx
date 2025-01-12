@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import 'remixicon/fonts/remixicon.css'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -35,41 +34,21 @@ const Login = () => {
         { email, password }
       );
 
-      Cookies.set(import.meta.env.VITE_cookies_name, response.data);
-      getData();
-      setEmail("");
-      setPassword("");
-    } catch (err) {
-      toast.error(err.response?.data || "An unexpected error occurred");
-      console.log("Submit Details", err);
-    }finally{
-      dispatch(changeState(false));
-    }
-  };
+      Cookies.set(import.meta.env.VITE_cookies_name, response.data.token);
 
-  const getData = async () => {
-    try {
-      const token = Cookies.get(import.meta.env.VITE_cookies_name);
-      if (!token) {
-        return toast.error("Please login again");
-      }
-      const response = await axios.get(
-        `${import.meta.env.VITE_backend}/protected-route`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success(response.data.msg);
       setTimeout(() => {
         navigate(
           `/dashboard/${response.data.username}`
         );
       }, 1000);
-    } catch (error) {
-      toast.error(error.response?.data || "An unexpected error occurred");
-      console.log(`Check Token: ${error}`);
+      toast.success("login Successfully")
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      toast.error(err.response.data.message);
+      console.log("Submit Details", err.response.data);
+    }finally{
+      dispatch(changeState(false));
     }
   };
 

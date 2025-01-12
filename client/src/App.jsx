@@ -1,9 +1,10 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation,useParams } from "react-router-dom";
 import Header1 from "./Components/Header/Header";
 import SiderBar from "./Components/Header/SiderBar";
 import { useSelector } from "react-redux";
 import Loader from "./Components/Common/Loader";
 import 'remixicon/fonts/remixicon.css';
+import useAuthCheck from "./Custom Hook/useAuthCheck";
 
 export default function App() {
   const location = useLocation();

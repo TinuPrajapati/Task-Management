@@ -5,9 +5,11 @@ import axios from "axios";
 import TaskOperation from "./TaskOperation.jsx";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import useAuthCheck from "../../Custom Hook/useAuthCheck.js";
 
 const CreateProject = () => {
   const { name, id } = useParams();
+  useAuthCheck(name);
   const navigate = useNavigate();
   const token = Cookies.get(import.meta.env.VITE_cookies_name);
   const [users, setUsers] = useState([]);

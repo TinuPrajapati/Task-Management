@@ -8,7 +8,7 @@ const Task = ({ task, color, count, img }) => {
       <img src={img} className="w-14 h-14" />
       <div>
         <h3 className="font-semibold">{task}</h3>
-        <p>{count}</p>
+        <p className="text-[1.5rem]">{count}</p>
       </div>
     </div>
   );

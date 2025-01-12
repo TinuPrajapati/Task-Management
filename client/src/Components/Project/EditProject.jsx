@@ -3,10 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import TaskOperation from "../Admin/TaskOperation.jsx";
-import { checkCookieValidity } from "../../../utils/cookiesValidation.js";
+import useAuthCheck from "../../Custom Hook/useAuthCheck.js";
 
 const EditProject = () => {
-  const { name, d } = useParams();
+  const { name, id } = useParams();
+  useAuthCheck(name);
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
@@ -73,15 +74,6 @@ const EditProject = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const initializeDashboard = async () => {
-      await checkCookieValidity(name, navigate);
-    };
-
-    initializeDashboard();
-  }, [name]);
-
 
   return (
     <TaskOperation

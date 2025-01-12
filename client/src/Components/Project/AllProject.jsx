@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { checkCookieValidity } from "../../utils/cookiesValidation.js";
 import ShowProject from "./ShowProject.jsx";
 import CheckboxOptions from "../Common/CheckboxOptions.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import { useDispatch } from 'react-redux';
 import { changeState } from "../../feature/loaderSlice.js";
+import useAuthCheck from "../../Custom Hook/useAuthCheck.js";
 
 const AllProject = () => {
   const { name } = useParams();
+  useAuthCheck(name);
   const [projects, setProjects] = useState([]);
   const [display, setDisplay] = useState(false);
   const [filters, setFilters] = useState({
@@ -40,7 +41,6 @@ const AllProject = () => {
     return data.filter((project) => {
       const today = new Date().toDateString();
       const yesterday = new Date(Date.now() - 86400000).toDateString(); 
-      console.log(yesterday)
       if (filters.favorite && !project.favorite) return false;
       if (filters.today && new Date(project.createdAt).toDateString() !== today) return false;
       if (filters.yesterday && new Date(project.createdAt).toDateString() !== yesterday) return false;

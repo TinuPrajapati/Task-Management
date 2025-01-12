@@ -9,7 +9,7 @@ const RightSide = () => {
             <div className='w-full bg-slate-300 rounded-md h-[40vh] mt-2'></div>
         </div>
 
-        <Upcoming/>
+        {/* <Upcoming/> */}
     </div>
   )
 }

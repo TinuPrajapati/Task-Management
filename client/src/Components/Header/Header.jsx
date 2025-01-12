@@ -37,7 +37,7 @@ const Header1 = () => {
                 >
                     {menu ? <i className="ri-menu-unfold-2-line"></i> : <i className="ri-menu-fold-2-line"></i>}
                 </button>
-                <div className='w-[30%] h-[80%] flex items-center relative'>
+                {/* <div className='w-[30%] h-[80%] flex items-center relative'>
                     <input
                         id='search'
                         type="text"
@@ -49,7 +49,7 @@ const Header1 = () => {
                         className='absolute right-1 w-[10%] h-[85%] bg-red-400 rounded-md flex justify-center items-center text-white font-xl font-semibold active:scale-90'>
                         <i className="ri-search-line"></i>
                     </label>
-                </div>
+                </div> */}
                 <div className='flex text-red-400 font-semibold w-[12%] h-full gap-2 items-center'>
                     <div className='w-[30%] h-[80%] flex justify-center items-center bg-white rounded-md'>
                         <FaRegBell />

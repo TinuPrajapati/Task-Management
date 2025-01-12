@@ -6,5 +6,6 @@ import pending from "./pending.png";
 import complete from "./complete.png";
 import reject from "./rejected.png";
 import background from "./background.avif";
+import task from "./task-management.png"
 
-export {accept,loginPic,logo1,logo2,pending,complete,reject,background}
+export {accept,loginPic,logo1,logo2,pending,complete,reject,background,task}

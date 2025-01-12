@@ -3,15 +3,15 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { checkCookieValidity } from "../../utils/cookiesValidation.js";
 import InputOption from "../Common/InputOption.jsx";
 import Cookies from "js-cookie";
+import useAuthCheck from "../../Custom Hook/useAuthCheck.js";
 
 const CreateEmployee = () => {
   const navigate = useNavigate();
   const token = Cookies.get(import.meta.env.VITE_cookies_name);
   const { name, id } = useParams();
-
+  useAuthCheck(name);
   const [formData, setFormData] = useState({
     name: "",
     email: "",

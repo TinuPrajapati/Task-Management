@@ -7,9 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { changeState } from "../../feature/loaderSlice.js";
 import CheckboxOptions from "../Common/CheckboxOptions.jsx";
+import useAuthCheck from "../../Custom Hook/useAuthCheck.js";
 
 const AllUsers = () => {
   const { name } = useParams();
+  useAuthCheck(name)
   const [users, setUsers] = useState([]);
   const [display, setDisplay] = useState(false);
   const token = Cookies.get(import.meta.env.VITE_cookies_name);
