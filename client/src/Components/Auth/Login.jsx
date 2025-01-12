@@ -4,7 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import loginPic from "../../assets/login.png";
+import { loginPic } from "../../assets";
 import { useDispatch } from "react-redux";
 import { changeState } from "../../feature/loaderSlice";
 
