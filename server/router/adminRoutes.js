@@ -1,13 +1,15 @@
 const express = require("express");
-const { signup, allTasks, createTask, particularTask, updateTask, User, allUser, deleteUser, favoriteUser, updateUser, particularRoleUser } = require("../controller/adminController");
+const { signup, User, allUser, deleteUser, favoriteUser, updateUser, particularRoleUser, createProject, allProjects, particularProject, updateProject, deleteProject, favoriteProject } = require("../controller/adminController");
 const authenticate = require("../middleware/jwtManager");
 const adminRoutes = express.Router();
 
 // tasks routes
-adminRoutes.post("/assign_task",authenticate, createTask);
-adminRoutes.get("/all_tasks",authenticate, allTasks);
-adminRoutes.get("/task/:id",particularTask);
-adminRoutes.put("/edit_task/:id",updateTask)
+adminRoutes.post("/assign_project",authenticate, createProject);
+adminRoutes.get("/all_projects",authenticate, allProjects);
+adminRoutes.get("/particular_project/:id",authenticate, particularProject);
+adminRoutes.put("/update_project/:id",authenticate,updateProject)
+adminRoutes.put("/favorite",authenticate,favoriteProject)
+adminRoutes.delete("/project/:id",authenticate,deleteProject)
 
 // users routes
 adminRoutes.get("/all_users",authenticate,allUser)

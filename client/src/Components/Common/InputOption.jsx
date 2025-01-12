@@ -20,7 +20,7 @@ const InputOption = ({ id, text, type, placeholder, value, handleChange, options
                     onChange={handleChange}
                     className="w-[100%] h-10 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"
                 >
-                    <option value="">Choose User Role</option>
+                    <option value="">{placeholder}</option>
                     {options.map((option, index) => (
                         <option key={index} value={option}>
                             {option}

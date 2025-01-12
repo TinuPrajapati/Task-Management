@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import loginPic from "../../assets/login.png";
-import { useSelector,useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeState } from "../../feature/loaderSlice";
 
 const Login = () => {
@@ -62,7 +62,6 @@ const Login = () => {
         }
       );
       toast.success(response.data.msg);
-      console.log(response.data)
       setTimeout(() => {
         navigate(
           `/dashboard/${response.data.username}`

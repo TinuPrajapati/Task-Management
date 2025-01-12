@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { checkCookieValidity } from "../../utils/cookiesValidation.js";
 import ShowProject from "./ShowProject.jsx";
 import CheckboxOptions from "../Common/CheckboxOptions.jsx";
+import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
+import { useDispatch } from 'react-redux';
+import { changeState } from "../../feature/loaderSlice.js";
 
 const AllProject = () => {
   const { name } = useParams();
@@ -19,9 +23,8 @@ const AllProject = () => {
     complete: false,
     rejected: false,
   });
-
-  const navigate = useNavigate();
-
+  const token = Cookies.get(import.meta.env.VITE_cookies_name)
+  const dispatch = useDispatch();
   const toggleDisplay = () => setDisplay((prev) => !prev);
 
   const handleFilterChange = (e) => {
@@ -36,42 +39,77 @@ const AllProject = () => {
   const applyFilters = (data) => {
     return data.filter((project) => {
       const today = new Date().toDateString();
-      const yesterday = new Date(Date.now() - 86400000).toDateString(); // Yesterday's date
-
-      if (filters.favorite && !project.isFavorite) return false;
-      if (filters.today && new Date(project.date).toDateString() !== today) return false;
-      if (filters.yesterday && new Date(project.date).toDateString() !== yesterday) return false;
-      if (filters.pending && project.status !== "Pending") return false;
-      if (filters.accept && project.status !== "Accept") return false;
-      if (filters.complete && project.status !== "Complete") return false;
-      if (filters.rejected && project.status !== "Rejected") return false;
+      const yesterday = new Date(Date.now() - 86400000).toDateString(); 
+      console.log(yesterday)
+      if (filters.favorite && !project.favorite) return false;
+      if (filters.today && new Date(project.createdAt).toDateString() !== today) return false;
+      if (filters.yesterday && new Date(project.createdAt).toDateString() !== yesterday) return false;
+      if (filters.pending && project.status !== "pending") return false;
+      if (filters.accept && project.status !== "accept") return false;
+      if (filters.complete && project.status !== "complete") return false;
+      if (filters.rejected && project.status !== "rejected") return false;
       return true;
     });
   };
 
   const getProjects = async () => {
+    dispatch(changeState(true))
     try {
       const response = await axios.get(`${import.meta.env.VITE_backend}/admin/all_projects`, {
         headers: {
-          Authorization: `Bearer ${document.cookie}`,
-        },
+          Authorization: `Bearer ${token}`,
+        }
       });
       setProjects(applyFilters(response.data));
     } catch (error) {
+      toast.error(error.response.data)
       console.error("Failed to fetch projects:", error);
     }
-  };
-
-  const initializeDashboard = async () => {
-    const isValid = await checkCookieValidity(name, navigate);
-    if (isValid) {
-      getProjects();
+    finally {
+      dispatch(changeState(false))
     }
   };
 
-  useEffect(() => {
-    initializeDashboard();
-  }, [name]);
+  const handleDelete = async (id) => {
+    dispatch(changeState(true))
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_backend}/admin/project/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      toast.success(response.data);
+      getProjects()
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message)
+    }
+    finally {
+      dispatch(changeState(false))
+    }
+  };
+
+  const handleFavorite = async (id, value) => {
+    dispatch(changeState(true))
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_backend}/admin/favorite`, { id, favorite: value }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+      );
+      toast.success(response.data);
+      getProjects()
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message)
+    }
+    finally {
+      dispatch(changeState(false))
+    }
+  };
 
   useEffect(() => {
     getProjects();
@@ -99,12 +137,12 @@ const AllProject = () => {
           </button>
           {display && (
             <div className="absolute top-[118%] right-0 bg-white rounded-md px-4 py-2 border-2 border-yellow-400 duration-200">
-              <CheckboxOptions
+              {/* <CheckboxOptions
                 id="all"
                 text="All Projects"
                 value={filters.all}
                 handleFilterChange={handleFilterChange}
-              />
+              /> */}
               <CheckboxOptions
                 id="favorite"
                 text="Favorite Projects"
@@ -153,8 +191,11 @@ const AllProject = () => {
       </div>
 
       <div className="w-full grid grid-cols-2 gap-4 px-4 py-10">
-      <ShowProject />
+        {projects.map((el) => (
+          <ShowProject el={el} key={el._id} handleDelete={handleDelete} handleFavorite={handleFavorite} />
+        ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

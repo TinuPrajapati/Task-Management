@@ -1,4 +1,4 @@
-const Task = require("../models/taskModel");
+const Project = require("../models/projectModel");
 const User = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 const jwt =require("jsonwebtoken");
@@ -29,28 +29,28 @@ exports.data= async(req,res)=>{
   res.status(200).json({username,role,msg:"User Login Successfully"});
 }
 
-// Specific User Task
-exports.tasks = async (req, res) => {
+// Specific User Project
+exports.Projects = async (req, res) => {
   const { name } = req.params;
-  const allTask = await Task.find({ assignedTo: name });
-  res.status(200).json(allTask);
+  const allProject = await Project.find({ assignedTo: name });
+  res.status(200).json(allProject);
 };
 
-// Specific User Task Status Updata
-exports.taskStatus = async (req, res) => {
+// Specific User Project Status Updata
+exports.ProjectStatus = async (req, res) => {
   const { id, status } = req.body;
-  const task = await Task.findByIdAndUpdate(
+  const Project = await Project.findByIdAndUpdate(
     id,
     { status: status.toLowerCase() },
     { new: true, runValidators: true }
   );
-  res.status(200).json("Your task status Update");
+  res.status(200).json("Your Project status Update");
 };
 
-// Specific user task delete
-exports.deleteTask = async (req, res) => {
+// Specific user Project delete
+exports.deleteProject = async (req, res) => {
   const { id } = req.params;
   console.log(id);
-  const task = await Task.findByIdAndDelete(id);
-  res.status(200).json("Task deleted");
+  const Project = await Project.findByIdAndDelete(id);
+  res.status(200).json("Project deleted");
 };

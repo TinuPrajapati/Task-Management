@@ -2,7 +2,7 @@ import React from 'react'
 
 const Loader = () => {
     return (
-        <div className='w-full h-full flex justify-center items-center absolute top-0 left-0 bg-black/15'>
+        <div className='w-full h-full flex justify-center items-center absolute z-50 top-0 left-0 bg-black/15'>
             <div class="bg-[#212121] p-4 rounded-md">
                 <div class="loader">
                     <p className='text-white font-semibold mr-2'>Loading ... </p>
