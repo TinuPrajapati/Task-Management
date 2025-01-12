@@ -12,6 +12,7 @@ const CreateEmployee = () => {
   const token = Cookies.get(import.meta.env.VITE_cookies_name);
   const { name, id } = useParams();
   useAuthCheck(name);
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,11 +23,28 @@ const CreateEmployee = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    if (id == "role") {
+      getUserDetails(value)
+    }
     setFormData((prev) => ({
       ...prev,
       [id]: value,
     }));
   };
+
+  const getUserDetails = async (value) => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_backend}/admin/users/${value}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      setUsers(response.data)
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.message)
+    }
+  }
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -50,8 +68,8 @@ const CreateEmployee = () => {
 
     try {
       let response;
-      if(id){
-         response = await axios.put(
+      if (id) {
+        response = await axios.put(
           `${import.meta.env.VITE_backend}/admin/update_details/${id}`,
           formData,
           {
@@ -60,8 +78,8 @@ const CreateEmployee = () => {
             },
           }
         );
-      }else{
-         response = await axios.post(
+      } else {
+        response = await axios.post(
           `${import.meta.env.VITE_backend}/admin/signup`,
           formData,
           {
@@ -144,14 +162,25 @@ const CreateEmployee = () => {
             handleChange={handleChange}
             options={["Admin", "HR", "Developer", "Designer", "Employee"]}
           />
-          <InputOption
-            id="name"
-            type="text"
-            text="Name"
-            placeholder="Enter user name"
-            value={formData.name}
-            handleChange={handleChange}
-          />
+          <div className="w-[50%] h-full flex flex-col gap-1">
+            <label htmlFor="name" className="text-lg pl-3 font-semibold">Assigned To:</label>
+
+            <select
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-[100%] h-10 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"
+            >
+              <option value="">Choose user</option>
+              {users.length > 0 ? users.map((option, index) => (
+                <option key={index} value={option.name}>
+                  {option.name}
+                </option>
+              )) :
+                <option value="">No users found</option>
+              }
+            </select>
+          </div>
         </div>
         <div className="w-full flex justify-between items-center gap-10">
           <InputOption
@@ -186,7 +215,7 @@ const CreateEmployee = () => {
           type="submit"
           className="w-[20%] h-12 bg-sky-500 text-2xl font-semibold rounded-md text-white active:scale-90 focus:ring-2 focus:ring-yellow-400 mt-6"
         >
-          {id? "Update User" : "Create User"}
+          {id ? "Update User" : "Create User"}
         </button>
       </form>
       <ToastContainer />
