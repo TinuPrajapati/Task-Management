@@ -1,10 +1,9 @@
 require("dotenv").config();
-require("express-async-errors");
 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const errorHandler = require("./handler/errorHandler");
+// const errorHandler = require("./handler/errorHandler");
 const adminRoutes = require("./router/adminRoutes");
 const publicRoutes = require("./router/publicRoutes");
 
@@ -40,9 +39,6 @@ app.get("/", (req, res) => {
 
 app.use("/",publicRoutes);
 app.use("/admin",adminRoutes);
-
-// Error handler
-app.use(errorHandler);
 
 // Start the server
 app.listen(8000, () => {

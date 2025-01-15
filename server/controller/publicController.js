@@ -7,11 +7,9 @@ const main = require('../middleware/emailManager.js');
 // User Login
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body)
 
   try {
     const user = await User.findOne({ email });
-    console.log(user)
     if (!user) {
       return res.status(401).json({message:"Please check your email again"});
     }

@@ -11,6 +11,7 @@ import useAuthCheck from '../../Custom Hook/useAuthCheck.js';
 import ShowProject from '../Project/ShowProject.jsx';
 import { useDispatch } from 'react-redux';
 import { changeState } from '../../feature/loaderSlice.js';
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const Dashboard = () => {
   const { name } = useParams();
@@ -43,7 +44,7 @@ const Dashboard = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
       console.log(error);
-    }finally{
+    } finally {
       dispatch(changeState(false))
     }
   };
@@ -98,12 +99,12 @@ const Dashboard = () => {
       <div className="w-[94%] h-16 bg-white absolute left-[3%] top-[11%] rounded-md py-2 px-4 border-4 border-yellow-400 flex items-center justify-between">
         <h1 className={` text-3xl font-bold`}>Welcome back,<span className='text-sky-400'> {name}</span> 👋</h1>
       </div>
-      <div className="w-full h-[18%] flex gap-4 mb-6">
+      {/* <div className="w-full h-[18%] flex gap-4 mb-6">
         <Task task="All Pending Projects" color="bg-blue-500" count={pendingTasks.length} img={pending} />
         <Task task="All Accept Projects" color="bg-green-500" count={acceptTasks.length} img={accept} />
         <Task task="All Complete Projects" color="bg-yellow-500" count={completeTasks.length} img={complete} />
         <Task task="All Failed Projects" color="bg-red-500" count={rejectTasks.length} img={reject} />
-      </div>
+      </div> */}
 
       <div className="flex w-full gap-4 mb-4">
         <LeftSide />
@@ -112,11 +113,17 @@ const Dashboard = () => {
 
       <div className="w-full border-2 border-yellow-400 bg-white rounded-md p-4">
         <h1 className="text-2xl font-bold">Today Projects</h1>
-        <div className="w-full grid grid-cols-2 gap-4 px-4 py-10">
-          {project.map((el) => (
-            <ShowProject el={el} key={el._id} handleDelete={handleDelete} handleFavorite={handleFavorite} />
-          ))}
-        </div>
+        {project.length > 0 ?
+          <div className="w-full grid grid-cols-2 gap-4 px-4 py-10">
+            {project.map((el) => (
+              <ShowProject el={el} key={el._id} handleDelete={handleDelete} handleFavorite={handleFavorite} />
+            ))}
+          </div> :
+          <div className="w-full flex justify-center items-center text-3xl opacity-40 font-mono py-4">
+            <p className='flex gap-4 items-center'><IoIosInformationCircleOutline /> Today not any project created</p>
+          </div>
+        }
+
       </div>
       <ToastContainer />
     </div>

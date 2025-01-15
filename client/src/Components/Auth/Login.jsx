@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-full p-10 bg-sky-400 flex items-center justify-center">
+    <div className="w-full h-[100vh] p-10 bg-sky-400 flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-[90%] h-full flex">
         <div className="w-1/2 h-full flex flex-col justify-center items-start gap-3 px-4">
           <h2 className="text-[2.5rem] text-sky-400 font-bold text-center">Sign In</h2>

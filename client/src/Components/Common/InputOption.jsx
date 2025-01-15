@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
 
-const InputOption = ({ id, text, type, placeholder, value, handleChange, options }) => {
+const InputOption = ({ id, text, type, placeholder, value, handleChange, options,width=50 }) => {
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     }
 
     return (
-        <div className="w-[50%] h-full flex flex-col gap-1">
+        <div className={`w-[${width}%] h-full flex flex-col gap-1`}>
             <label htmlFor={id} className="text-lg pl-3 font-semibold">{text}</label>
             
             {options && options.length > 0 ? (
@@ -18,7 +18,7 @@ const InputOption = ({ id, text, type, placeholder, value, handleChange, options
                     id={id}
                     value={value}
                     onChange={handleChange}
-                    className="w-[100%] h-10 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"
+                    className="w-full h-10 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"
                 >
                     <option value="">{placeholder}</option>
                     {options.map((option, index) => (

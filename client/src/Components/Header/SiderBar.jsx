@@ -13,6 +13,8 @@ import { PiMicrosoftTeamsLogoDuotone } from "react-icons/pi";
 import { IoIosSend } from "react-icons/io";
 import { MdDisplaySettings } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
+import { LuClipboardList } from "react-icons/lu";
+import { LuBellElectric } from "react-icons/lu";
 
 const SiderBar = () => {
     const { name } = useParams()
@@ -32,6 +34,8 @@ const SiderBar = () => {
             {/* Navlink Box */}
             <div className='w-full h-[80%] flex flex-col gap-2'>
                 <MenuOption text="Dashboard" icon={<RiDashboardFill />} to={`/dashboard/${name}`} />
+                <MenuOption text="Todos" icon={<LuClipboardList />} to={`/${name}/todos`} />
+                <MenuOption text="All Reminder" icon={<LuBellElectric />} to={`/${name}`} />
                 <MenuOption text="All Project" icon={<FaTasks />} to={`${name}/all_projects`} />
                 <MenuOption text="Task Report" icon={<TbReportAnalytics />} to={`${name}/report`} />
                 <MenuOption text="All Users" icon={<FaUsersLine />} to={`${name}/all_users`} />

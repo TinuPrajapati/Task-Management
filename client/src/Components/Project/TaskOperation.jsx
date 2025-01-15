@@ -14,7 +14,7 @@ const TaskOperation = ({
       onSubmit={handleSubmit}
       className="w-full flex flex-col gap-3 justify-center items-center px-10 py-5 bg-white rounded-md border-2 border-yellow-400"
     >
-      <div className="w-full flex justify-between gap-10">
+      <div className="w-full flex gap-10">
         <InputOption
           id="priority"
           type="text"
@@ -23,6 +23,7 @@ const TaskOperation = ({
           value={formData.priority}
           handleChange={handleChange}
           options={["Low", "Medium", "High"]}
+          width={30}
         />
         <InputOption
           id="category"
@@ -32,18 +33,9 @@ const TaskOperation = ({
           value={formData.category}
           handleChange={handleChange}
           options={["Admin", "HR", "Developer", "Designer", "Employee"]}
+          width={30}
         />
-      </div>
-      <div className="w-full flex justify-between items-center gap-10">
-        <InputOption
-          id="ProjectTitle"
-          type="text"
-          text="Projct Title:"
-          placeholder="Enter Task Title"
-          value={formData.ProjectTitle}
-          handleChange={handleChange}
-        />
-        <div className="w-[50%] flex flex-col gap-1">
+        <div className="w-[30%] flex flex-col gap-1">
           <label htmlFor="assignedTo" className="text-lg pl-3 font-semibold">
             Assign To:
           </label>
@@ -65,16 +57,16 @@ const TaskOperation = ({
             )}
           </select>
         </div>
-
       </div>
-      <div className="w-full flex flex-col">
-        <label htmlFor="description" className="text-lg pl-3 font-semibold">
-          Task Description:
-        </label>
-        <textarea id="description" value={formData.description} onChange={handleChange} className="w-[100%] h-32 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"></textarea>
-      </div>
-      <div className="w-full flex justify-between gap-10">
-
+      <div className="w-full flex justify-between items-center gap-10">
+        <InputOption
+          id="ProjectTitle"
+          type="text"
+          text="Projct Title:"
+          placeholder="Enter Task Title"
+          value={formData.ProjectTitle}
+          handleChange={handleChange}
+        />
         <InputOption
           id="date"
           type="datetime-local"
@@ -82,6 +74,17 @@ const TaskOperation = ({
           value={formData.date}
           handleChange={handleChange}
         />
+
+      </div>
+      <div className="w-full flex flex-col">
+        <label htmlFor="description" className="text-lg pl-3 font-semibold">
+          Task Description:
+        </label>
+        <textarea id="description" value={formData.description} onChange={handleChange} className="w-[100%] h-32 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 py-1 text-lg"></textarea>
+      </div>
+      <div className="w-full flex justify-between gap-10">
+
+        
       </div>
       <button
         type="submit"

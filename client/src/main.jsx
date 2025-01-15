@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import { AllProject, AllUsers, CreateEmployee, CreateProject, Dashboard, Login, NotFound, Report, SendEmail, Setting, Team } from "./Components/index.js";
+import { AllProject, AllUsers, CreateEmployee, CreateProject, Dashboard, Login, NotFound, Report, SendEmail, Setting, Team, Todos } from "./Components/index.js";
 
 import { Provider } from 'react-redux'
 import store from "./app/store.js";
@@ -12,10 +12,11 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="*" element={<NotFound />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<App />}>
-        <Route path="login" element={<Login />} />
         <Route path="dashboard/:name" element={<Dashboard />} />
         <Route path=":name/">
+          <Route path="todos" element={<Todos />} />
           <Route path="all_projects" element={<AllProject />} />
           <Route path="report" element={<Report />} />
           <Route path="all_users" element={<AllUsers />} />

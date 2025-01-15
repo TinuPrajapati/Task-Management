@@ -29,6 +29,12 @@ const userSchema = new Schema(
         ref: "Project",
       },
     ],
+    todos:[
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Todo",
+      }
+    ],
     favorite: {
       type: Boolean,
       default: false,
