@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
 
-const InputOption = ({ id, text, type, placeholder, value, handleChange, options,width=50 }) => {
+const InputOption = ({ id, text, type, placeholder, value, handleChange, options,width=50,max }) => {
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     }
 
+        console.log(max)
     return (
         <div className={`w-[${width}%] h-full flex flex-col gap-1`}>
             <label htmlFor={id} className="text-lg pl-3 font-semibold">{text}</label>
@@ -36,6 +37,7 @@ const InputOption = ({ id, text, type, placeholder, value, handleChange, options
                         placeholder={placeholder}
                         value={value}
                         onChange={handleChange}
+                        min={6}
                         className="w-[100%] h-10 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"
                     />
                     <button
@@ -54,6 +56,7 @@ const InputOption = ({ id, text, type, placeholder, value, handleChange, options
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
+                    max={max}
                     className="w-[100%] h-10 rounded-md text-black border-2 outline-none focus:ring-4 focus:border-sky-400 focus:border-none duration-200 px-2 text-lg"
                 />
             )}

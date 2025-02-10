@@ -15,6 +15,7 @@ import { MdDisplaySettings } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
 import { LuClipboardList } from "react-icons/lu";
 import { LuBellElectric } from "react-icons/lu";
+import { IoIosChatboxes } from "react-icons/io";
 
 const SiderBar = () => {
     const { name } = useParams()
@@ -27,29 +28,20 @@ const SiderBar = () => {
     }
     return (
         <aside className={`${menu ? "w-[15%] flex p-2 " : "w-[5%] p-2"} h-full relative flex-col gap-4 items-center duration-500 bg-gradient-to-b from-sky-400 to-indigo-400 text-white border-y-4 border-r-4 border-yellow-400 `}>
-            <div className='w-full h-[10%] flex flex-col justify-center items-center'>
-                {menu ? <h2 className='text-[1.2rem] font-semibold'>Task Manager</h2> : <img src={logo2} className='w-10 h-10' />}
-            </div>
+           
 
             {/* Navlink Box */}
-            <div className='w-full h-[80%] flex flex-col gap-2'>
+            <div className='w-full h-[80%] flex flex-col gap-2 overflow-y-scroll'>
                 <MenuOption text="Dashboard" icon={<RiDashboardFill />} to={`/dashboard/${name}`} />
                 <MenuOption text="Todos" icon={<LuClipboardList />} to={`/${name}/todos`} />
-                <MenuOption text="All Reminder" icon={<LuBellElectric />} to={`/${name}`} />
+                <MenuOption text="All Reminder" icon={<LuBellElectric />} to={`/${name}/reminder`} />
                 <MenuOption text="All Project" icon={<FaTasks />} to={`${name}/all_projects`} />
                 <MenuOption text="Task Report" icon={<TbReportAnalytics />} to={`${name}/report`} />
                 <MenuOption text="All Users" icon={<FaUsersLine />} to={`${name}/all_users`} />
                 <MenuOption text="Team Project" icon={<PiMicrosoftTeamsLogoDuotone />} to={`${name}/team_project`} />
                 <MenuOption text="Send Email" icon={<IoIosSend />} to={`${name}/send_email`} />
+                <MenuOption text="Chats" icon={<IoIosChatboxes />} to={`${name}/chats`} />
                 <MenuOption text="Setting" icon={<MdDisplaySettings />} to={`${name}/setting`} />
-            </div>
-
-            {/* Logout Button */}
-            <div className='w-full h-[10%]'>
-                <button onClick={logout} className={`${menu ? "text-start" : " text-center"} w-full h-full flex items-center gap-2 text-xl px-2 hover:bg-white hover:rounded-md hover:text-red-400 duration-200  active:scale-90`}>
-                    <LuLogOut />
-                    {menu && "Logout"}
-                </button>
             </div>
         </aside>
     )

@@ -1,4 +1,4 @@
-import { Outlet, useLocation,useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import Header1 from "./Components/Header/Header";
 import SiderBar from "./Components/Header/SiderBar";
 import { useSelector } from "react-redux";
@@ -21,15 +21,13 @@ export default function App() {
       {pathname === "/login" ? (
         <Outlet />
       ) : (
-        <>
-          <SiderBar />
-          <main className={`h-full relative ${menu ? "w-[85%]" : "w-[95%]"} overflow-y-scroll relative`}>
-            <Header1 />
-            <div className="w-full">
-              <Outlet />
-            </div>
-          </main>
-        </>
+        <main className={`h-full relativew-full overflow-y-scroll relative`}>
+          <Header1 />
+          <div className="w-full flex">
+            <SiderBar />
+            <Outlet />
+          </div>
+        </main>
       )}
     </div>
   );

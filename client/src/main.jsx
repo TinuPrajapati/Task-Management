@@ -3,8 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import { AllProject, AllUsers, CreateEmployee, CreateProject, Dashboard, Login, NotFound, Report, SendEmail, Setting, Team, Todos } from "./Components/index.js";
-
+import { AllProject, AllUsers, Chats, CreateEmployee, CreateProject, Dashboard, Login, NotFound, Reminder, Report, SendEmail, Setting, Team, Todos } from "./Components/index.js";
 import { Provider } from 'react-redux'
 import store from "./app/store.js";
 
@@ -17,6 +16,7 @@ const router = createBrowserRouter(
         <Route path="dashboard/:name" element={<Dashboard />} />
         <Route path=":name/">
           <Route path="todos" element={<Todos />} />
+          <Route path="reminder" element={<Reminder />} />
           <Route path="all_projects" element={<AllProject />} />
           <Route path="report" element={<Report />} />
           <Route path="all_users" element={<AllUsers />} />
@@ -24,6 +24,7 @@ const router = createBrowserRouter(
           <Route path="edit/:id" element={<CreateEmployee />} />
           <Route path="team_project" element={<Team />} />
           <Route path="send_email" element={<SendEmail />} />
+          <Route path="chats" element={<Chats />} />
           <Route path="setting" element={<Setting />} />
           <Route path="create_project" element={<CreateProject />} />
           <Route path="project_edit/:id" element={<CreateProject />} />

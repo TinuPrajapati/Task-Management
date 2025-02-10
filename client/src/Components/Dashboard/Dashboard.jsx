@@ -96,7 +96,7 @@ const Dashboard = () => {
 
   return (
     <div className="w-full px-4 py-9 bg-gray-200">
-      <div className="w-[94%] h-16 bg-white absolute left-[3%] top-[11%] rounded-md py-2 px-4 border-4 border-yellow-400 flex items-center justify-between">
+      <div className="w-[100%] h-16 bg-white absolute left-[3%] top-[11%] rounded-md py-2 px-4 border-4 border-yellow-400 flex items-center justify-between">
         <h1 className={` text-3xl font-bold`}>Welcome back,<span className='text-sky-400'> {name}</span> 👋</h1>
       </div>
       {/* <div className="w-full h-[18%] flex gap-4 mb-6">

@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
-import useAuthCheck from "../../Custom Hook/useAuthCheck.js";
 import { User, Mail, Phone, Calendar, Shield, Lock, Briefcase, Camera,MapPin, FileUser } from 'lucide-react';
-import Input from "../Common/Input.jsx";
-import CheckBox from "../Common/CheckBox.jsx";
 
-const CreateEmployee = () => {
-  const navigate = useNavigate();
-  const token = Cookies.get(import.meta.env.VITE_cookies_name);
+import CheckBox from "../../Components/CheckBox.jsx";
+import Input from "../../Components/Input.jsx";
+
+const CreateUser = () => {
   const { name, id } = useParams();
-  useAuthCheck(name);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,49 +34,7 @@ const CreateEmployee = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-
-    if (!formData.role) return toast.error("Please select a role.");
-    if (!formData.name) return toast.error("Please enter a name.");
-    if (!formData.email) return toast.error("Please enter an email.");
-    if (!formData.password) return toast.error("Please enter a password.");
-    if (formData.password !== formData.confirmPassword) return toast.error("Passwords do not match!");
-    if (!formData.number) return toast.error("Please enter a phone number.");
-
-    try {
-      const response = id
-        ? await axios.put(`${import.meta.env.VITE_backend}/admin/update_details/${id}`, formData, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        : await axios.post(`${import.meta.env.VITE_backend}/admin/signup`, formData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-      toast.success(response.data);
-      setTimeout(() => navigate(`/${name}/all_users`), 1000);
-      setFormData({ name: "", email: "", role: "", password: "", confirmPassword: "", number: "", adminPassword: "", photo: null });
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Something went wrong!");
-    }
   };
-
-  useEffect(() => {
-    if (id) {
-      axios.get(`${import.meta.env.VITE_backend}/admin/user/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      }).then(response => {
-        setFormData({
-          name: response.data.name || "",
-          email: response.data.email || "",
-          role: response.data.role_type || "",
-          password: "",
-          confirmPassword: "",
-          number: response.data.number || "",
-          adminPassword: "",
-          photo: null
-        });
-      }).catch(error => console.error("Error fetching user data:", error));
-    }
-  }, [id]);
 
   return (
     <div className="w-full h-full px-4 py-10 flex flex-col gap-6">
@@ -213,10 +164,9 @@ const CreateEmployee = () => {
           </button>
         </div>
       </form>
-      <ToastContainer />
     </div>
   );
 };
 
-export default CreateEmployee;
+export default CreateUser;
 

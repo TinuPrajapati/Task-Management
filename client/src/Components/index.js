@@ -22,4 +22,22 @@ import Report from "./Report/Report";
 
 import Todos from "./Todos/Todos";
 
-export {Login,NotFound,Dashboard,AllProject,AllUsers,Team,SendEmail,Setting,Report,CreateProject,CreateEmployee,Todos};
+import Reminder from "./Reminder/Reminder";
+import Chats from "./Chats/Chats";
+
+export {
+  Login,
+  NotFound,
+  Dashboard,
+  AllProject,
+  AllUsers,
+  Team,
+  SendEmail,
+  Setting,
+  Report,
+  CreateProject,
+  CreateEmployee,
+  Todos,
+  Reminder,
+  Chats
+};
