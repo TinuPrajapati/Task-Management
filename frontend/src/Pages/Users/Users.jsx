@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-    Mail,
-    MapPin,
-    Award,
-    Briefcase,
-    Users,
-    CheckCircle2,
-    Search,
-    Filter
-} from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
+import ShowUser from './ShowUser';
 
 function AllUsers() {
     const employees = [
@@ -84,26 +76,26 @@ function AllUsers() {
     return (
         <div className="min-h-screen py-2">
             {/* Filters */}
-            <div className="mb-4 bg-white rounded-lg shadow p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-6 mb-4 bg-white rounded-lg shadow">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Search className="h-5 w-5 text-gray-400" />
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <Search className="w-5 h-5 text-gray-400" />
                         </div>
                         <input
                             type="text"
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="block w-full py-2 pl-10 pr-3 leading-5 placeholder-gray-500 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="Search by name or role..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
                     <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Filter className="h-5 w-5 text-gray-400" />
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <Filter className="w-5 h-5 text-gray-400" />
                         </div>
                         <select
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="block w-full py-2 pl-10 pr-3 leading-5 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             value={selectedDepartment}
                             onChange={(e) => setSelectedDepartment(e.target.value)}
                         >
@@ -122,85 +114,16 @@ function AllUsers() {
                 <div className="flex gap-4">
                     <Link
                         to="/create_user"
-                        className="bg-purple-400 px-3 py-2 text-xl rounded-md text-white active:scale-90"
+                        className="px-3 py-2 text-xl text-white bg-purple-400 rounded-md active:scale-90"
                     >
                         Create New User
                     </Link>
                 </div>
             </div>
             {/* Employee Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 {filteredEmployees.map((employee) => (
-                    <div key={employee.id} className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div className="p-6">
-                            <div className="flex items-center">
-                                <img
-                                    className="h-16 w-16 rounded-full object-cover"
-                                    src={employee.avatar}
-                                    alt={employee.name}
-                                />
-                                <div className="ml-4">
-                                    <h2 className="text-xl font-semibold text-gray-900">{employee.name}</h2>
-                                    <p className="text-sm text-gray-600">{employee.role}</p>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 space-y-4">
-                                <div className="flex items-center text-gray-600">
-                                    <Briefcase className="h-5 w-5 mr-2" />
-                                    <span>{employee.department}</span>
-                                </div>
-                                <div className="flex items-center text-gray-600">
-                                    <Mail className="h-5 w-5 mr-2" />
-                                    <span>{employee.email}</span>
-                                </div>
-                                <div className="flex items-center text-gray-600">
-                                    <MapPin className="h-5 w-5 mr-2" />
-                                    <span>{employee.location}</span>
-                                </div>
-                            </div>
-
-                            <div className="mt-6">
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm font-medium text-gray-900">Performance</span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="bg-indigo-50 rounded-lg p-3">
-                                        <div className="flex items-center">
-                                            <CheckCircle2 className="h-5 w-5 text-indigo-600" />
-                                            <span className="ml-2 text-sm text-gray-600">Tasks</span>
-                                        </div>
-                                        <p className="mt-1 text-lg font-semibold text-indigo-600">
-                                            {employee.performance.tasksCompleted}
-                                        </p>
-                                    </div>
-                                    <div className="bg-purple-50 rounded-lg p-3">
-                                        <div className="flex items-center">
-                                            <Users className="h-5 w-5 text-purple-600" />
-                                            <span className="ml-2 text-sm text-gray-600">Team</span>
-                                        </div>
-                                        <p className="mt-1 text-lg font-semibold text-purple-600">
-                                            {employee.performance.teamSize}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="mt-6">
-                                <div className="flex flex-wrap gap-2">
-                                    {employee.skills.map((skill, index) => (
-                                        <span
-                                            key={index}
-                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
-                                        >
-                                            <Award className="w-3 h-3 mr-1" />
-                                            {skill}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ShowUser employee={employee} />
                 ))}
             </div>
         </div>

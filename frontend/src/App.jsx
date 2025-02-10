@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="w-[100vw] h-[100vh] flex bg-[#f6e9ff]">
       <Sidebar />
-      <main className="w-[80%] overflow-y-scroll px-4 py-5">
+      <main className="w-[80%] overflow-y-scroll px-4 py-5 flex flex-col gap-2">
         <Header />
         <Outlet />
       </main>

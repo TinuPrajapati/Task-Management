@@ -37,23 +37,23 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="w-full h-full px-4 py-10 flex flex-col gap-6">
-      <div className="w-[94%] h-16 bg-white absolute left-[3%] top-[11%] rounded-md py-2 px-4 border-4 border-yellow-400 flex items-center justify-between">
+    <div className="flex flex-col w-full gap-6 py-2">
+      <div className="flex items-center justify-between w-full h-16 px-4 py-2 border-b-2 border-purple-400">
         <h2 className="text-3xl font-semibold">{id ? "Edit User" : "Create New User"}</h2>
         <Link
-          to={`/${name}/all_users`}
-          className="bg-sky-400 px-3 py-1 text-xl border-4 border-yellow-400 rounded-md text-white active:scale-90"
+          to={`/users`}
+          className="px-3 py-1 text-xl text-white bg-purple-400 rounded-md active:scale-90"
         >
           Show All Users
         </Link>
       </div>
 
-      <form onSubmit={submitForm} className="space-y-6 bg-white rounded-md p-6">
+      <form onSubmit={submitForm} className="p-6 space-y-6 bg-white rounded-md">
         {/* Photo Upload */}
-        <div className="flex gap-10 mb-6 items-center w-full px-10">
+        <div className="flex items-center w-full gap-10 px-10 mb-6">
           <div className="relative">
             {formData.photo ? (
-              <img src={URL.createObjectURL(formData?.photo)} alt="Profile preview" className="object-cover w-32 h-32 border-4 border-sky-400 rounded-md" />
+              <img src={URL.createObjectURL(formData?.photo)} alt="Profile preview" className="object-cover w-32 h-32 border-4 rounded-md border-sky-400" />
             ) : (
               <div className="flex items-center justify-center w-32 h-32 border-4 border-indigo-100 rounded-full bg-indigo-50">
                 <Camera className="w-8 h-8 text-indigo-400" />
@@ -73,7 +73,7 @@ const CreateUser = () => {
             </label>
           </div>
           <div className="w-[50%]">
-            <div className=" flex items-center mb-4">
+            <div className="flex items-center mb-4 ">
               <label htmlFor="name" className="block mb-1 text-xl font-bold text-gray-700 w-[20%]">Full Name</label>
               <div className="relative w-[80%]">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -84,7 +84,7 @@ const CreateUser = () => {
                   id="name"
                   name="name"
                   required
-                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-sky-400 focus:border-none outline-none"
+                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg outline-none focus:ring-4 focus:ring-sky-400 focus:border-none"
                   placeholder="Enter Name"
                   onChange={handleChange}
                 />
@@ -102,7 +102,7 @@ const CreateUser = () => {
                   id="role"
                   name="role"
                   required
-                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-sky-400 focus:border-none outline-none"
+                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg outline-none focus:ring-4 focus:ring-sky-400 focus:border-none"
                   onChange={handleChange}
                 >
                   <option>Choose role for new Employee</option>
@@ -146,7 +146,7 @@ const CreateUser = () => {
         {/* User Password Section */}
         <div className="pt-2 space-y-4 border-t-2 border-yellow-400">
           <h3 className="block mb-1 text-2xl font-bold text-sky-400">Set Employee Access / Permission</h3>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 px-4">
+          <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2">
             <CheckBox id="sendEmail" text="Send Email" />
             <CheckBox id="assignProject" text="Assign Project" />
             <CheckBox id="assignTodo" text="Assign Todo" />
@@ -158,7 +158,7 @@ const CreateUser = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="px-10 py-3 text-white text-2xl transition-colors duration-200 bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="px-10 py-2 text-xl text-white transition-colors duration-200 bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Create User
           </button>

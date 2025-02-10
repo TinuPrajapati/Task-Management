@@ -20,7 +20,7 @@ const Sidebar = () => {
         <MenuOption icon={<BellElectric/>} text="Reminder" to="/reminder"/>
         <MenuOption icon={<ListTodo/>} text="Team Projects" to="/team_project"/>
         <MenuOption icon={<Send/>} text="Send Email" to="/send_email"/>
-        <MenuOption icon={<MessageCircleMore/>} text="Chats" to="/chat"/>
+        <MenuOption icon={<MessageCircleMore/>} text="Chats" to="/chats"/>
       </div>
     </div>
   )
