@@ -1,29 +1,103 @@
-import { BellElectric, Home, ListTodo, MessageCircle, MessageCircleMore, Send, Target, Users } from 'lucide-react'
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import 'remixicon/fonts/remixicon.css'
-import MenuOption from './MenuOption'
+import React, { useState } from 'react';
+import {
+  Home,
+  ListTodo,
+  Target,
+  Users,
+  FileBarChart,
+  Bell,
+  Users2,
+  Send,
+  MessageCircle,
+  ChevronDown,
+  ChevronRight,
+} from 'lucide-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import MenuOption from './MenuOption';
 
-const Sidebar = () => {
+const menuItems = [
+  { title: 'Home', icon: <Home size={20} /> },
+  {
+    title: 'Todo', icon: <ListTodo size={20} />, subItems: [
+      { name: 'Your Todos', link: '/todos/your' },
+      { name: 'Assigned Todos', link: '/todos/assigned' }
+    ]
+  },
+  {
+    title: 'Projects', icon: <Target size={20} />, subItems: [
+      { name: 'Yours Projects', link: '/projects/your' },
+      { name: 'Assigned Projects', link: '/projects/assigned' },
+      { name: 'Create Project', link: '/projects/create' }
+    ]
+  },
+  {
+    title: 'Users', icon: <Users size={20} />, subItems: [
+      { name: 'All Users', link: '/users/all' },
+      { name: 'Create User', link: '/users/create' }
+    ]
+  },
+  {
+    title: 'Reports', icon: <FileBarChart size={20} />, subItems: [
+      { name: 'Your Reports', link: '/reports/your' },
+      { name: 'Submit Report', link: '/reports/submit' },
+      { name: 'Create Report', link: '/reports/create' }
+    ]
+  },
+  {
+    title: 'Reminder', icon: <Bell size={20} />, subItems: [
+      { name: 'Your Reminders', link: '/reminders/your' },
+      { name: 'Assigned Reminders', link: '/reminders/assigned' }
+    ]
+  },
+  {
+    title: 'Team Projects', icon: <Users2 size={20} />, subItems: [
+      { name: 'Active Teams', link: '/team-projects/active' },
+      { name: 'Team Tasks', link: '/team-projects/tasks' },
+      { name: 'Create Team', link: '/team-projects/create' }
+    ]
+  },
+  {
+    title: 'Send Email', icon: <Send size={20} />, subItems: [
+      { name: 'Employees', link: '/emails/employees' },
+      { name: 'Other Users', link: '/emails/others' },
+      { name: 'History', link: '/emails/history' }
+    ]
+  },
+  {
+    title: 'Chats', icon: <MessageCircle size={20} />, subItems: [
+      { name: 'Direct Messages', link: '/chats/direct' },
+      { name: 'Group Chats', link: '/chats/group' },
+      { name: 'Channels', link: '/chats/channels' }
+    ]
+  },
+];
+
+function SideBar() {
+  const [expandedItems, setExpandedItems] = useState({});
+  const { pathname } = useLocation();
+
+  const toggleItem = (title) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
+
   return (
-    <div className='w-[20%] h-full bg-white flex flex-col gap-2.5'>
-      <div className='border-b-2 border-yellow-400 h-[18%] flex flex-col justify-center items-center gap-1.5'>
-        <h1 className='text-2xl font-bold text-purple-500'>Task Management</h1>
-        <h2 className='text-xl font-semibold'>Dashboard</h2>
+    <div className="h-full w-[20%] bg-white">
+      <div className="p-4 border-b h-[18%]">
+        <h1 className="text-2xl font-bold text-purple-500">Task Management</h1>
+        <p className="text-gray-600">Dashboard</p>
       </div>
-      <div className='w-full min-h-[81%] pl-6 py-2'>
-        <MenuOption icon={<i class="ri-home-2-line"></i>} text="Home" to="/"/>
-        <MenuOption icon={<ListTodo/>} text="Todo" to="/todos"/>
-        <MenuOption icon={<Target/>} text="Projects" to="/projects"/>
-        <MenuOption icon={<Users/>} text="Users" to="/users"/>
-        <MenuOption icon={<i class="ri-file-chart-line"></i>} text="Reports" to="/reports"/>
-        <MenuOption icon={<BellElectric/>} text="Reminder" to="/reminder"/>
-        <MenuOption icon={<ListTodo/>} text="Team Projects" to="/team_project"/>
-        <MenuOption icon={<Send/>} text="Send Email" to="/send_email"/>
-        <MenuOption icon={<MessageCircleMore/>} text="Chats" to="/chats"/>
-      </div>
+
+      <nav className="p-4 h-[80%] overflow-y-scroll">
+        {menuItems.map((item) => (
+          <MenuOption  item={item}/>
+        ))}
+      </nav>
+
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default SideBar;

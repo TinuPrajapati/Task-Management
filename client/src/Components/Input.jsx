@@ -18,14 +18,14 @@ const Input = ({ text, icon, handleChange, value, type, id, placeholder }) => {
                 type={showPassword ? "text" : "password"}
                 id={id}
                 value={value}
-                className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-sky-400 focus:border-none outline-none"
+                className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none focus:duration-200"
                 placeholder={placeholder}
                 onChange={handleChange}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 text-sky-400 font-semibold text-lg"
+                className="absolute right-2 text-purple-400 font-semibold text-lg"
               >
                 {showPassword ? <Eye /> : <EyeClosed />}
               </button>
@@ -37,7 +37,7 @@ const Input = ({ text, icon, handleChange, value, type, id, placeholder }) => {
               id={id}
               name="phone"
               value={value}
-              className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-sky-400 focus:border-none outline-none"
+              className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none"
               placeholder={placeholder}
               onChange={handleChange}
             />
