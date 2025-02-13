@@ -9,13 +9,12 @@ function AllUsers() {
             id: 1,
             name: 'Sarah Chen',
             role: 'Senior Marketing Manager',
-            department: 'Marketing',
+            department: 'HR',
             email: 'sarah.chen@company.com',
             phone: '+1 (555) 123-4567',
             location: 'San Francisco, CA',
             joinDate: 'March 2022',
             avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
-            skills: ['Digital Marketing', 'Project Management', 'Team Leadership'],
             performance: {
                 tasksCompleted: 45,
                 tasksInProgress: 8,
@@ -27,7 +26,7 @@ function AllUsers() {
             id: 2,
             name: 'Michael Rodriguez',
             role: 'Lead Developer',
-            department: 'Engineering',
+            department: 'Admin',
             email: 'michael.r@company.com',
             phone: '+1 (555) 234-5678',
             location: 'Austin, TX',
@@ -74,9 +73,9 @@ function AllUsers() {
     });
 
     return (
-        <div className="min-h-screen py-2">
+        <div className="min-h-screen">
             {/* Filters */}
-            <div className="p-6 mb-4 bg-white rounded-lg shadow">
+            <div className="p-2 mb-4 bg-white rounded-lg shadow">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -107,21 +106,8 @@ function AllUsers() {
                 </div>
             </div>
 
-            <div className="w-[100%] rounded-md flex items-center justify-between mb-4">
-                <h2 className="text-3xl font-semibold">
-                    All Users
-                </h2>
-                <div className="flex gap-4">
-                    <Link
-                        to="/create_user"
-                        className="px-3 py-2 text-xl text-white bg-purple-400 rounded-md active:scale-90"
-                    >
-                        Create New User
-                    </Link>
-                </div>
-            </div>
             {/* Employee Grid */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {filteredEmployees.map((employee) => (
                     <ShowUser employee={employee} />
                 ))}
