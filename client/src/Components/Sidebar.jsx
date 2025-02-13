@@ -58,7 +58,7 @@ const menuItems = [
   },
   {
     title: 'Send Email', icon: <Send size={20} />, subItems: [
-      { name: 'Employees', link: '/emails/employees' },
+      { name: 'Employees', link: '/emails/office' },
       { name: 'Other Users', link: '/emails/others' },
       { name: 'History', link: '/emails/history' }
     ]

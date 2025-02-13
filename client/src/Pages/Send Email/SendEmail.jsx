@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 // import ReactQuill from 'react-quill';
 // import 'react-quill/dist/quill.snow.css';
 
 const SendEmail = () => {
+    const {person} = useParams();
     const [user, setUser] = useState([]);
     const [value, setValue] = useState('');
-    const [recipientType, setRecipientType] = useState('office');
     const [formData, setFormData] = useState({
         role: "",
         name: "",
@@ -27,7 +28,7 @@ const SendEmail = () => {
         if(id=="role"){
             getUserDetails(value);
         }
-        if (recipientType == "office") {
+        if (person == "office") {
             if (id == "name") {
                 const email = user.find(item => item.name == value).email
                 console.log(email)
@@ -38,7 +39,6 @@ const SendEmail = () => {
     }
 
     const changeRecipient = (value) => {
-        setRecipientType(value);
         setFormData({
             role: "",
             name: "",
@@ -52,30 +52,16 @@ const SendEmail = () => {
         e.preventDefault();
     }
 
+    useEffect(()=>{
+        changeRecipient()
+    },[person])
+
     return (
         <div className="w-full py-2">
 
-            <div className="w-full p-4 mb-4 bg-white border-2 border-yellow-400 rounded-md">
-                <p className="mb-2 font-semibold">Who do you want to send the message to?</p>
-                <div className="flex gap-4">
-                    <button
-                        className={`px-4 py-2 rounded-md border-2 ${recipientType === 'office' ? 'bg-sky-400 text-white border-yellow-400' : 'bg-white'} duration-200`}
-                        onClick={() => changeRecipient('office')}
-                    >
-                        Office Employee
-                    </button>
-                    <button
-                        className={`px-4 py-2 rounded-md border-2 ${recipientType === 'other' ? 'bg-sky-400 text-white border-yellow-400' : 'bg-white'} duration-200`}
-                        onClick={() => changeRecipient('other')}
-                    >
-                        Other Person
-                    </button>
-                </div>
-            </div>
-
             <form className="w-full p-4 bg-white border-2 border-yellow-400 rounded-md" onSubmit={handleSubmit}>
                 {/* Category Field */}
-                {recipientType == "office" &&
+                {person == "office" &&
                     <div className="flex flex-col gap-1 mb-2">
                         <label htmlFor="role" className="px-4">
                             Category <span className="text-red-500">*</span>
@@ -97,7 +83,7 @@ const SendEmail = () => {
                 }
 
                 {/* Name Field */}
-                {recipientType == "office" ?
+                {person == "office" ?
                     <div className="flex flex-col gap-1 mb-2">
                         <label htmlFor="name" className="px-4">
                             Name <span className="text-red-500">*</span>

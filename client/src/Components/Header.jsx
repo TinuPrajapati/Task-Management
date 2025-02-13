@@ -23,22 +23,22 @@ const Header = () => {
     }, []);
 
     return (
-        <header className='w-full h-[12%] bg-white/80 backdrop-blur-xl rounded-lg py-1.5 px-2 flex justify-between items-center'>
+        <header className='w-full h-[10%] bg-white/80 backdrop-blur-xl rounded-lg py-1.5 px-2 flex justify-between items-center'>
             <div></div>
             <div className='w-[40%] h-full flex items-center justify-end gap-4 px-1'>
-                <button className='flex items-center justify-center bg-purple-300 rounded-md size-12'><Bell /></button>
+                <button className='flex items-center justify-center bg-purple-300 rounded-md size-8'><Bell className='size-4' /></button>
                 <ThemeButton />
                 <div className='relative h-full' ref={menuRef}>
                     <button onClick={() => setIsMenu(true)}>
                         {Avatar ?
-                            <img src={Avatar} alt="no image" className='rounded-full size-12 object-fit' />
+                            <img src={Avatar} alt="no image" className='rounded-full size-10 object-fit' />
                             :
                             <div className='flex items-center justify-center text-xl font-bold text-white bg-purple-400 rounded-full size-12'>
                                 <p>TP</p>
                             </div>
                         }
                     </button>
-                    <div className={`absolute right-0 top-14 w-60 py-1 bg-white rounded-lg shadow-lg border-2 border-purple-400 ${isMenu ? "block" : "hidden"}`}>
+                    <div className={`absolute right-0 top-12 w-60 py-1 bg-white rounded-lg shadow-lg border-2 border-purple-400 ${isMenu ? "block" : "hidden"}`}>
                         <div className='flex items-center justify-center w-full h-10 mb-1 border-b-2 border-purple-400'>
                             <h2 className='text-xl font-bold'>👋 Tinu Prajapati</h2>
                         </div>

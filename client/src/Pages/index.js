@@ -7,6 +7,8 @@ import CreateUser from "./Users/CreateUser";
 import Reports from "./Reports/Reports";
 import CreateReport from "./Reports/CreateReport";
 import Reminder from "./Reminder/Reminder";
+import OwnReminder from "./Reminder/OwnReminder";
+import AssignedReminder from "./Reminder/AssignedReminder";
 import Team from "./Team Project/Team";
 import CreateTeam from "./Team Project/CreateTeam";
 import SendEmail from "./Send Email/SendEmail";
@@ -31,5 +33,7 @@ export {
     Chats,
     Profile,
     Login,
-    ForgotPassword
+    ForgotPassword,
+    OwnReminder,
+    AssignedReminder
 }

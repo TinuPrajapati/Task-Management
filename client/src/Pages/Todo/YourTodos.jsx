@@ -47,8 +47,8 @@ function YoruTodos() {
     };
 
     return (
-        <div className="min-h-[60vh]">
-            <form onSubmit={addTodo} className="mb-4 bg-white p-4 rounded-xl shadow-sm flex gap-4 border-2 border-purple-400">
+        <div className="min-h-[80vh]">
+            <form onSubmit={addTodo} className="mb-4 bg-white h-[15%] p-2 rounded-xl shadow-sm flex gap-4 border-2 border-purple-400">
                 <input
                     type="text"
                     value={newTodo}
@@ -76,7 +76,7 @@ function YoruTodos() {
 
             <div className="space-y-3">
                 {todos.length === 0 ? (
-                    <div className="min-h-[45vh] bg-white/50 rounded-xl shadow-sm border-2 p-8 text-center border-dashed border-purple-400 flex justify-center items-center text-2xl font-semibold text-purple-400">
+                    <div className=" bg-white/50 rounded-xl shadow-sm border-2 p-8 text-center border-dashed border-purple-400 flex justify-center items-center text-2xl font-semibold text-purple-400">
                         No todos yet. Add your first todo above!
                     </div>
                 ) : (
