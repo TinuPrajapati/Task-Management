@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
+import { Editor } from 'primereact/editor';
 
 const SendEmail = () => {
-    const {person} = useParams();
+    const { person } = useParams();
     const [user, setUser] = useState([]);
-    const [value, setValue] = useState('');
     const [formData, setFormData] = useState({
         role: "",
         name: "",
         email: "",
-        subject: ""
+        subject: "",
+        msg:""
     })
     const modules = {
         toolbar: [
@@ -25,7 +24,7 @@ const SendEmail = () => {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        if(id=="role"){
+        if (id == "role") {
             getUserDetails(value);
         }
         if (person == "office") {
@@ -43,18 +42,18 @@ const SendEmail = () => {
             role: "",
             name: "",
             email: "",
-            subject: ""
+            subject: "",
+            msg:""
         })
-        setValue("")
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         changeRecipient()
-    },[person])
+    }, [person])
 
     return (
         <div className="w-full py-2">
@@ -147,17 +146,11 @@ const SendEmail = () => {
                 </div>
 
                 {/* Message Field */}
-                <div className="flex flex-col gap-1 mb-14">
+                <div className="flex flex-col gap-1 h-[40vh] mb-4">
                     <label htmlFor="message" className="px-4">
                         Message <span className="text-red-500">*</span>
                     </label>
-                    {/* <ReactQuill
-                        theme="snow"
-                        value={value}
-                        onChange={setValue}
-                        modules={modules}
-                        className='h-[50vh]'
-                    /> */}
+                    <Editor id="description" className='h-[70%]' value={formData.msg} onTextChange={(e) => setFormData({ ...formData, msg: e.htmlValue })} />
                 </div>
 
                 {/* Submit Button */}

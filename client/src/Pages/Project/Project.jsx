@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
-import {
-    Calendar,
-    CheckCircle2,
-    ChevronRight,
-    Clock3,
-    Target,
-    Filter,
-    Search
-} from 'lucide-react';
-import { Link } from 'react-router-dom';
+import {  Search } from 'lucide-react';
+import ShowProject from './ShowProject';
 
 function Project() {
     const [filterStatus, setFilterStatus] = useState('all');
@@ -67,27 +59,7 @@ function Project() {
         }
     ];
 
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'completed':
-                return 'bg-green-100 text-green-800';
-            case 'delayed':
-                return 'bg-red-100 text-red-800';
-            default:
-                return 'bg-blue-100 text-blue-800';
-        }
-    };
-
-    const getPriorityColor = (priority) => {
-        switch (priority) {
-            case 'high':
-                return 'text-red-600';
-            case 'medium':
-                return 'text-yellow-600';
-            default:
-                return 'text-green-600';
-        }
-    };
+   
 
     const filteredProjects = projects.filter(project => {
         const statusMatch = filterStatus === 'all' || project.status === filterStatus;
@@ -135,99 +107,7 @@ function Project() {
                 </div>
             </div>
 
-            <div className='w-full h-12 flex justify-between items-center mb-2'>
-                <h2 className='text-2xl font-semibold'>Projects List</h2>
-                <button className='w-[18%] h-full bg-white rounded-lg border-2 border-purple-400 active:scale-90 duration-300'>
-                    Create Project
-                </button>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {filteredProjects.map((project) => (
-                    <div key={project.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div className="p-6">
-                            <div className="flex justify-between items-start mb-4">
-                                <h2 className="text-xl font-semibold text-gray-900">{project.name}</h2>
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(project.status)}`}>
-                                    {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-                                </span>
-                            </div>
-
-                            <p className="text-gray-600 mb-4 line-clamp-2">{project.description}</p>
-
-                            <div className="space-y-3">
-                                <div className="flex items-center text-sm text-gray-500">
-                                    <Calendar className="h-4 w-4 mr-2" />
-                                    <span>{new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}</span>
-                                </div>
-
-                                <div className="flex items-center text-sm">
-                                    <Target className={`h-4 w-4 mr-2 ${getPriorityColor(project.priority)}`} />
-                                    <span className={`capitalize ${getPriorityColor(project.priority)}`}>{project.priority} Priority</span>
-                                </div>
-
-                                <div>
-                                    <div className="flex justify-between items-center mb-1">
-                                        <span className="text-sm font-medium text-gray-700">Progress</span>
-                                        <span className="text-sm font-medium text-gray-700">{project.progress}%</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2">
-                                        <div
-                                            className="bg-indigo-600 h-2 rounded-full"
-                                            style={{ width: `${project.progress}%` }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <div className="flex -space-x-2">
-                                        {project.team.map((member) => (
-                                            <img
-                                                key={member.id}
-                                                className="w-8 h-8 rounded-full border-2 border-white"
-                                                src={member.avatar}
-                                                alt={member.name}
-                                                title={member.name}
-                                            />
-                                        ))}
-                                        {project.team.length > 3 && (
-                                            <div className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-medium text-gray-500">
-                                                +{project.team.length - 3}
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <button className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                        View Details
-                                        <ChevronRight className="h-4 w-4 ml-1" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-200 px-6 py-4">
-                            <h3 className="text-sm font-medium text-gray-900 mb-2">Recent Milestones</h3>
-                            <div className="space-y-2">
-                                {project.milestones.slice(0, 2).map((milestone, index) => (
-                                    <div key={index} className="flex items-center justify-between text-sm">
-                                        <div className="flex items-center">
-                                            {milestone.completed ? (
-                                                <CheckCircle2 className="h-4 w-4 text-green-500 mr-2" />
-                                            ) : (
-                                                <Clock3 className="h-4 w-4 text-gray-400 mr-2" />
-                                            )}
-                                            <span className={milestone.completed ? 'text-gray-500 line-through' : 'text-gray-700'}>
-                                                {milestone.title}
-                                            </span>
-                                        </div>
-                                        <span className="text-gray-500">{new Date(milestone.dueDate).toLocaleDateString()}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+           <ShowProject filteredProjects={filteredProjects} />
         </div>
     );
 }

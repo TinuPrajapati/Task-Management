@@ -16,15 +16,15 @@ const ShowUser = ({ employee }) => {
         <div key={employee.id} className="overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow hover:shadow-lg">
             <div className=' w-full h-28 relative flex items-center'>
                 <img src={Hr} alt="" className='w-full h-full object-fit' />
-                <img
-                    className="object-cover w-16 h-16 rounded-full absolute right-2"
-                    src={employee.avatar}
-                    alt={employee.name}
-                />
+
             </div>
             <div className="p-2">
                 <div className="flex items-center">
-
+                    <img
+                        className="object-cover w-16 h-16 rounded-lg"
+                        src={employee.avatar}
+                        alt={employee.name}
+                    />
                     <div className="ml-4">
                         <h2 className="text-xl font-semibold text-gray-900">{employee.name}</h2>
                         <p className="text-sm text-gray-600">{employee.role}</p>

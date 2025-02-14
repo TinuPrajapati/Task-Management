@@ -4,3 +4,12 @@
     width: 0;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 1vw;
+    width: 4vw;
+    height: 3vh;
+    opacity: 0.6;
+    cursor: pointer;
+}
+

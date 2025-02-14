@@ -1,119 +1,195 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Filter } from 'lucide-react';
-import ShowUser from './ShowUser';
+import {
+    X,
+    Mail,
+    Phone,
+    MapPin,
+    Calendar,
+    Briefcase,
+} from 'lucide-react';
 
-function AllUsers() {
-    const employees = [
-        {
-            id: 1,
-            name: 'Sarah Chen',
-            role: 'Senior Marketing Manager',
-            department: 'HR',
-            email: 'sarah.chen@company.com',
-            phone: '+1 (555) 123-4567',
-            location: 'San Francisco, CA',
-            joinDate: 'March 2022',
-            avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
-            performance: {
-                tasksCompleted: 45,
-                tasksInProgress: 8,
-                projectsLed: 12,
-                teamSize: 6
-            }
-        },
-        {
-            id: 2,
-            name: 'Michael Rodriguez',
-            role: 'Lead Developer',
-            department: 'Admin',
-            email: 'michael.r@company.com',
-            phone: '+1 (555) 234-5678',
-            location: 'Austin, TX',
-            joinDate: 'June 2021',
-            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
-            skills: ['Full Stack', 'Cloud Architecture', 'Agile'],
-            performance: {
-                tasksCompleted: 67,
-                tasksInProgress: 5,
-                projectsLed: 8,
-                teamSize: 4
-            }
-        },
-        {
-            id: 3,
-            name: 'Emily Watson',
-            role: 'Product Designer',
-            department: 'Design',
-            email: 'emily.w@company.com',
-            phone: '+1 (555) 345-6789',
-            location: 'New York, NY',
-            joinDate: 'January 2023',
-            avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
-            skills: ['UI/UX', 'Design Systems', 'User Research'],
-            performance: {
-                tasksCompleted: 34,
-                tasksInProgress: 6,
-                projectsLed: 5,
-                teamSize: 3
-            }
-        }
-    ];
+const users = [
+    {
+        id: 1,
+        name: "Sarah Chen",
+        role: "Senior Marketing Manager",
+        email: "sarah.chen@company.com",
+        phone: "+1 (555) 123-4567",
+        location: "San Francisco, CA",
+        joinDate: "March 2021",
+        department: "Marketing",
+        tasksCompleted: 45,
+        teamSize: 6,
+        imageUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
+        bio: "Marketing professional with 8+ years of experience in digital marketing and team leadership.",
+        skills: ["Digital Marketing", "Team Leadership", "Content Strategy", "Analytics"]
+    },
+    {
+        id: 2,
+        name: "Michael Rodriguez",
+        role: "Lead Developer",
+        email: "michael.r@company.com",
+        phone: "+1 (555) 234-5678",
+        location: "Austin, TX",
+        joinDate: "January 2020",
+        department: "Engineering",
+        tasksCompleted: 67,
+        teamSize: 4,
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
+        bio: "Full-stack developer with a passion for building scalable applications and mentoring junior developers.",
+        skills: ["React", "Node.js", "AWS", "System Architecture"]
+    },
+    {
+        id: 3,
+        name: "Emily Watson",
+        role: "Product Designer",
+        email: "emily.w@company.com",
+        phone: "+1 (555) 345-6789",
+        location: "Seattle, WA",
+        joinDate: "June 2022",
+        department: "Design",
+        tasksCompleted: 34,
+        teamSize: 3,
+        imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
+        bio: "UX/UI designer focused on creating intuitive and accessible user experiences.",
+        skills: ["UI Design", "User Research", "Prototyping", "Figma"]
+    }
+];
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedDepartment, setSelectedDepartment] = useState('All');
+function App() {
+    const [selectedUser, setSelectedUser] = useState(null);
 
-    const departments = ['All', ...new Set(employees.map(emp => emp.department))];
-
-    const filteredEmployees = employees.filter(employee => {
-        const matchesSearch = employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            employee.role.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesDepartment = selectedDepartment === 'All' || employee.department === selectedDepartment;
-        return matchesSearch && matchesDepartment;
-    });
 
     return (
         <div className="min-h-screen">
-            {/* Filters */}
-            <div className="p-2 mb-4 bg-white rounded-lg shadow">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <Search className="w-5 h-5 text-gray-400" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {users.map((user) => (
+                    <div
+                        key={user.id}
+                        className="w-full bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
+                        onClick={() => setSelectedUser(user)}
+                    >
+                        <div className="h-32 bg-purple-50">
+                            <img
+                                src="https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="HR Banner"
+                                className="w-full h-full object-cover opacity-50"
+                            />
                         </div>
-                        <input
-                            type="text"
-                            className="block w-full py-2 pl-10 pr-3 leading-5 placeholder-gray-500 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Search by name or role..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <Filter className="w-5 h-5 text-gray-400" />
-                        </div>
-                        <select
-                            className="block w-full py-2 pl-10 pr-3 leading-5 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                            value={selectedDepartment}
-                            onChange={(e) => setSelectedDepartment(e.target.value)}
-                        >
-                            {departments.map(dept => (
-                                <option key={dept} value={dept}>{dept}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-            </div>
+                        <div className="p-6">
+                            <div className="flex items-center space-x-4">
+                                <img
+                                    src={user.imageUrl}
+                                    alt={user.name}
+                                    className="w-16 h-16 rounded-full border-2 border-white shadow-lg"
+                                />
+                                <div>
+                                    <h3 className="text-lg font-semibold text-gray-800">{user.name}</h3>
+                                    <p className="text-gray-600">{user.role}</p>
+                                </div>
+                            </div>
 
-            {/* Employee Grid */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {filteredEmployees.map((employee) => (
-                    <ShowUser employee={employee} />
+                            <div className="mt-6 grid grid-cols-2 gap-4">
+                                <div className="bg-purple-50 p-3 rounded-lg">
+                                    <p className="text-sm text-gray-600">Tasks</p>
+                                    <p className="text-xl font-semibold text-purple-600">{user.tasksCompleted}</p>
+                                </div>
+                                <div className="bg-purple-50 p-3 rounded-lg">
+                                    <p className="text-sm text-gray-600">Team</p>
+                                    <p className="text-xl font-semibold text-purple-600">{user.teamSize}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 ))}
             </div>
+            {selectedUser && (
+                <div className="fixed inset-0 bg-black/20 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="relative">
+                            <button
+                                onClick={() => setSelectedUser(null)}
+                                className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+                            >
+                                <X size={24} />
+                            </button>
+
+                            <div className="p-6">
+                                <div className="flex items-center space-x-4 mb-6">
+                                    <img
+                                        src={selectedUser.imageUrl}
+                                        alt={selectedUser.name}
+                                        className="w-20 h-20 rounded-full border-2 border-purple-200"
+                                    />
+                                    <div>
+                                        <h3 className="text-2xl font-bold text-gray-800">{selectedUser.name}</h3>
+                                        <p className="text-purple-600 font-medium">{selectedUser.role}</p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-6 mb-6">
+                                    <div className="flex items-center space-x-3">
+                                        <Mail className="text-gray-400" size={20} />
+                                        <span className="text-gray-600">{selectedUser.email}</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <Phone className="text-gray-400" size={20} />
+                                        <span className="text-gray-600">{selectedUser.phone}</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <MapPin className="text-gray-400" size={20} />
+                                        <span className="text-gray-600">{selectedUser.location}</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <Calendar className="text-gray-400" size={20} />
+                                        <span className="text-gray-600">Joined {selectedUser.joinDate}</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <Briefcase className="text-gray-400" size={20} />
+                                        <span className="text-gray-600">{selectedUser.department}</span>
+                                    </div>
+                                </div>
+
+                                <div className="mb-6">
+                                    <h4 className="text-lg font-semibold text-gray-800 mb-2">About</h4>
+                                    <p className="text-gray-600">{selectedUser.bio}</p>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-800 mb-2">Skills</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedUser.skills.map((skill, index) => (
+                                            <span
+                                                key={index}
+                                                className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm"
+                                            >
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4 mt-6">
+                                    <div className="bg-purple-50 p-4 rounded-lg">
+                                        <p className="text-sm text-gray-600">Completed Tasks</p>
+                                        <p className="text-2xl font-semibold text-purple-600">
+                                            {selectedUser.tasksCompleted}
+                                        </p>
+                                    </div>
+                                    <div className="bg-purple-50 p-4 rounded-lg">
+                                        <p className="text-sm text-gray-600">Team Members</p>
+                                        <p className="text-2xl font-semibold text-purple-600">
+                                            {selectedUser.teamSize}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
 
-export default AllUsers;
+export default App;

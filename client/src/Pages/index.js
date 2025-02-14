@@ -2,6 +2,7 @@ import Dashboard from "./Dashboard";
 import YoruTodos from "./Todo/YourTodos";
 import AssignedTodos from "./Todo/AssignedTodos";
 import Project from "./Project/Project";
+import CreateProject from "./Project/CreateProject";
 import AllUsers from "./Users/Users";
 import CreateUser from "./Users/CreateUser";
 import Reports from "./Reports/Reports";
@@ -12,7 +13,9 @@ import AssignedReminder from "./Reminder/AssignedReminder";
 import Team from "./Team Project/Team";
 import CreateTeam from "./Team Project/CreateTeam";
 import SendEmail from "./Send Email/SendEmail";
-import Chats from "./Chats/Chats";
+import EmailHistory from "./Send Email/EmailHistory";
+import Chats from "./Chats/Direct Chat/Chats";
+import GroupChat from "./Chats/GroupChat/GroupChat";
 import Profile from "./Profile/Profile";
 import Login from "./Login/Login";
 import ForgotPassword from "./Login/ForgetPassword";
@@ -22,6 +25,7 @@ export {
     YoruTodos,
     AssignedTodos,
     Project,
+    CreateProject,
     AllUsers,
     CreateUser,
     Reports,
@@ -35,5 +39,7 @@ export {
     Login,
     ForgotPassword,
     OwnReminder,
-    AssignedReminder
+    AssignedReminder,
+    EmailHistory,
+    GroupChat
 }

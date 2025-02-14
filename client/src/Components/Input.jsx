@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 const Input = ({ text, icon, handleChange, value, type, id, placeholder }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className="relative">
+    <div className=" h-20 py-1">
       <label htmlFor={id} className="block mb-1 text-lg pl-3 font-bold text-gray-700">{text}</label>
-      <div className="relative flex items-center">
+      <div className="relative flex items-center h-[60%]">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           {icon}
         </div>
@@ -37,7 +37,7 @@ const Input = ({ text, icon, handleChange, value, type, id, placeholder }) => {
               id={id}
               name="phone"
               value={value}
-              className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none"
+              className="block w-full h-[100%] pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none"
               placeholder={placeholder}
               onChange={handleChange}
             />
