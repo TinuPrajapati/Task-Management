@@ -20,7 +20,12 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.sign({ role: user.role_type, username: user.name }, "token");
-    return res.status(200).json({ token,username: user.name });
+    res.cookie("token", token, { httpOnly: true ,
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: false,
+      sameSite: "none",
+    });
+    return res.status(200).json({ message:"Login successful",username: user.name,email: user.email,role: user.role_type });
   } catch (error) {
     return res.status(500).json({ message: "Error! Please try again", error });
   }

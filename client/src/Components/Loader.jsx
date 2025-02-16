@@ -3,7 +3,7 @@ import "./CSS/Loader.css"
 
 const Loader = () => {
     return (
-        <div className='absolute top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/15'>
+        <div className='absolute top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50'>
             <div class="bg-[#212121] p-4 rounded-md">
                 <div class="loader">
                     <p className='mr-2 font-semibold text-white'>Loading ... </p>

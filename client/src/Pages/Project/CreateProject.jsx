@@ -82,9 +82,9 @@ function CreateProject() {
     };
 
     return (
-        <div className=" bg-white rounded-lg p-3 ">
+        <div className="w-full bg-white rounded-lg px-4 py-2">
             {/* Basic Information */}
-            <form className="space-y-4">
+            <form className="">
                 <Input text="Project Name" type="text" id="name" value={formData.name} handleChange={handleInputChange} placeholder={"Enter Project Name"} />
 
                 {/* Priority and Role */}
@@ -149,7 +149,7 @@ function CreateProject() {
                 </div>
 
                 {/* File Upload */}
-                <div>
+                <div className='w-full'>
                     <p className="block mb-1 text-lg pl-3 font-bold text-gray-700">
                         Attachments
                     </p>
@@ -170,12 +170,11 @@ function CreateProject() {
                         id="file-upload"
                         type="file"
                         multiple
-                        className="sr-only"
+                        className="hidden"x
                         onChange={handleFileChange}
                         accept="image/*,.pdf,.doc,.docx"
                     />
 
-                    {/* File Preview */}
                     {files.length > 0 && (
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                             {files.map((file, index) => (

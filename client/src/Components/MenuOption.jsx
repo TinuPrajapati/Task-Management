@@ -1,42 +1,33 @@
 import React, { useState } from 'react'
-import { NavLink,Link, useLocation } from 'react-router-dom'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
-const MenuOption = ({item  }) => {
-    const {pathname} = useLocation();
+const MenuOption = ({ menu, options, icon }) => {
+    const { pathname } = useLocation();
     const [expandedItems, setExpandedItems] = useState(false);
     return (
-        <div key={item.title} className="mb-2">
+        <div>
             <button
-
                 onClick={() => setExpandedItems(!expandedItems)}
-                className={`w-full flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all cursor-pointer ${(pathname === '/' && item.title === 'Home') ? 'bg-purple-100 text-purple-600' : 'text-gray-700'}`}
-            >
-                <Link
-                to={item.title === 'Home' && '/' }
-                 className="flex items-center gap-3">
-                    {item.icon}
-                    <span>{item.title}</span>
-                </Link>
-                {item.subItems && (
-                    expandedItems ? <ChevronDown size={16} /> : <ChevronRight size={16} />
-                )}
+                className='flex justify-between items-center w-full h-10 hover:border-x-4 hover:border-purple-400  duration-300 px-2 rounded-lg  '>
+                <p className='flex items-center gap-2 text-xl font-semibold'>
+                    {icon} {menu}
+                </p>
+                {
+                    expandedItems ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                }
             </button>
 
-            {/* Sub Items */}
-            {expandedItems && (
-                <div className="ml-9 mt-1 space-y-2 transition-all flex flex-col">
-                    {item.subItems.map((subItem) => (
-                        <NavLink
-                            key={subItem.name}
-                            to={subItem.link} // Add an appropriate route here
-                            className={({ isActive }) => `w-full h-10 text-left text-sm  px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 ${isActive ? "border-2 bg-purple-100 text-purple-600" : "hover:bg-purple-500 hover:text-white"} flex items-center`}
-                        >
-                            {subItem.name}
-                        </NavLink>
-                    ))}
-                </div>
-            )}
+            <div className={`${expandedItems ? "flex" : "hidden"} ml-9 flex-col space-y-1 transition-all}`}>
+                {options.map((option,index) => (
+                    <NavLink
+                        key={index}
+                        to={option.link}
+                        className={({ isActive }) => `w-full h-10 px-2 flex items-center gap-2 text-lg  rounded-lg ${isActive ? 'text-white bg-purple-500 px-2 font-semibold ' : ' hover:text-white hover:bg-purple-400 hover:font-semibold  duration-300'}`} >
+                        {option.name}
+                    </NavLink>
+                ))}
+            </div>
         </div>
     )
 }

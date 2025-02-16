@@ -1,63 +1,93 @@
 import React, { useState } from 'react';
-import { Building2, Lock, Mail, Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import Loginpic from "../../assets/Login.png"
+import { Mail, Lock, Building2, Eye, EyeOff } from 'lucide-react';
 import Input from '../../Components/Input';
+import {useMutation} from "@tanstack/react-query"
+import { login } from '../../api/axiosInstance';
+import { useDispatch } from 'react-redux';
+import { changeState } from "../../Features/loaderSlice"
+import { changeUser } from '../../Features/userSlice';
 
-function Login() {
-    const [formData, setFormData] = useState({ email: "", password: "" });
-    const [showPassword, setShowPassword] = useState(false);
+function App() {
+ const [formData,setFormData] = useState({email:"",password:""});
+ const dispatch = useDispatch();
 
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setFormData((prev) => ({ ...prev, [id]: value }));
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+  
+  const mutation = useMutation({
+    mutationFn:login,
+    onSuccess:(data)=>{
+        dispatch(changeState(false));
+        dispatch(changeUser({username:data.username,email:data.email,role:data.role}));
+        console.log(data)
+    },
+    onError:(error)=>{
+        console.log(error)
     }
+  })
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle login logic here
-        console.log('Login attempted with:', { email, password });
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(changeState(true));
+    mutation.mutate(formData)
+  };
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    return (
-        <div className="h-full w-full p-10  gap-2 bg-purple-300">
-            <div className='w-full h-full flex justify-between bg-white rounded-lg'>
-                <div className='w-[60%] h-full '>
-                    <img src={Loginpic} alt="" />
-                </div>
-                <div className='w-[40%] h-full p-10 flex flex-col justify-center items-center'>
-                    {/* Header */}
-                    <div className=" w-full text-center flex items-center justify-center gap-4 text-white bg-purple-400 rounded-lg py-3">
-                        <Building2 className="h-12 w-12" />
-                        <h2 className=" text-3xl font-semibold">Login</h2>
-                    </div>
-
-                    {/* Login Form */}
-                    <form className="mt-8 space-y-2 w-full" onSubmit={handleSubmit}>
-                        <Input text="Email" type="email" value={formData.email} handleChange={handleChange} icon={<Mail className="h-5 w-5 text-gray-400" />} placeholder={"Enter Email"} id="email" />
-
-                        <Input text="Password" type="password" value={formData.password} handleChange={handleChange} icon={<Lock className="h-5 w-5 text-gray-400" />} placeholder={"Enter Password"} id={"password"} />
-
-                        <button
-                            type="submit"
-                            className="w-full h-12 bg-purple-500 mt-4 text-xl text-white font-semibold rounded-lg"
-                        >
-                            Sign in
-                        </button>
-                    </form>
-                    <Link
-                     to="/forget_password"
-                     className='w-full bg-white mt-2 text-lg text-gray-600 font-semibold rounded-lg flex items-center justify-center cursor-pointer hover:text-blue-300  '>
-                        Forget Password?
-                    </Link>
-                </div>
-            </div>
+  return (
+    <div className="w-full h-full bg-gradient-to-br from-purple-400 via-purple-300 to-purple-200 flex items-center justify-center">
+      <div className="bg-white rounded-xl overflow-hidden flex flex-col md:flex-row w-[90%] h-[90%]">
+        {/* Left Side - Illustration */}
+        <div className="w-full md:w-1/2 bg-purple-100 p-12 flex flex-col justify-center items-center">
+          <div className="animate-float">
+            <img 
+              src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=600"
+              alt="Task Management"
+              className="w-full max-w-md rounded-lg shadow-lg"
+            />
+          </div>
+          <div className="mt-8 text-center animate-slide-in">
+            <h2 className="text-3xl font-bold text-purple-800 flex items-center justify-center gap-2">
+              <Building2 className="h-8 w-8" />
+              Task Management Pro
+            </h2>
+            <p className="mt-4 text-gray-600">Streamline your workflow with our powerful task management solution</p>
+          </div>
         </div>
-    );
+
+        {/* Right Side - Login Form */}
+        <div className="w-full md:w-1/2 p-12">
+            <div className="text-center mb-10 animate-slide-in" style={{ animationDelay: '0.2s' }}>
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
+              <p className="text-gray-600">Please sign in to your account</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+                <Input text="Email" icon={<Mail className="h-5 w-5" />} handleChange={handleChange} value={formData.email} type="email" id="email" placeholder="Enter your email" />
+
+                <Input text="Password" icon={<Lock className="h-5 w-5" />} handleChange={handleChange} value={formData.password} type={'password'} id="password" placeholder="Enter your password" />
+
+              <div className="flex items-center justify-between animate-slide-in" style={{ animationDelay: '0.8s' }}>
+                <label className="flex items-center">
+                  <input type="checkbox" className="rounded text-purple-600 focus:ring-purple-500 h-4 w-4" />
+                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                </label>
+                <a href="#" className="text-sm text-purple-600 hover:text-purple-800">Forgot password?</a>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-purple-600 text-white text-lg py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-300 animate-slide-in"
+                style={{ animationDelay: '1s' }}
+              >
+                Login
+              </button>
+
+            </form>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Login;
+export default App;

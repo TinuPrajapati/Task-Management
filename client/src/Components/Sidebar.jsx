@@ -11,12 +11,12 @@ import {
   MessageCircle,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
 } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import MenuOption from './MenuOption';
 
 const menuItems = [
-  { title: 'Home', icon: <Home size={20} /> },
   {
     title: 'Todo', icon: <ListTodo size={20} />, subItems: [
       { name: 'Your Todos', link: '/todos/your' },
@@ -51,15 +51,14 @@ const menuItems = [
   },
   {
     title: 'Team Projects', icon: <Users2 size={20} />, subItems: [
-      { name: 'Active Teams', link: '/team-projects/active' },
-      { name: 'Team Tasks', link: '/team-projects/tasks' },
+      { name: 'Team Project', link: '/team-projects/tasks' },
       { name: 'Create Team', link: '/team-projects/create' }
     ]
   },
   {
     title: 'Send Email', icon: <Send size={20} />, subItems: [
       { name: 'Employees', link: '/emails/office' },
-      { name: 'Other Users', link: '/emails/others' },
+      { name: 'Other Person', link: '/emails/others' },
       { name: 'History', link: '/emails/history' }
     ]
   },
@@ -67,13 +66,12 @@ const menuItems = [
     title: 'Chats', icon: <MessageCircle size={20} />, subItems: [
       { name: 'Direct Messages', link: '/chats/direct' },
       { name: 'Group Chats', link: '/chats/group' },
-      { name: 'Channels', link: '/chats/channels' }
     ]
   },
 ];
 
 function SideBar() {
-  const [expandedItems, setExpandedItems] = useState({});
+  const [expandedItems, setExpandedItems] = useState(false);
   const { pathname } = useLocation();
 
   const toggleItem = (title) => {
@@ -90,10 +88,15 @@ function SideBar() {
         <p className="text-gray-600">Dashboard</p>
       </div>
 
-      <nav className="p-4 h-[80%] overflow-y-scroll">
-        {menuItems.map((item) => (
-          <MenuOption  item={item}/>
+      <nav className="p-4 h-[80%] overflow-y-scroll flex flex-col gap-2">
+        <NavLink className={({ isActive }) => `w-full h-10 px-2 flex items-center gap-2 text-xl font-semibold rounded-lg ${isActive ? 'text-white bg-purple-500 px-2 ' : ' hover:text-white hover:bg-purple-400  duration-300'}`} to={'/'}>
+          <Home size={20} className='font-semibold' /> Home
+        </NavLink>
+
+        {menuItems.map((item, index) => (
+          <MenuOption icon={item.icon} menu={item.title} options={item.subItems} />
         ))}
+
       </nav>
 
     </div>

@@ -5,7 +5,7 @@ const Input = ({ text, icon, handleChange, value, type, id, placeholder }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className=" h-20 py-1">
-      <label htmlFor={id} className="block mb-1 text-lg pl-3 font-bold text-gray-700">{text}</label>
+      <label htmlFor={id} className="block mb-1 text-lg pl-3 font-bold text-gray-700">{text} <span className="text-red-500">*</span></label>
       <div className="relative flex items-center h-[60%]">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           {icon}

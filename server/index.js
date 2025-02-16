@@ -3,9 +3,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
 // const errorHandler = require("./handler/errorHandler");
 const adminRoutes = require("./router/adminRoutes");
 const publicRoutes = require("./router/publicRoutes");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 const onlineDB = process.env.mongodb_altas
 
