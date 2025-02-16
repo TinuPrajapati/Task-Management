@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: process.env.frontend_url,
+    origin: process.env.FRONTEND,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-const onlineDB = process.env.mongodb_altas
+const onlineDB = process.env.ONLINE_DB
 
 // MongoDB connection
 async function main() {
