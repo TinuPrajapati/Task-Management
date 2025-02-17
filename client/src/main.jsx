@@ -1,4 +1,3 @@
-/*************  ✨ Codeium Command 🌟  *************/
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -8,7 +7,7 @@ import { Dashboard, Project, AllUsers, CreateUser, Reports, CreateReport, Remind
 import { PrimeReactProvider } from 'primereact/api'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Provider, useSelector } from "react-redux"
-import Store from './app/Store.js'
+import Store from './app/store.js'
 
 const queryClient = new QueryClient()
 
@@ -59,4 +58,3 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>
 )
 
-/******  2356360d-f87c-456b-a3da-307ec4c81d55  *******/
