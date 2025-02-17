@@ -11,7 +11,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-import MenuOption from './MenuOption.jsx';
+import MenuOption from './MenuOption';
 
 const menuItems = [
   {
@@ -67,7 +67,7 @@ const menuItems = [
   },
 ];
 
-function SideBar() {
+function Sidebar() {
   return (
     <div className="h-full w-[20%] bg-white">
       <div className="p-4 border-b h-[18%]">
@@ -88,4 +88,4 @@ function SideBar() {
   );
 }
 
-export default SideBar;
+export default Sidebar;

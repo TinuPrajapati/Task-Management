@@ -15,18 +15,18 @@ const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-//    const mutation = useMutation({
-//     mutationFn:logout,
-//     onSuccess:(data)=>{
-//         toast.success(data.message)
-//         dispatch(changeUser(null));
-//         localStorage.removeItem("user");
-//         navigate("/login");
-//     },
-//     onError:(error)=>{
-//         console.log(error)
-//     }
-//    })
+   const mutation = useMutation({
+    mutationFn:logout,
+    onSuccess:(data)=>{
+        toast.success(data.message)
+        dispatch(changeUser(null));
+        localStorage.removeItem("user");
+        navigate("/login");
+    },
+    onError:(error)=>{
+        console.log(error)
+    }
+   })
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -64,7 +64,7 @@ const Header = () => {
                                 <SquareUserRound className='size-5' /> Profile
                             </Link>
                             <button 
-                            // onClick={()=>mutation.mutate()}
+                            onClick={()=>mutation.mutate()}
                             className='flex items-center h-8 gap-2 px-1 text-[1rem] duration-500 hover:text-purple-400'>
                                 <LogOut className='size-5' />Logout
                             </button>

@@ -19,24 +19,24 @@ function App() {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
   
-  // const mutation = useMutation({
-  //   mutationFn:login,
-  //   onSuccess:(data)=>{
-  //       dispatch(changeState(false));
-  //       dispatch(changeUser({username:data.username,email:data.email,role:data.role}));
-  //       localStorage.setItem("user",JSON.stringify({username:data.username,email:data.email,role:data.role}));
-  //       toast.success(data.message);
-  //       navigate("/");
-  //   },
-  //   onError:(error)=>{
-  //       console.log(error)
-  //   }
-  // })
+  const mutation = useMutation({
+    mutationFn:login,
+    onSuccess:(data)=>{
+        dispatch(changeState(false));
+        dispatch(changeUser({username:data.username,email:data.email,role:data.role}));
+        localStorage.setItem("user",JSON.stringify({username:data.username,email:data.email,role:data.role}));
+        toast.success(data.message);
+        navigate("/");
+    },
+    onError:(error)=>{
+        console.log(error)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(changeState(true));
-    // mutation.mutate(formData)
+    mutation.mutate(formData)
   };
 
   return (

@@ -4,7 +4,7 @@ import Loader from "../src/Components/Loader.jsx";
 import { Toaster } from 'react-hot-toast';
 import { useEffect } from "react";
 import { changeUser } from "./Features/userSlice";
-import SideBar from "./Components/SideBar.jsx";
+import Sidebar from "./Components/Sidebar.jsx";
 import Header from "./Components/Header";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
       {pathname == "/login" || pathname == "/forget_password" ? <Outlet />
         :
         <>
-          <SideBar />
+          <Sidebar />
           <main className="w-[80%] overflow-y-scroll px-4 py-5 flex flex-col gap-4">
             <Header />
             <Outlet />
