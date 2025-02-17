@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import loaderSlice from '../Features/LoaderSlice'
+import loaderSlice from '../Features/loaderSlice'
 import userSlice from '../Features/userSlice'
 
 export default configureStore({
