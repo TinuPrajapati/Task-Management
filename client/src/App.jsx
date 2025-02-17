@@ -1,10 +1,11 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { Header, Sidebar } from "./Components";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../src/Components/Loader";
 import { Toaster } from 'react-hot-toast';
 import { useEffect } from "react";
 import { changeUser } from "./Features/userSlice";
+import SideBar from "./Components/SideBar";
+import Header from "./Components/Header";
 
 function App() {
   const { pathname } = useLocation();
@@ -22,7 +23,7 @@ function App() {
       {pathname == "/login" || pathname == "/forget_password" ? <Outlet />
         :
         <>
-          <Sidebar />
+          <SideBar />
           <main className="w-[80%] overflow-y-scroll px-4 py-5 flex flex-col gap-4">
             <Header />
             <Outlet />
