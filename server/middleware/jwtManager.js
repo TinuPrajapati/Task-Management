@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const authenticate = (req, res, next) => {
-  const authToken = req.headers["authorization"].split(" ")[1];
+  const authToken = req.cookies.dashboard;
 
   if (!authToken) {
     return res.status(401).json({message:"Your token is missing, Please Login again"});

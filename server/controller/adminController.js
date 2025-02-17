@@ -130,30 +130,31 @@ exports.deleteProject = async (req, res) => {
 
 // Admin create new User
 exports.signup = async (req, res) => {
-  const { name, email, role, password, number } = req.body;
+  const { image,name, email, role, password, number,positon,address,gender } = req.body;
+  console.log(req.body)
 
   try {
     // Check if the email or number already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { number }] });
-    if (existingUser) {
-      const message =
-        existingUser.email === email
-          ? "This email already exists"
-          : "This number already exists";
-      return res.status(400).json({ message });
-    }
+    // const existingUser = await User.findOne({ $or: [{ email }, { number }] });
+    // if (existingUser) {
+    //   const message =
+    //     existingUser.email === email
+    //       ? "This email already exists"
+    //       : "This number already exists";
+    //   return res.status(400).json({ message });
+    // }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // // Hash the password
+    // const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
-    const newUser = await User.create({
-      name,
-      email,
-      role_type: role,
-      password: hashedPassword,
-      number,
-    });
+    // // Create new user
+    // const newUser = await User.create({
+    //   name,
+    //   email,
+    //   role_type: role,
+    //   password: hashedPassword,
+    //   number,
+    // });
 
     res.status(201).json("User created successfully");
   } catch (error) {

@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { User, Mail, Phone, Calendar, Shield, Lock, Briefcase, Camera,MapPin, FileUser } from 'lucide-react';
-
-import CheckBox from "../../Components/CheckBox.jsx";
 import Input from "../../Components/Input.jsx";
+import Select from "../../Components/Select.jsx";
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../../api/axiosInstance.js";
 
 const CreateUser = () => {
-  const { name, id } = useParams();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     role: "",
     password: "",
-    confirmPassword: "",
     number: "",
     adminPassword: "",
     photo: null,
     position:"",
-    address:""
+    address:"",
+    gender:"Male"
   });
 
   const handleChange = (e) => {
@@ -28,25 +27,26 @@ const CreateUser = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file)
     setFormData((prev) => ({ ...prev, photo: file }));
   };
 
+  // const mutation = useMutation({
+  //   mutationFn:register,
+  //   onSuccess:(data)=>{
+  //       console.log(data);
+  //   },
+  //   onError:(error)=>{
+  //       console.log(error)
+  //   }
+  // })
+
   const submitForm = async (e) => {
     e.preventDefault();
+    // mutation.mutate(formData)
   };
 
   return (
-    <div className="flex flex-col w-full gap-6 py-2">
-      <div className="flex items-center justify-between w-full h-16 px-4 py-2 border-b-2 border-purple-400">
-        <h2 className="text-3xl font-semibold">{id ? "Edit User" : "Create New User"}</h2>
-        <Link
-          to={`/users`}
-          className="px-3 py-1 text-xl text-white bg-purple-400 rounded-md active:scale-90"
-        >
-          Show All Users
-        </Link>
-      </div>
+    <div className="flex flex-col w-full gap-6">
 
       <form onSubmit={submitForm} className="p-6 space-y-6 bg-white rounded-md">
         {/* Photo Upload */}
@@ -72,7 +72,7 @@ const CreateUser = () => {
               />
             </label>
           </div>
-          <div className="w-[50%]">
+          <div className="w-[60%]">
             <div className="flex items-center mb-4 ">
               <label htmlFor="name" className="block mb-1 text-xl font-bold text-gray-700 w-[20%]">Full Name</label>
               <div className="relative w-[80%]">
@@ -83,8 +83,7 @@ const CreateUser = () => {
                   type="text"
                   id="name"
                   name="name"
-                  required
-                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg outline-none focus:ring-4 focus:ring-sky-400 focus:border-none"
+                 className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none focus:duration-200"
                   placeholder="Enter Name"
                   onChange={handleChange}
                 />
@@ -101,19 +100,15 @@ const CreateUser = () => {
                 <select
                   id="role"
                   name="role"
-                  required
-                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg outline-none focus:ring-4 focus:ring-sky-400 focus:border-none"
+                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none focus:duration-200"
                   onChange={handleChange}
                 >
                   <option>Choose role for new Employee</option>
                   <option value="admin">Admin</option>
                   <option value="hr">HR</option>
                   <option value="manager">Manager</option>
-                  <option value="web">Web Developer</option>
-                  <option value="android">Android Developer</option>
-                  <option value="ux/ui">UX/UI Designer</option>
-                  <option value="graphic">Graphic Designer</option>
                   <option value="employee">Employee</option>
+                  <option value="intern">Internship</option>
                 </select>
               </div>
             </div>
@@ -125,33 +120,24 @@ const CreateUser = () => {
           <Input text="Email" icon={<Mail className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.email} type="email" id="email" placeholder="Enter Email" />
 
           {/* Phone */}
-          <Input text="Phone Number" icon={<Phone className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.phone} type="number" id="phone" placeholder="Enter Phone Number" />
+          <Input text="Phone Number" icon={<Phone className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.number} type="number" id="number" placeholder="Enter Phone Number" />
 
           {/* Position */}
-          <Input text="Position" icon={<FileUser className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.phone} type="text" id="position" placeholder="Enter Employee Position" />
+          <Input text="Position" icon={<FileUser className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.position} type="text" id="position" placeholder="Enter Employee Position" />
 
           {/* Address */}
-          <Input text="Address" icon={<MapPin className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.phone} type="text" id="address" placeholder="Enter Employee Address" />
+          <Input text="Address" icon={<MapPin className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.address} type="text" id="address" placeholder="Enter Employee Address" />
 
           {/* Date of Birth */}
-          <Input text="Date of Birth" icon={<Calendar className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.dob} type="date" id="dob" placeholder="Enter DOB" />
+          <Input text="Date of Birth " handleChange={handleChange} value={formData.dob} type="date" id="dob" placeholder="Enter DOB" />
+          
+          <Select text="Gender" options={['Male', 'Female']} handleChange={handleChange} value={formData.gender} id="gender" />
 
           {/* Admin Password */}
           <Input text="Admin Password" icon={<Shield className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.adminPassword} type="password" id="adminPassword" placeholder="Enter Admin Password" />
           <Input text="Employee Password" icon={<Lock className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.password} type="password" id="password" placeholder="Enter User password" />
 
-          <Input text="Employee Confirm Password" icon={<Lock className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.confirmPassword} type="password" id="confirmPassword" placeholder="Enter User Confirm password" />
-        </div>
-
-        {/* User Password Section */}
-        <div className="pt-2 space-y-4 border-t-2 border-yellow-400">
-          <h3 className="block mb-1 text-2xl font-bold text-sky-400">Set Employee Access / Permission</h3>
-          <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2">
-            <CheckBox id="sendEmail" text="Send Email" />
-            <CheckBox id="assignProject" text="Assign Project" />
-            <CheckBox id="assignTodo" text="Assign Todo" />
-            <CheckBox id="profile" text="Edit / Add Empoyee Profile" />
-          </div>
+          {/* <Input text="Employee Confirm Password" icon={<Lock className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.confirmPassword} type="password" id="confirmPassword" placeholder="Enter User Confirm password" /> */}
         </div>
 
         {/* Submit Button */}

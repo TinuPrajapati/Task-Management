@@ -3,42 +3,51 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
+    image:{
+      type:String,
+      required:[true,"Please enter Employee image"]
+    },
     name: {
       type: String,
-      required: [true, "Please enter your name"],
-    },
-    email: {
-      type: String,
-      required: [true, "Please enter your email"],
+      required: [true, "Please enter Employee name"],
     },
     role_type: {
       type: String,
       enum: ["Admin", "Employee", "HR", "Developer", "Designer"],
     },
-    password: {
+    email: {
       type: String,
-      required: [true, "Please enter your password"],
+      required: [true, "Please enter Employee email"],
     },
     number: {
       type: Number,
-      required: [true, "Please enter your phone number"],
+      required: [true, "Please enter Employee phoneNumber"],
     },
-    projects: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Project",
-      },
-    ],
-    todos:[
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Todo",
-      }
-    ],
-    favorite: {
-      type: Boolean,
-      default: false,
+    position:{
+      type: String,
+      required:[true,"Please enter Employee position"]
     },
+    address:{
+      type:String,
+      required:[true,"Please enter Employee address"]
+    },
+    dob:{
+      type:Date,
+      required:[true,"Please enter Employee date of birth"]
+    },
+    gender:{
+      type:String,
+      enum:["Male","Female"],
+      required:[true,"Please enter Employee gender"]
+    },
+    adminPassword: {
+      type: String,
+      required: [true, "Please enter Admin password"],
+    },
+    password: {
+      type: String,
+      required: [true, "Please enter Employee password"],
+    }
   },
   {
     timestamps: true,
