@@ -13,7 +13,11 @@ const app = express();
 
 // Middleware
 app.use(
-  cors()
+  cors({
+    origin: process.env.FRONTEND,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
