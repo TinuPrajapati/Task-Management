@@ -9,12 +9,9 @@ import {
   Users2,
   Send,
   MessageCircle,
-  ChevronDown,
-  ChevronRight,
-  ChevronUp,
 } from 'lucide-react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import MenuOption from './MenuOption';
+import { NavLink } from 'react-router-dom';
+import MenuOption from './MenuOption.jsx';
 
 const menuItems = [
   {
@@ -71,16 +68,6 @@ const menuItems = [
 ];
 
 function SideBar() {
-  const [expandedItems, setExpandedItems] = useState(false);
-  const { pathname } = useLocation();
-
-  const toggleItem = (title) => {
-    setExpandedItems((prev) => ({
-      ...prev,
-      [title]: !prev[title],
-    }));
-  };
-
   return (
     <div className="h-full w-[20%] bg-white">
       <div className="p-4 border-b h-[18%]">
@@ -96,9 +83,7 @@ function SideBar() {
         {menuItems.map((item, index) => (
           <MenuOption icon={item.icon} menu={item.title} options={item.subItems} />
         ))}
-
       </nav>
-
     </div>
   );
 }

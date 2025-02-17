@@ -1,10 +1,10 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../src/Components/Loader";
+import Loader from "../src/Components/Loader.jsx";
 import { Toaster } from 'react-hot-toast';
 import { useEffect } from "react";
 import { changeUser } from "./Features/userSlice";
-import SideBar from "./Components/SideBar";
+import SideBar from "./Components/SideBar.jsx";
 import Header from "./Components/Header";
 
 function App() {
