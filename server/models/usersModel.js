@@ -3,17 +3,20 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    image:{
-      type:String,
-      required:[true,"Please enter Employee image"]
+    image: {
+      type: String,
+      required: [true, "Please enter Employee image"],
+    },
+    filename: {
+      type: String,
     },
     name: {
       type: String,
       required: [true, "Please enter Employee name"],
     },
-    role_type: {
+    role: {
       type: String,
-      enum: ["Admin", "Employee", "HR", "Developer", "Designer"],
+      required: [true, "Please enter Employee role"],
     },
     email: {
       type: String,
@@ -23,31 +26,27 @@ const userSchema = new Schema(
       type: Number,
       required: [true, "Please enter Employee phoneNumber"],
     },
-    position:{
+    address: {
       type: String,
-      required:[true,"Please enter Employee position"]
+      required: [true, "Please enter Employee address"],
     },
-    address:{
-      type:String,
-      required:[true,"Please enter Employee address"]
+    dob: {
+      type: Date,
+      required: [true, "Please enter Employee date of birth"],
     },
-    dob:{
-      type:Date,
-      required:[true,"Please enter Employee date of birth"]
-    },
-    gender:{
-      type:String,
-      enum:["Male","Female"],
-      required:[true,"Please enter Employee gender"]
-    },
-    adminPassword: {
+    gender: {
       type: String,
-      required: [true, "Please enter Admin password"],
+      enum: ["Male", "Female"],
+      required: [true, "Please enter Employee gender"],
     },
     password: {
       type: String,
       required: [true, "Please enter Employee password"],
-    }
+    },
+    self_todo: [{ 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "SelfTodo"
+    }],
   },
   {
     timestamps: true,

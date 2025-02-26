@@ -5,7 +5,7 @@ import {
     X
 } from 'lucide-react';
 
-function ChatOption({setIsDialogOpen}) {
+function ChatOption({setIsDialogOpen,selectedUser}) {
     const [message, setMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -81,10 +81,10 @@ function ChatOption({setIsDialogOpen}) {
                 {/* Chat Header */}
                 <div className="px-6 h-[14%] bg-purple-300 rounded-t-xl border-b flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        {chats[0].avatar ? (
+                        {selectedUser.image ? (
                             <img
-                                src={chats[0].avatar}
-                                alt={chats[0].name}
+                                src={selectedUser.image}
+                                alt={selectedUser.name}
                                 className="w-10 h-10 rounded-full object-cover"
                             />
                         ) : (
@@ -97,8 +97,8 @@ function ChatOption({setIsDialogOpen}) {
                             </div>
                         )}
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-900">{chats[0].name}</h2>
-                            {chats[0].isGroup && (
+                            <h2 className="text-xl font-semibold text-white">{selectedUser.name}</h2>
+                            {selectedUser.isGroup && (
                                 <p className="text-sm text-gray-500">
                                     {chats[0].participants?.length} participants
                                 </p>

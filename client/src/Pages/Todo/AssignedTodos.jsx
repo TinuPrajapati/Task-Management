@@ -8,22 +8,17 @@ import {
     Edit2,
     Trash2,
     Bell,
-    Calendar
+    Calendar,
+    Filter,
+    Plus
 } from 'lucide-react';
 import CreateAssigned from '../../Components/Todos/Assigned Todos/CreateAssigned';
 
 function AssignedTodos() {
     const [tasks, setTasks] = useState([]);
-    const [newTask, setNewTask] = useState('');
-    const [category, setCategory] = useState('Development');
-    const [priority, setPriority] = useState('Medium');
-    const [assignedTo, setAssignedTo] = useState('John Doe');
+    const [dialopBox, setDialogBox] = useState(false)
     const [openMenuId, setOpenMenuId] = useState(null);
     const [isEditing, setIsEditing] = useState(null);
-
-    const categories = ['Development', 'Design', 'Marketing', 'HR', 'Finance'];
-    const users = ['John Doe', 'Jane Smith', 'Bob Johnson', 'Alice Williams'];
-    const priorities = ['High', 'Medium', 'Low'];
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -31,24 +26,6 @@ function AssignedTodos() {
             case 'Medium': return 'bg-yellow-100 text-yellow-700';
             case 'Low': return 'bg-green-100 text-green-700';
             default: return 'bg-gray-100 text-gray-700';
-        }
-    };
-
-    const addTask = (e) => {
-        e.preventDefault();
-        if (newTask.trim()) {
-            setTasks([
-                ...tasks,
-                {
-                    id: Date.now(),
-                    title: newTask.trim(),
-                    completed: false,
-                    category,
-                    priority,
-                    assignedTo,
-                },
-            ]);
-            setNewTask('');
         }
     };
 
@@ -81,7 +58,15 @@ function AssignedTodos() {
 
     return (
         <div className="min-h-[60vh]">
-            <CreateAssigned />
+            {dialopBox && <CreateAssigned setDialogBox={setDialogBox}/>}
+            {/* <CreateAssigned /> */}
+            <div className='flex justify-between items-center mb-4 h-10'>
+                <input type="text" placeholder='Search by Todo and Assigned Person' className='bg-white w-[70%] h-full px-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-none outline-none' />
+                <button className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[10%] h-full rounded-lg font-semibold active:scale-90'><Filter className='size-4' /> Filter</button>
+                <button
+                onClick={()=>setDialogBox(true)}
+                 className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[18%] h-full rounded-lg font-semibold active:scale-90'><Plus/> Assigned Todo</button>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {tasks.length === 0 ? (

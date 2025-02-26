@@ -8,6 +8,7 @@ import { logout } from '../api/axiosInstance';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { changeUser } from '../Features/userSlice';
+import { socket } from '../api/socket';
 
 const Header = () => {
     const [isMenu, setIsMenu] = useState(false);
@@ -22,6 +23,7 @@ const Header = () => {
         dispatch(changeUser(null));
         localStorage.removeItem("user");
         navigate("/login");
+        socket
     },
     onError:(error)=>{
         console.log(error)

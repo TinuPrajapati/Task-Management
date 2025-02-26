@@ -15,9 +15,7 @@ exports.allProjects = async (req, res) => {
 
 // Admin create new Project
 exports.createProject = async (req, res) => {
-  const { category, assignedTo, ProjectTitle, date, description, priority } =
-    req.body;
-  const { username } = req.user;
+  const { category, assignedTo, ProjectTitle, date, description, priority } = req.body;
 
   try {
     const user = await User.findOne({ name: assignedTo });
@@ -130,35 +128,48 @@ exports.deleteProject = async (req, res) => {
 
 // Admin create new User
 exports.signup = async (req, res) => {
-  const { image,name, email, role, password, number,positon,address,gender } = req.body;
-  console.log(req.body)
+  const { name, email, role, password, number,address,gender,dob } = req.body;
+  let path ;
+  let filename;
+  if(req.file){
+    path = req.file.path;
+    filename = req.file.filename;
+  }
 
   try {
     // Check if the email or number already exists
-    // const existingUser = await User.findOne({ $or: [{ email }, { number }] });
-    // if (existingUser) {
-    //   const message =
-    //     existingUser.email === email
-    //       ? "This email already exists"
-    //       : "This number already exists";
-    //   return res.status(400).json({ message });
-    // }
+    const existingUser = await User.findOne({ $or: [{ email }, { number }] });
+    if (existingUser) {
+      const message =
+        existingUser.email === email
+          ? "This email already exists"
+          : "This number already exists";
+      return res.status(400).json({ message });
+    }
 
     // // Hash the password
-    // const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // // Create new user
-    // const newUser = await User.create({
-    //   name,
-    //   email,
-    //   role_type: role,
-    //   password: hashedPassword,
-    //   number,
-    // });
+    const newUser = await User.create({
+      name,
+      role,
+      email,
+      password: hashedPassword,
+      number,
+      address,
+      gender,
+      dob,
+      image:path,
+      filename
+    });
 
-    res.status(201).json("User created successfully");
+    console.log(newUser);
+
+    res.status(201).json({message:"User created successfully"});
   } catch (error) {
-    res.status(500).json({ message: "Error in creating new user", error });
+    console.log(`Error come from signup Route : ${error}`);
+    res.status(500).json({ message: "Error in creating new user" });
   }
 };
 
@@ -167,7 +178,7 @@ exports.particularRoleUser = async (req, res) => {
   const { role } = req.params;
   try {
     const users = await User.find(
-      { role_type: role },
+      { role },
       "id name role_type email"
     );
 
@@ -192,7 +203,8 @@ exports.User = async (req, res) => {
 // Fetch all users
 exports.allUser = async (req, res) => {
   try {
-    const users = await User.find({});
+    const { userId } = req.user;
+    const users = await User.find({_id:{$ne:userId}}).select("-password");
     res.status(200).json(users);
   } catch (error) {
     res

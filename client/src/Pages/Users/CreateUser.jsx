@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { User, Mail, Phone, Calendar, Shield, Lock, Briefcase, Camera,MapPin, FileUser } from 'lucide-react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { User, Mail, Phone, Calendar, Shield, Lock, Briefcase, Camera, MapPin } from 'lucide-react';
+import { FaGenderless } from "react-icons/fa";
 import Input from "../../Components/Input.jsx";
 import Select from "../../Components/Select.jsx";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "../../api/axiosInstance.js";
-
+import toast from "react-hot-toast";
 const CreateUser = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -13,11 +14,9 @@ const CreateUser = () => {
     role: "",
     password: "",
     number: "",
-    adminPassword: "",
     photo: null,
-    position:"",
-    address:"",
-    gender:"Male"
+    address: "",
+    gender: "Male"
   });
 
   const handleChange = (e) => {
@@ -30,25 +29,29 @@ const CreateUser = () => {
     setFormData((prev) => ({ ...prev, photo: file }));
   };
 
-  // const mutation = useMutation({
-  //   mutationFn:register,
-  //   onSuccess:(data)=>{
-  //       console.log(data);
-  //   },
-  //   onError:(error)=>{
-  //       console.log(error)
-  //   }
-  // })
+  const mutation = useMutation({
+    mutationFn: register,
+    onSuccess: (data) => {
+      // console.log(data);
+      toast.success(data.message);
+      navigate("/users/all");
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.response.data.message);
+    }
+  })
 
   const submitForm = async (e) => {
     e.preventDefault();
-    // mutation.mutate(formData)
+    if (!formData.name || !formData.email || !formData.role || !formData.password || !formData.number || !formData.address) return toast.error("All fields are required");
+    mutation.mutate(formData)
   };
 
   return (
     <div className="flex flex-col w-full gap-6">
 
-      <form onSubmit={submitForm} className="p-6 space-y-6 bg-white rounded-md">
+      <form onSubmit={submitForm} className="p-6 space-y-6 bg-white rounded-lg">
         {/* Photo Upload */}
         <div className="flex items-center w-full gap-10 px-10 mb-6">
           <div className="relative">
@@ -83,7 +86,7 @@ const CreateUser = () => {
                   type="text"
                   id="name"
                   name="name"
-                 className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none focus:duration-200"
+                  className="block w-full py-2 pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none focus:duration-200"
                   placeholder="Enter Name"
                   onChange={handleChange}
                 />
@@ -104,18 +107,16 @@ const CreateUser = () => {
                   onChange={handleChange}
                 >
                   <option>Choose role for new Employee</option>
-                  <option value="admin">Admin</option>
-                  <option value="hr">HR</option>
-                  <option value="manager">Manager</option>
-                  <option value="employee">Employee</option>
-                  <option value="intern">Internship</option>
+                  {["Admin", "HR", "Manager", "Web Developer", "Android Developer", "IOS Developer", "Graphic Designer", "UI/UX Designer"].map((value, index) => (
+                    <option value={value}>{value}</option>
+                  ))}
                 </select>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Email */}
           <Input text="Email" icon={<Mail className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.email} type="email" id="email" placeholder="Enter Email" />
 
@@ -123,21 +124,15 @@ const CreateUser = () => {
           <Input text="Phone Number" icon={<Phone className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.number} type="number" id="number" placeholder="Enter Phone Number" />
 
           {/* Position */}
-          <Input text="Position" icon={<FileUser className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.position} type="text" id="position" placeholder="Enter Employee Position" />
+          <Input text="Employee Password" icon={<Lock className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.password} type="password" id="password" placeholder="Enter User password" />
 
           {/* Address */}
           <Input text="Address" icon={<MapPin className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.address} type="text" id="address" placeholder="Enter Employee Address" />
 
           {/* Date of Birth */}
           <Input text="Date of Birth " handleChange={handleChange} value={formData.dob} type="date" id="dob" placeholder="Enter DOB" />
-          
-          <Select text="Gender" options={['Male', 'Female']} handleChange={handleChange} value={formData.gender} id="gender" />
 
-          {/* Admin Password */}
-          <Input text="Admin Password" icon={<Shield className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.adminPassword} type="password" id="adminPassword" placeholder="Enter Admin Password" />
-          <Input text="Employee Password" icon={<Lock className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.password} type="password" id="password" placeholder="Enter User password" />
-
-          {/* <Input text="Employee Confirm Password" icon={<Lock className="w-5 h-5 text-gray-400" />} handleChange={handleChange} value={formData.confirmPassword} type="password" id="confirmPassword" placeholder="Enter User Confirm password" /> */}
+          <Select text="Gender" icon={<FaGenderless className="w-5 h-5 text-gray-400" />} options={['Male', 'Female']} handleChange={handleChange} value={formData.gender} id="gender" />
         </div>
 
         {/* Submit Button */}

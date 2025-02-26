@@ -8,8 +8,8 @@ const cors = require("cors");
 const adminRoutes = require("./router/adminRoutes");
 const publicRoutes = require("./router/publicRoutes");
 const cookieParser = require("cookie-parser");
-
-const app = express();
+const chatRouter = require("./router/chatRoutes");
+const { app,server } = require("./lib/socket");
 
 // Middleware
 app.use(
@@ -42,8 +42,9 @@ app.get("/", (req, res) => {
 
 app.use("/",publicRoutes);
 app.use("/admin",adminRoutes);
+app.use("/chats",chatRouter);
 
 // Start the server
-app.listen(8000, () => {
+server.listen(8000, () => {
   console.log("Server started on port 8000");
 });

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Search, User, X, Send, MessageCircle } from 'lucide-react';
 import ChatOption from './ChatOption';
+import { useQuery } from '@tanstack/react-query';
+import { getUsers } from '../../../api/axiosInstance';
 
 function App() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -9,64 +11,14 @@ function App() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [message, setMessage] = useState('');
 
-    const employees = [
-        {
-            id: 1,
-            name: "Sarah Johnson",
-            role: "UI Designer",
-            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
-            online: true
-        },
-        {
-            id: 2,
-            name: "Michael Chen",
-            role: "Frontend Developer",
-            avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
-            online: false
-        },
-        {
-            id: 3,
-            name: "Emma Davis",
-            role: "Project Manager",
-            avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
-            online: true
-        },
-        {
-            id: 4,
-            name: "David Wilson",
-            role: "Backend Developer",
-            avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
-            online: true
-        }
-    ];
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["users"],
+        queryFn: getUsers
+    })
 
-    const messages = [
-        {
-            id: 1,
-            content: "Hi, I've reviewed the latest design mockups. They look great!",
-            sender: "You",
-            timestamp: "10:30 AM",
-            isOwn: true,
-        },
-        {
-            id: 2,
-            content: "Thanks! I'm glad you like them. Should we schedule a review meeting?",
-            sender: selectedUser?.name || "",
-            timestamp: "10:32 AM",
-            isOwn: false,
-        },
-        {
-            id: 3,
-            content: "Yes, that would be helpful. How about tomorrow at 2 PM?",
-            sender: "You",
-            timestamp: "10:35 AM",
-            isOwn: true,
-        }
-    ];
+    const roles = [...new Set(data?.map(emp => emp.role))];
 
-    const roles = [...new Set(employees.map(emp => emp.role))];
-
-    const filteredEmployees = employees.filter(emp =>
+    const filteredEmployees = data?.filter(emp =>
         emp.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedRole === 'all' || emp.role === selectedRole)
     );
@@ -74,13 +26,6 @@ function App() {
     const handleOpenChat = (employee) => {
         setSelectedUser(employee);
         setIsDialogOpen(true);
-    };
-
-    const handleSendMessage = () => {
-        if (message.trim()) {
-            // Here you would typically send the message to your backend
-            setMessage('');
-        }
     };
 
     return (
@@ -99,7 +44,7 @@ function App() {
                 <select
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
-                    className="block h-[100%] pl-5 pr-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-none outline-none"
+                    className="block h-[100%] px-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-none outline-none"
                 >
                     <option value="all">All Roles</option>
                     {roles.map(role => (
@@ -108,7 +53,7 @@ function App() {
                 </select>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {filteredEmployees.map((employee) => (
+                {filteredEmployees?.map((employee) => (
                     <div
                         key={employee.id}
                         className="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white/70 hover:bg-white"
@@ -116,7 +61,7 @@ function App() {
                         <div className="flex items-center space-x-4">
                             <div className="relative">
                                 <img
-                                    src={employee.avatar}
+                                    src={employee.image}
                                     alt={employee.name}
                                     className="w-12 h-12 rounded-lg object-cover"
                                 />
@@ -139,8 +84,8 @@ function App() {
             </div>
 
             {/* Chat Dialog */}
-            {isDialogOpen  && (
-                <ChatOption  setIsDialogOpen={setIsDialogOpen}/>
+            {isDialogOpen && (
+                <ChatOption setIsDialogOpen={setIsDialogOpen} selectedUser={selectedUser} />
             )}
         </div>
     );

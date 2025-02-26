@@ -1,4 +1,3 @@
-/*************  ✨ Codeium Command 🌟  *************/
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -18,14 +17,14 @@ const AppRouter = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<App />}>
-        <Route path="/dashboard" element={!user ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="" element={!user ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/todos/your" element={!user ? <YoruTodos /> : <Navigate to="/login" />} />
-        <Route path="/todos/assigned" element={!user ? <AssignedTodos /> : <Navigate to="/login" />} />
-        <Route path="/projects/your" element={!user ? <Project /> : <Navigate to="/login" />} />
-        <Route path="/projects/create" element={!user ? <CreateProject /> : <Navigate to="/login" />} />
-        <Route path="/users/all" element={!user ? <AllUsers /> : <Navigate to="/login" />} />
-        <Route path="/users/create" element={!user ? <CreateUser /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/todos/your" element={user ? <YoruTodos /> : <Navigate to="/login" />} />
+        <Route path="/todos/assigned" element={user ? <AssignedTodos /> : <Navigate to="/login" />} />
+        <Route path="/projects/your" element={user ? <Project /> : <Navigate to="/login" />} />
+        <Route path="/projects/create" element={user ? <CreateProject /> : <Navigate to="/login" />} />
+        <Route path="/users/all" element={user ? <AllUsers /> : <Navigate to="/login" />} />
+        <Route path="/users/create" element={user ? <CreateUser /> : <Navigate to="/login" />} />
         <Route path="/reports/your" element={<Reports />} />
         <Route path="/reports/create" element={<CreateReport />} />
         <Route path="/reminders/your" element={<OwnReminder />} />
@@ -37,7 +36,7 @@ const AppRouter = () => {
         <Route path="chats/direct" element={<Chats />} />
         <Route path="chats/group" element={<GroupChat />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="login" element={!user ? <Navigate to="/" /> : <Login />} />
+        <Route path="login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="forget_password" element={<ForgotPassword />} />
       </Route>
     )
@@ -58,4 +57,3 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>
 )
 
-/******  2356360d-f87c-456b-a3da-307ec4c81d55  *******/
