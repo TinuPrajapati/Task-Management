@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, PlusCircle, X } from 'lucide-react';
 import toast  from 'react-hot-toast';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { allUsers, createAssignedTasks } from '../../../api/axiosInstance';
 
 const CreateAssigned = ({setDialogBox}) => {
     const [formData, setFormData] = useState({
@@ -21,26 +19,8 @@ const CreateAssigned = ({setDialogBox}) => {
         setFormData((prev) => ({ ...prev, [id]: value }));
     };
 
-    const {data} = useQuery({
-        queryKey: ['users',categories],
-        queryFn:()=>allUsers(formData.category)
-    })
-    console.log(data);
-
-    const mutation = useMutation({
-        mutationFn: createAssignedTasks,
-        onSuccess: (data) => {
-            toast.success(data.message);
-            setDialogBox(false);
-        },
-        onError: (error) => {
-            toast.error(error.response.data.message);
-        }
-    })
-
     const addTask = (e) => {
         e.preventDefault();
-        mutation.mutate(formData);
     };
     return (
         <div className='w-full h-full absolute top-0 left-0 bg-black/40 flex justify-center items-center'>

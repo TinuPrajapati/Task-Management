@@ -4,8 +4,6 @@ import { User, Mail, Phone, Calendar, Shield, Lock, Briefcase, Camera, MapPin } 
 import { FaGenderless } from "react-icons/fa";
 import Input from "../../Components/Input.jsx";
 import Select from "../../Components/Select.jsx";
-import { useMutation } from "@tanstack/react-query";
-import { register } from "../../api/axiosInstance.js";
 import toast from "react-hot-toast";
 const CreateUser = () => {
   const [formData, setFormData] = useState({
@@ -29,23 +27,10 @@ const CreateUser = () => {
     setFormData((prev) => ({ ...prev, photo: file }));
   };
 
-  const mutation = useMutation({
-    mutationFn: register,
-    onSuccess: (data) => {
-      // console.log(data);
-      toast.success(data.message);
-      navigate("/users/all");
-    },
-    onError: (error) => {
-      console.log(error)
-      toast.error(error.response.data.message);
-    }
-  })
 
   const submitForm = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.role || !formData.password || !formData.number || !formData.address) return toast.error("All fields are required");
-    mutation.mutate(formData)
   };
 
   return (

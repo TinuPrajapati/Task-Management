@@ -1,42 +1,25 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Building2, Eye, EyeOff } from 'lucide-react';
 import Input from '../../Components/Input';
-import { useMutation } from "@tanstack/react-query"
-import { login } from '../../api/axiosInstance';
 import { useDispatch } from 'react-redux';
-import { changeState } from "../../Features/loaderSlice"
-import { changeUser } from '../../Features/userSlice';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../Store/useAuthStore';
 
 function App() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {login} = useAuthStore();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const mutation = useMutation({
-    mutationFn: login,
-    onSuccess: (data) => {
-      dispatch(changeState(false));
-      dispatch(changeUser({ username: data.username, email: data.email, role: data.role,id:data.id }));
-      localStorage.setItem("user", JSON.stringify({ username: data.username, email: data.email, role: data.role,id:data.id }));
-      toast.success(data.message);
-      navigate("/");
-    },
-    onError: (error) => {
-      console.log(error)
-    }
-  })
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(changeState(true));
-    mutation.mutate(formData)
+    login(formData,navigate);
   };
 
   return (

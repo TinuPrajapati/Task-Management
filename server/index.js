@@ -9,7 +9,7 @@ const adminRoutes = require("./router/adminRoutes");
 const publicRoutes = require("./router/publicRoutes");
 const cookieParser = require("cookie-parser");
 const chatRouter = require("./router/chatRoutes");
-const { app,server } = require("./lib/socket");
+const {app,server} = require("./lib/socket.js")
 
 // Middleware
 app.use(

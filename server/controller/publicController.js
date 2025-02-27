@@ -20,25 +20,22 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    const token = jwt.sign(
-      { userId:user._id },
-      "token"
-    );
+    const token = jwt.sign({ userId: user._id }, "token");
     res.cookie("dashboard", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
       secure: false,
       sameSite: "strict",
     });
-    return res
-      .status(200)
-      .json({
-        message: "Login successful",
-        username: user.name,
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        name: user.name,
         email: user.email,
-        id: user._id,
-        role: user.role_type,
-      });
+        _id: user._id,
+        role: user.role,
+      },
+    });
   } catch (error) {
     console.log(`Error come from Login Route : ${error}`);
     return res.status(500).json({ message: "Error! Please try again" });
@@ -47,7 +44,7 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("dashboard");
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     console.log(`Error come from Logout Route : ${error}`);
@@ -116,9 +113,9 @@ exports.sendEmail = async (req, res) => {
 // Self Todos create
 exports.createTodo = async (req, res) => {
   try {
-    const {todo,deadline,priority} = req.body;
+    const { todo, deadline, priority } = req.body;
     const { username } = req.user;
-    
+
     const user = await User.findOne({ name: username });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -134,9 +131,9 @@ exports.createTodo = async (req, res) => {
     await newTodo.save();
     user.self_todo.push(newTodo._id);
     await user.save();
-    res.status(201).json({  
+    res.status(201).json({
       message: "Self Todo created successfully",
-    })
+    });
   } catch (error) {
     console.log(`Error come from Create Self Todo Route :`, error);
     res.status(500).json({ message: "Error! Please try again" });
@@ -159,13 +156,13 @@ exports.getTodo = async (req, res) => {
   }
 };
 
-exports.deleteTodo = async(req,res)=>{
+exports.deleteTodo = async (req, res) => {
   try {
     const { id } = req.params;
-   const deleteTodo = await SelfTodo.findByIdAndDelete(id);
-   res.status(200).json({message:"Todo deleted successfully"});
+    const deleteTodo = await SelfTodo.findByIdAndDelete(id);
+    res.status(200).json({ message: "Todo deleted successfully" });
   } catch (error) {
     console.log(`Error come from Delete Self Todo Route :`, error);
     res.status(500).json({ message: "Error! Please try again" });
   }
-}
+};

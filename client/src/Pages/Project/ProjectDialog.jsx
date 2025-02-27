@@ -2,7 +2,6 @@ import { Pencil, Trash2, X, Target, Calendar } from 'lucide-react'
 import React from 'react'
 
 const ProjectDialog = ({ display, getPriorityColor,setDisplay }) => {
-    console.log(display.data)
     return (
         <div className={`absolute w-[100vw] h-[100vh] top-0 left-0 bg-black/20 ${display.show ? "flex" : "hidden"} justify-center items-center`}>
             <div className='w-[80%] min-h-[80vh] bg-white rounded-lg p-4 relative'>

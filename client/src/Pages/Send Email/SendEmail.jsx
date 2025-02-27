@@ -30,7 +30,6 @@ const SendEmail = () => {
         if (person == "office") {
             if (id == "name") {
                 const email = user.find(item => item.name == value).email
-                console.log(email)
                 setFormData({ ...formData, email: email })
             }
         }

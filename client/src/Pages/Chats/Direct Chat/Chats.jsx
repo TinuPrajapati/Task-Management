@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Search, User, X, Send, MessageCircle } from 'lucide-react';
 import ChatOption from './ChatOption';
-import { useQuery } from '@tanstack/react-query';
-import { getUsers } from '../../../api/axiosInstance';
+import useAuthStore from '../../../Store/useAuthStore';
+import useChatStore from '../../../Store/useChatStore';
 
 function App() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState('all');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
-    const [message, setMessage] = useState('');
+    const {selectUser} = useChatStore();
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["users"],
-        queryFn: getUsers
-    })
+    const {users,getUsers,onlineUsers} = useAuthStore();
+    useEffect(() => {
+        getUsers();
+    }, [getUsers]);
 
-    const roles = [...new Set(data?.map(emp => emp.role))];
+    const roles = [...new Set(users?.map(emp => emp.role))];
 
-    const filteredEmployees = data?.filter(emp =>
+    const filteredEmployees = users?.filter(emp =>
         emp.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedRole === 'all' || emp.role === selectedRole)
     );
 
     const handleOpenChat = (employee) => {
         setSelectedUser(employee);
+        selectUser(employee);
         setIsDialogOpen(true);
     };
 
@@ -55,7 +56,7 @@ function App() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {filteredEmployees?.map((employee) => (
                     <div
-                        key={employee.id}
+                        key={employee._id}
                         className="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white/70 hover:bg-white"
                     >
                         <div className="flex items-center space-x-4">
@@ -65,8 +66,7 @@ function App() {
                                     alt={employee.name}
                                     className="w-12 h-12 rounded-lg object-cover"
                                 />
-                                <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${employee.online ? 'bg-green-500' : 'bg-gray-400'
-                                    }`} />
+                                <div className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${onlineUsers.includes(employee._id) ? 'bg-green-500' : 'bg-gray-400' }`} />
                             </div>
                             <div>
                                 <h3 className="font-semibold text-gray-900">{employee.name}</h3>

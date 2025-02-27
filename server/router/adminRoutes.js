@@ -22,7 +22,7 @@ adminRoutes.delete("/delete_todo/:id",authenticate,deleteTodo);
 adminRoutes.get("/all_users",authenticate,allUser)
 adminRoutes.get("/users/:role",authenticate,particularRoleUser)
 adminRoutes.post("/register",authenticate,upload.single("photo"), signup);
-adminRoutes.get("/user/:id",User);
+adminRoutes.get("/check",authenticate,User);
 adminRoutes.put("/user_favorite",authenticate,favoriteUser)
 adminRoutes.put("/update_details/:id",authenticate,updateUser)
 adminRoutes.delete("/delete_user/:id",authenticate,deleteUser)

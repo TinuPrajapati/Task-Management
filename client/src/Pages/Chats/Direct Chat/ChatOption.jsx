@@ -1,85 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     User, Users, Search, Send, Phone, Video, MoreVertical,
     Image as ImageIcon, Paperclip, Smile, Plus,
     X
 } from 'lucide-react';
+import useChatStore from '../../../Store/useChatStore';
 
-function ChatOption({setIsDialogOpen,selectedUser}) {
+function ChatOption({ setIsDialogOpen, selectedUser}) {
     const [message, setMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const { sendMessage,subscribeToChat,unSubscribeToChat,message:chats,getMessages } = useChatStore();
+    const messageEndRef = useRef(null);
 
-    const chats = [
-        {
-            id: 1,
-            name: "Website Redesign Team",
-            lastMessage: "Great progress everyone! Let's review the latest mockups tomorrow.",
-            timestamp: "10:30 AM",
-            unread: 3,
-            isGroup: true,
-            participants: ["Sarah Johnson", "Michael Chen", "Emma Davis", "John Smith"],
-        },
-        {
-            id: 2,
-            name: "Emma Davis",
-            lastMessage: "I've updated the component documentation",
-            timestamp: "Yesterday",
-            unread: 0,
-            isGroup: false,
-            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
-        },
-        {
-            id: 3,
-            name: "Backend Team",
-            lastMessage: "The new API endpoints are ready for testing",
-            timestamp: "Yesterday",
-            unread: 5,
-            isGroup: true,
-            participants: ["Michael Chen", "David Wilson", "Lisa Anderson"],
-        },
-    ];
-
-    const messages = [
-        {
-            id: 1,
-            content: "Hi team! I've just pushed the latest updates to the staging environment. Please review when you have a chance.",
-            sender: "Michael Chen",
-            timestamp: "10:30 AM",
-            isOwn: false,
-        },
-        {
-            id: 2,
-            content: "I'll take a look at it right away. Are there any specific areas you want us to focus on?",
-            sender: "You",
-            timestamp: "10:32 AM",
-            isOwn: true,
-        },
-        {
-            id: 3,
-            content: "The new navigation component and the dashboard layout would be great to review first.",
-            sender: "Michael Chen",
-            timestamp: "10:35 AM",
-            isOwn: false,
-        },
-    ];
-
-    const filteredChats = chats.filter(chat =>
-        chat.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // const filteredChats = chats.filter(chat =>
+    //     chat.name.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
 
     const handleSendMessage = () => {
-        if (message.trim()) {
-            // Here you would typically send the message to your backend
-            setMessage('');
-        }
+        sendMessage(selectedUser._id, message);
+        setMessage('');
     };
+
+    useEffect(() => {
+        getMessages(selectedUser._id);
+        subscribeToChat();
+
+        return () => {
+            unSubscribeToChat();
+        }
+    },[subscribeToChat,unSubscribeToChat,handleSendMessage]);
+
+    useEffect(() => {
+        if (messageEndRef.current && chats) {
+          messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, [chats]);
 
     return (
         <div className="absolute top-0 left-0 bg-black/40 flex items-center justify-center w-[100vw] h-[100vh] overflow-y-auto">
 
             <div className="w-[90%] h-[95%]">
                 {/* Chat Header */}
-                <div className="px-6 h-[14%] bg-purple-300 rounded-t-xl border-b flex items-center justify-between">
+                <div className="px-6 h-[14%] bg-purple-300 rounded-t-xl border-b flex items-center justify-between"
+
+                >
                     <div className="flex items-center space-x-4">
                         {selectedUser.image ? (
                             <img
@@ -112,38 +76,39 @@ function ChatOption({setIsDialogOpen,selectedUser}) {
                         <button className="p-2 text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full">
                             <Video className="w-5 h-5" />
                         </button>
-                        <button className="p-2 text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full" onClick={()=>setIsDialogOpen(false)}>
+                        <button className="p-2 text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full" onClick={() => setIsDialogOpen(false)}>
                             <X className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-6 bg-white h-[71%]">
-                    <div className="space-y-6">
-                        {messages.map((msg) => (
+                <div className="flex-1 overflow-y-auto p-6 bg-gray-200 h-[71%]" >
+                    <div className="space-y-3">
+                        {chats.map((msg) => (
                             <div
                                 key={msg.id}
-                                className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}
+                                className={`flex ${msg.senderId === selectedUser._id ? 'justify-start' : 'justify-end'}`}
                             >
                                 <div
-                                    className={`max-w-[70%] ${msg.isOwn
-                                        ? 'bg-blue-600 text-white rounded-l-lg rounded-br-lg'
-                                        : 'bg-white text-gray-900 rounded-r-lg rounded-bl-lg'
+                                    className={`max-w-[70%] ${msg.senderId === selectedUser._id
+                                        ? 'bg-white text-gray-900 rounded-r-lg rounded-bl-lg'
+                                        : 'bg-blue-600 text-white rounded-l-lg rounded-br-lg'
                                         } p-4 shadow-sm`}
                                 >
-                                    {!msg.isOwn && (
+                                    {!msg.senderId === selectedUser._id && (
                                         <p className="text-sm font-medium text-gray-900 mb-1">
-                                            {msg.sender}
+                                            {msg.message}
                                         </p>
                                     )}
-                                    <p className="text-sm">{msg.content}</p>
-                                    <p className={`text-xs mt-1 ${msg.isOwn ? 'text-blue-100' : 'text-gray-500'}`}>
-                                        {msg.timestamp}
+                                    <p className="text-sm">{msg.message}</p>
+                                    <p className={`text-xs mt-1 ${msg.senderId === selectedUser._id ? 'text-gary-400' : 'text-blue-100'}`}>
+                                        {new Date(msg.createdAt).toLocaleString("en-GB")}
                                     </p>
                                 </div>
                             </div>
                         ))}
+                        <div ref={messageEndRef}></div>
                     </div>
                 </div>
 
@@ -160,7 +125,7 @@ function ChatOption({setIsDialogOpen,selectedUser}) {
                             <Smile className="w-5 h-5" />
                         </button>
                         <input
-                        type='text'
+                            type='text'
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Type a message..."

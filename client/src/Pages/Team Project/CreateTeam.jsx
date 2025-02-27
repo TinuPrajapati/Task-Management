@@ -43,15 +43,7 @@ function App() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log({
-            projectName,
-            description,
-            priority,
-            startDate,
-            endDate,
-            teamMembers
-        });
+        // Handle form submission her
     };
 
     return (

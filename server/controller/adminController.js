@@ -190,10 +190,9 @@ exports.particularRoleUser = async (req, res) => {
 
 // Fetch a single user by ID
 exports.User = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const user = await User.findById(id, "name email role_type number");
+    const {userId}= req.user;
+    const user = await User.findById(userId).select("-password");
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "User details not Found", error });

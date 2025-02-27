@@ -1,3 +1,4 @@
+const { getReceivedSocketId , io } = require("../lib/socket.js");
 const Message = require("../models/chatModel.js");
 
 exports.getMessage = async (req, res) => {
@@ -12,7 +13,7 @@ exports.getMessage = async (req, res) => {
       ],
     });
 
-    res.status(200).json({ messages });
+    res.status(200).json(messages);
   } catch (error) {
     console.loh("Error come from Get Message Route :", error);
     res.status(500).json({ message: "Error! Please try again" });
@@ -23,7 +24,7 @@ exports.sendMessage = async (req, res) => {
   try {
     const receriverId = req.params.id;
     const senderId = req.user.userId;
-    const { message } = req.body;
+    const { msg } = req.body;
     let path;
     if (req.file) {
       path = req.file.path;
@@ -31,13 +32,20 @@ exports.sendMessage = async (req, res) => {
     const newMessage = new Message({
       senderId,
       receriverId,
-      message,
+      message:msg,
       image: path,
     });
     await newMessage.save();
-    res.status(201).json({ message: "Message sent successfully" });
+
+    // react time functionaliy
+    const receiverSocketId = getReceivedSocketId(receriverId);
+    if(receiverSocketId){
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
+    res.status(201).json(newMessage);
   } catch (error) {
-    console.loh("Error come from Get Message Route :", error);
+    console.log("Error come from Get Message Route :", error.message);
     res.status(500).json({ message: "Error! Please try again" });
   }
 };

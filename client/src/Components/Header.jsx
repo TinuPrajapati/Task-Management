@@ -3,32 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import ThemeButton from './ThemeButton';
 import Avatar from "../assets/avatar-11.jpg";
 import { Link, useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { logout } from '../api/axiosInstance';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { changeUser } from '../Features/userSlice';
-import { socket } from '../api/socket';
+import { useDispatch, useSelector } from 'react-redux';
+import useAuthStore from '../Store/useAuthStore';
 
 const Header = () => {
+    const user = useSelector(state=>state.user.value);
+    const {logout} = useAuthStore();
     const [isMenu, setIsMenu] = useState(false);
     const menuRef = useRef(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-   const mutation = useMutation({
-    mutationFn:logout,
-    onSuccess:(data)=>{
-        toast.success(data.message)
-        dispatch(changeUser(null));
-        localStorage.removeItem("user");
-        navigate("/login");
-        socket
-    },
-    onError:(error)=>{
-        console.log(error)
-    }
-   })
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -58,7 +44,7 @@ const Header = () => {
                     </button>
                     <div className={`absolute right-0 top-12 w-48 py-1 bg-white rounded-lg shadow-lg border-2 border-purple-400 ${isMenu ? "block" : "hidden"}`}>
                         <div className='flex items-center justify-center w-full h-10 mb-1 border-b-2 border-purple-400'>
-                            <h2 className='text-xl font-bold'>👋 Tinu Prajapati</h2>
+                            <h2 className='text-xl font-bold'>👋 {user?.username}</h2>
                         </div>
                         <div className='w-full px-2.5 flex flex-col gap-1'>
                             <Link
@@ -66,7 +52,7 @@ const Header = () => {
                                 <SquareUserRound className='size-5' /> Profile
                             </Link>
                             <button 
-                            onClick={()=>mutation.mutate()}
+                            onClick={()=>logout(navigate)}
                             className='flex items-center h-8 gap-2 px-1 text-[1rem] duration-500 hover:text-purple-400'>
                                 <LogOut className='size-5' />Logout
                             </button>

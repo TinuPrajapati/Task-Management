@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import {useQuery} from "@tanstack/react-query"
-import { getUsers } from '../../api/axiosInstance';
+import React, { use, useEffect, useState } from 'react';
 import ShowUser from './ShowUser';
+import useAuthStore from '../../Store/useAuthStore';
 
 function App() {
     const [selectedUser, setSelectedUser] = useState(null);
-    const {data,isLoading,isError}= useQuery({
-        queryKey:["users"],
-        queryFn:getUsers
-    })
+    const {users,getUsers} = useAuthStore();
+
+    useEffect(() => {
+        getUsers();
+    }, [getUsers]);
 
     return (
         <div className="min-h-screen">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data?.map((user) => (
+                {users?.map((user) => (
                     <div
                         key={user.id}
                         className="w-full bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transform transition-transform hover:scale-105"

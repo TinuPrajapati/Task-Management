@@ -8,8 +8,6 @@ import {
     Bell,
     Trash2
 } from 'lucide-react';
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addSelfTodo, deleteSelfTodo, getSelfTodos } from '../../api/axiosInstance';
 import toast from 'react-hot-toast';
 
 function YoruTodos() {
@@ -37,39 +35,9 @@ function YoruTodos() {
         }));
     };
 
-    const mutation = useMutation({
-        mutationFn: addSelfTodo,
-        onSuccess: (data) => {
-            toast.success(data.message);
-            setFormData({ todo: "", priority: "Medium", deadline: "" });
-        },
-        onError: (error) => {
-            console.log(error.response);
-            toast.error(error.response.data.message);
-        }
-    })
-
-    const deleteTodo = useMutation({
-        mutationFn:deleteSelfTodo,
-        onSuccess: (data) => {
-            console.log(data);
-            toast.success(data.message);
-        },
-        onError: (error) => {
-            console.log(error.response);
-            toast.error(error.response.data.message);
-        }
-    })
-
     const addTodo = (e) => {
         e.preventDefault();
-        mutation.mutate(formData);
     };
-
-    const { data } = useQuery({
-        queryKey: ['todos', mutation,deleteSelfTodo],
-        queryFn: getSelfTodos
-    })
 
     return (
         <div className="min-h-[80vh]">
@@ -138,7 +106,7 @@ function YoruTodos() {
                                     {new Date(todo.deadline).toLocaleString("en-GB")}
                                 </p>
                                 <button
-                                    onClick={()=>deleteTodo.mutate(todo._id)}
+                                    // onClick={()=>deleteTodo.mutate(todo._id)}
                                     className="text-red-500 hover:text-red-700"
                                 >
                                     <Trash2 className="w-5 h-5" />
