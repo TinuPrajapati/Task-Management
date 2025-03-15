@@ -4,7 +4,7 @@ import Input from '../../Components/Input';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../Store/useAuthStore';
+import useAuthStore from '../../api/Store/useAuthStore.js';
 
 function App() {
   const [formData, setFormData] = useState({ email: "", password: "" });

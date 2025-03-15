@@ -9,7 +9,9 @@ const adminRoutes = require("./router/adminRoutes");
 const publicRoutes = require("./router/publicRoutes");
 const cookieParser = require("cookie-parser");
 const chatRouter = require("./router/chatRoutes");
-const {app,server} = require("./lib/socket.js")
+const {app,server} = require("./lib/socket.js");
+const selfTodoRoutes = require("./router/selfTodoRoutes.js");
+const assignedTodoRoutes = require("./router/AssignedTodoRoutes.js");
 
 // Middleware
 app.use(
@@ -43,6 +45,8 @@ app.get("/", (req, res) => {
 app.use("/",publicRoutes);
 app.use("/admin",adminRoutes);
 app.use("/chats",chatRouter);
+app.use("/selftodos", selfTodoRoutes);
+app.use("/assignedtodos", assignedTodoRoutes);
 
 // Start the server
 server.listen(8000, () => {

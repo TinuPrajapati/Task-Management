@@ -4,7 +4,7 @@ import {
     Image as ImageIcon, Paperclip, Smile, Plus,
     X
 } from 'lucide-react';
-import useChatStore from '../../../Store/useChatStore';
+import useChatStore from '../../../api/Store/useChatStore';
 
 function ChatOption({ setIsDialogOpen, selectedUser}) {
     const [message, setMessage] = useState('');

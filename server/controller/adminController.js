@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
 const Project = require("../models/projectModel");
-const Todo = require("../models/todosModel");
+
 
 // Admin check all Projects
 exports.allProjects = async (req, res) => {
@@ -192,7 +192,7 @@ exports.particularRoleUser = async (req, res) => {
 exports.User = async (req, res) => {
   try {
     const {userId}= req.user;
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId).select("-password").populate("self_todo");
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "User details not Found", error });
@@ -269,92 +269,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Error: user not found", error });
   }
 };
-
-// create Todo Routes
-exports.createTodo = async (req, res) => {
-  const { priority, category, assignedTo, todo, display } = req.body;
-  console.log(req.body);
-  const { username } = req.user;
-  try {
-    if (display === "personal") {
-      const userDoc = await User.findOne({ name: username });
-      if (!userDoc) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      const newTodo = new Todo({
-        user: userDoc.name,
-        todo,
-        work: display,
-        priority,
-      });
-      userDoc.todos.push(newTodo._id); // Add the todo's ID to the user's todos array
-      await userDoc.save();
-      await newTodo.save();
-    } else {
-      const userDoc = await User.findOne({ name: assignedTo });
-      if (!userDoc) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      const newTodo = new Todo({
-        priority: priority,
-        category,
-        user: assignedTo,
-        todo,
-        work: display,
-      });
-      userDoc.todos.push(newTodo._id); // Add the todo's ID to the user's todos array
-      await userDoc.save();
-      await newTodo.save();
-    }
-    return res.status(201).json("Todo added to user successfully");
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ message: "Server error", error: error.message });
-  }
-};
-
-// Show Todos Routes
-exports.showTodos = async (req, res) => {
-  const { display } = req.params;
-  try {
-    let todos;
-    if (display=="Yours Todos") {
-      todos = await Todo.find({ work: "personal" });
-    } else {
-      todos = await Todo.find({ work: "assigned" });
-    }
-    return res.status(200).json(todos);
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Server error", error: error.message });
-  }
-};
-
-// Update Todo Routes
-exports.updateTodo = async (req, res) => {
-  const {id,todo} = req.body;
-  try {
-    await Todo.findByIdAndUpdate(id, {todo}, {new: true,runValidators:true});
-    return res.status(200).json("Todo Update Successfully");
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Todo not found", error: error.message });
-  }
-}
-
-// Delete Todo Routes 
-exports.deleteTodo = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await Todo.findByIdAndDelete(id);
-    return res.status(200).json("Todo deleted successfully");
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Todo not found", error: error.message });
-  }
-}

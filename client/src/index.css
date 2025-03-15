@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
-::-webkit-scrollbar{
-    width: 0;
+* {
+  font-family: "Nunito", sans-serif;
 }
 
-/* From Uiverse.io by kennyotsu */ 
+#Roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.Rock {
+  font-family: "Rock Salt", cursive;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+/* From Uiverse.io by kennyotsu */
 .loader {
   color: rgb(124, 124, 124);
   font-family: "Poppins", sans-serif;
@@ -85,45 +97,44 @@
   }
 }
 
-
 @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  50% {
+    transform: translateY(-10px);
   }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-slide-in {
-    animation: slideIn 0.6s ease-out forwards;
-  }
-  
-  .input-focus-effect {
-    @apply transition-all duration-300 border-2 border-transparent focus:border-purple-400 focus:ring-2 focus:ring-purple-200;
-  }
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    left: 1vw;
-    width: 4vw;
-    height: 3vh;
-    opacity: 0.6;
-    cursor: pointer;
 }
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+.input-focus-effect {
+  @apply transition-all duration-300 border-2 border-transparent focus:border-purple-400 focus:ring-2 focus:ring-purple-200;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 1vw;
+  width: 4vw;
+  height: 3vh;
+  opacity: 0.6;
+  cursor: pointer;
+}

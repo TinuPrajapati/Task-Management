@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import Instance from "../api/axiosInstance";
+import Instance from "../axiosInstance";
 import useAuthStore from "./useAuthStore";
 
 

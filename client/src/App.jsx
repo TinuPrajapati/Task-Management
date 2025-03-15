@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { changeOnline, changeUser } from "./Features/userSlice";
 import Sidebar from "./Components/Sidebar.jsx";
 import Header from "./Components/Header";
-import useAuthStore from "./Store/useAuthStore.js";
+import useAuthStore from "./api/Store/useAuthStore.js";
 
 function App() {
   const { pathname } = useLocation();

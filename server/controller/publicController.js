@@ -3,7 +3,6 @@ const User = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const main = require("../middleware/emailManager.js");
-const SelfTodo = require("../models/selfTodoModel");
 
 // User Login
 exports.login = async (req, res) => {
@@ -107,62 +106,5 @@ exports.sendEmail = async (req, res) => {
     res.status(200).json("Email sent successfully");
   } catch (error) {
     res.status(500).json({ message: "Failed to send email", error });
-  }
-};
-
-// Self Todos create
-exports.createTodo = async (req, res) => {
-  try {
-    const { todo, deadline, priority } = req.body;
-    const { username } = req.user;
-
-    const user = await User.findOne({ name: username });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const newTodo = new SelfTodo({
-      todo,
-      deadline,
-      priority,
-      userId: user._id,
-    });
-
-    await newTodo.save();
-    user.self_todo.push(newTodo._id);
-    await user.save();
-    res.status(201).json({
-      message: "Self Todo created successfully",
-    });
-  } catch (error) {
-    console.log(`Error come from Create Self Todo Route :`, error);
-    res.status(500).json({ message: "Error! Please try again" });
-  }
-};
-
-// Self Todos get
-exports.getTodo = async (req, res) => {
-  try {
-    const { username } = req.user;
-    const user = await User.findOne({ name: username });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const todos = await SelfTodo.find({ userId: user._id });
-    res.status(200).json(todos);
-  } catch (error) {
-    console.log(`Error come from Get Self Todo Route :`, error);
-    res.status(500).json({ message: "Error! Please try again" });
-  }
-};
-
-exports.deleteTodo = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteTodo = await SelfTodo.findByIdAndDelete(id);
-    res.status(200).json({ message: "Todo deleted successfully" });
-  } catch (error) {
-    console.log(`Error come from Delete Self Todo Route :`, error);
-    res.status(500).json({ message: "Error! Please try again" });
   }
 };

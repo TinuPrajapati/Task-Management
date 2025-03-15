@@ -1,21 +1,14 @@
 import { Bell, LogOut, SquareUserRound } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import ThemeButton from './ThemeButton';
-import Avatar from "../assets/avatar-11.jpg";
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
-import useAuthStore from '../Store/useAuthStore';
+import useAuthStore from '../api/Store/useAuthStore.js';
 
 const Header = () => {
-    const user = useSelector(state=>state.user.value);
-    const {logout} = useAuthStore();
+    const {logout,authUser} = useAuthStore();
     const [isMenu, setIsMenu] = useState(false);
     const menuRef = useRef(null);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -34,17 +27,17 @@ const Header = () => {
                 <ThemeButton />
                 <div className='relative h-full' ref={menuRef}>
                     <button onClick={() => setIsMenu(true)}>
-                        {Avatar ?
-                            <img src={Avatar} alt="no image" className='rounded-full size-10 object-fit' />
+                        {!authUser?.image ?
+                            <img src={authUser?.image} alt="no image" className='rounded-full size-10 object-fit' />
                             :
-                            <div className='flex items-center justify-center text-xl font-bold text-white bg-purple-400 rounded-full size-12'>
-                                <p>TP</p>
+                            <div className='Rock flex items-center justify-center text-xl font-semibold text-white bg-gradient-to-r from-purple-500 to-blue-500 rounded-md size-10'>
+                                <p>{authUser?.name.charAt(0)}</p>
                             </div>
                         }
                     </button>
                     <div className={`absolute right-0 top-12 w-48 py-1 bg-white rounded-lg shadow-lg border-2 border-purple-400 ${isMenu ? "block" : "hidden"}`}>
                         <div className='flex items-center justify-center w-full h-10 mb-1 border-b-2 border-purple-400'>
-                            <h2 className='text-xl font-bold'>👋 {user?.username}</h2>
+                            <h2 className=' text-xl font-bold'>👋 {authUser?.name}</h2>
                         </div>
                         <div className='w-full px-2.5 flex flex-col gap-1'>
                             <Link

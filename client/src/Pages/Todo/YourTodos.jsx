@@ -1,17 +1,9 @@
-import React, { useState } from 'react';
-import {
-    PlusCircle,
-    CheckCircle2,
-    Circle,
-    ListTodo,
-    MoreVertical,
-    Bell,
-    Trash2
-} from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from 'react';
+import { PlusCircle, Trash2} from 'lucide-react';
+import { useTodoStore } from '../../api/Store/useTodoStore';
 
 function YoruTodos() {
-    const [todos, setTodos] = useState([]);
+    const {addSelfTodo,getSelfTodos,todos,deleteSelfTodo} = useTodoStore();
     const [formData, setFormData] = useState({
         todo: "",
         priority: "Medium",
@@ -37,7 +29,12 @@ function YoruTodos() {
 
     const addTodo = (e) => {
         e.preventDefault();
+        addSelfTodo(formData);
     };
+
+    useEffect(()=>{
+        getSelfTodos();
+    },[])
 
     return (
         <div className="min-h-[80vh]">
@@ -69,7 +66,7 @@ function YoruTodos() {
                 </select>
                 <button
                     type="submit"
-                    className="px-6 py-3 bg-purple-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors duration-200 flex items-center"
+                    className="px-6 py-3 bg-purple-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors duration-200 flex items-center active:scale-90 duration-200"
                 >
                     <PlusCircle className="w-5 h-5 mr-2" />
                     Add Todo
@@ -77,12 +74,12 @@ function YoruTodos() {
             </form>
 
             <div className="space-y-3">
-                {data?.length === 0 ? (
+                {todos?.length === 0 ? (
                     <div className=" bg-white/50 rounded-xl shadow-sm border-2 p-8 text-center border-dashed border-purple-400 flex justify-center items-center text-2xl font-semibold text-purple-400">
                         No todos yet. Add your first todo above!
                     </div>
                 ) : (
-                    data?.map((todo) => (
+                    todos?.map((todo) => (
                         <div
                             key={todo._id}
                             className={`p-4 rounded-lg shadow-md bg-white flex items-center justify-between`}
@@ -106,8 +103,8 @@ function YoruTodos() {
                                     {new Date(todo.deadline).toLocaleString("en-GB")}
                                 </p>
                                 <button
-                                    // onClick={()=>deleteTodo.mutate(todo._id)}
-                                    className="text-red-500 hover:text-red-700"
+                                    onClick={()=>deleteSelfTodo(todo._id)}
+                                    className="text-red-500 hover:text-red-700 active:scale-90"
                                 >
                                     <Trash2 className="w-5 h-5" />
                                 </button>

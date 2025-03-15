@@ -76,7 +76,7 @@ function Sidebar() {
       </div>
 
       <nav className="p-4 h-[80%] overflow-y-scroll flex flex-col gap-2">
-        <NavLink className={({ isActive }) => `w-full h-10 px-2 flex items-center gap-2 text-xl font-semibold rounded-lg ${isActive ? 'text-white bg-purple-500 px-2 ' : ' hover:text-white hover:bg-purple-400  duration-300'}`} to={'/'}>
+        <NavLink className={({ isActive }) => `w-full h-10 px-2 py-1 flex items-center gap-2 text-xl font-semibold rounded-lg ${isActive ? 'text-white bg-purple-500 px-2 ' : ' hover:text-white hover:bg-purple-400  duration-300'}`} to={'/'}>
           <Home size={20} className='font-semibold' /> Home
         </NavLink>
 

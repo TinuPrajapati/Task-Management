@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from 'react';
-import { Search, User, X, Send, MessageCircle } from 'lucide-react';
+import { Search, MessageCircle } from 'lucide-react';
 import ChatOption from './ChatOption';
-import useAuthStore from '../../../Store/useAuthStore';
-import useChatStore from '../../../Store/useChatStore';
+import useChatStore from '../../../api/Store/useChatStore';
+import useAuthStore from '../../../api/Store/useAuthStore';
 
 function App() {
     const [searchTerm, setSearchTerm] = useState('');

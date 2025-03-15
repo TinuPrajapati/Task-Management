@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import Instance from "../api/axiosInstance";
+import Instance from "../axiosInstance";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
@@ -16,6 +16,7 @@ const useAuthStore = create((set, get) => ({
   checkAuth:async ()=>{
     try {
       const res = await Instance.get("/admin/check");
+      // console.log(res.data);
       set({authUser:res.data})
       get().connectSocket();
     } catch (error) {

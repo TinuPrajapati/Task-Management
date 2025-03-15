@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import ShowUser from './ShowUser';
-import useAuthStore from '../../Store/useAuthStore';
+import useAuthStore from '../../api/Store/useAuthStore.js';
 
 function App() {
     const [selectedUser, setSelectedUser] = useState(null);

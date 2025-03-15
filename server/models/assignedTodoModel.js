@@ -23,7 +23,7 @@ const todoSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-    assignedTo: {
+    assignedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     }
