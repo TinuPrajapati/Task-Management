@@ -12,15 +12,15 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "Task Manager", // Optional: Folder for uploaded files in Cloudinary
-    allowed_formats: ["jpg", "jpeg", "png"], // Optional: Restrict allowed file types
+    folder: "Task Manager",
+    allowed_formats: ["jpg", "jpeg", "png", "pdf"],
   },
 });
 const chat = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "Task-Manager-Chat", // Optional: Folder for uploaded files in Cloudinary
-    allowed_formats: ["jpg", "jpeg", "png"], // Optional: Restrict allowed file types
+    allowed_formats: ["jpg", "jpeg", "png", "pdf"], // Optional: Restrict allowed file types
   },
 });
 

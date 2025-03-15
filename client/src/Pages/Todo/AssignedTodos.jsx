@@ -1,24 +1,11 @@
-import React, { useState } from 'react';
-import {
-    PlusCircle,
-    CheckCircle2,
-    Circle,
-    Building2,
-    MoreVertical,
-    Edit2,
-    Trash2,
-    Bell,
-    Calendar,
-    Filter,
-    Plus
-} from 'lucide-react';
-import CreateAssigned from '../../Components/Todos/Assigned Todos/CreateAssigned';
+import React, { useEffect, useState } from 'react';
+import { CheckCircle2, Circle, MoreVertical, Edit2, Trash2, Filter, Plus } from 'lucide-react';
+import CreateAssigned from '../../Components/CreateAssigned';
+import { useTodoStore } from '../../api/Store/useTodoStore';
 
 function AssignedTodos() {
-    const [tasks, setTasks] = useState([]);
+    const { getAssignedTodos, assingedTodo, deleteAssignedTodos, updateAssignedTodo } = useTodoStore();
     const [dialopBox, setDialogBox] = useState(false)
-    const [openMenuId, setOpenMenuId] = useState(null);
-    const [isEditing, setIsEditing] = useState(null);
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -29,125 +16,81 @@ function AssignedTodos() {
         }
     };
 
-    const toggleTask = (taskId) => {
-        setTasks(
-            tasks.map((task) =>
-                task.id === taskId ? { ...task, completed: !task.completed } : task
-            )
-        );
-    };
-
-    const deleteTask = (taskId) => {
-        setTasks(tasks.filter((task) => task.id !== taskId));
-        setOpenMenuId(null);
-    };
-
-    const startEditing = (taskId) => {
-        setIsEditing(taskId);
-        setOpenMenuId(null);
-    };
-
-    const updateTask = (taskId, updatedTitle) => {
-        setTasks(
-            tasks.map((task) =>
-                task.id === taskId ? { ...task, title: updatedTitle } : task
-            )
-        );
-        setIsEditing(null);
-    };
+    useEffect(() => {
+        getAssignedTodos()
+    }, [])
 
     return (
         <div className="min-h-[60vh]">
-            {dialopBox && <CreateAssigned setDialogBox={setDialogBox}/>}
+            {dialopBox && <CreateAssigned setDialogBox={setDialogBox} />}
             {/* <CreateAssigned /> */}
             <div className='flex justify-between items-center mb-4 h-10'>
                 <input type="text" placeholder='Search by Todo and Assigned Person' className='bg-white w-[70%] h-full px-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-none outline-none' />
                 <button className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[10%] h-full rounded-lg font-semibold active:scale-90'><Filter className='size-4' /> Filter</button>
                 <button
-                onClick={()=>setDialogBox(true)}
-                 className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[18%] h-full rounded-lg font-semibold active:scale-90'><Plus/> Assigned Todo</button>
+                    onClick={() => setDialogBox(true)}
+                    className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[18%] h-full rounded-lg font-semibold active:scale-90'><Plus /> Assigned Todo</button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {tasks.length === 0 ? (
+                {assingedTodo.length === 0 ? (
                     <div className="min-h-[37vh] col-span-full bg-white/50 rounded-xl shadow-sm border-2 p-8 text-center border-dashed border-purple-400 flex justify-center items-center text-2xl font-semibold text-purple-400">
                         No todos yet. Add your first todo above!
                     </div>
                 ) : (
-                    tasks.map((task) => (
+                    assingedTodo.map((task) => (
                         <div
-                            key={task.id}
-                            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative group"
+                            key={task._id}
+                            className="bg-white rounded-md shadow-sm p-3"
                         >
-                            <div className="flex justify-between items-start mb-4">
-                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPriorityColor(task.priority)}`}>
+                            <div className="flex justify-between items-start mb-2">
+                                <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${getPriorityColor(task.priority)}`}>
                                     {task.priority}
                                 </span>
-                                <div className="relative">
-                                    <button
-                                        onClick={() => setOpenMenuId(openMenuId === task.id ? null : task.id)}
-                                        className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                                    >
-                                        <MoreVertical className="w-5 h-5 text-gray-500" />
-                                    </button>
-                                    {openMenuId === task.id && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
-                                            <button
-                                                onClick={() => startEditing(task.id)}
-                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                                            >
-                                                <Edit2 className="w-4 h-4 mr-2" /> Edit
-                                            </button>
-                                            <button
-                                                onClick={() => deleteTask(task.id)}
-                                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center"
-                                            >
-                                                <Trash2 className="w-4 h-4 mr-2" /> Delete
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
+                                <button
+                                    onClick={() => deleteAssignedTodos(task._id)}
+                                    className="text-red-600 hover:bg-red-100 p-1.5 rounded-md active:scale-90"
+                                >
+                                    <Trash2 className="size-5" />
+                                </button>
                             </div>
-                            {isEditing === task.id ? (
-                                <input
-                                    type="text"
-                                    value={task.title}
-                                    onChange={(e) => updateTask(task.id, e.target.value)}
-                                    onBlur={() => setIsEditing(null)}
-                                    autoFocus
-                                    className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-                                />
-                            ) : (
-                                <p className={`text-lg mb-4 ${task.completed ? 'line-through text-gray-400' : 'text-gray-800'}`}>
-                                    {task.title}
-                                </p>
-                            )}
+                            <p className={`text-lg mb-2 ${task.complete ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+                                {task.todo}
+                            </p>
                             <div className="space-y-2">
                                 <div className="flex items-center text-sm text-gray-600">
-                                    <span className="font-medium mr-2">Category:</span>
+                                    <h2 className=" font- bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-center mr-1 ">Category : </h2>
                                     {task.category}
                                 </div>
                                 <div className="flex items-center text-sm text-gray-600">
-                                    <span className="font-medium mr-2">Assigned to:</span>
+                                    <h2 className=" font- bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-center mr-1 ">Deadline : </h2>
+                                    {new Date(task.deadline).toLocaleString("en-GB")}
+                                </div>
+                                <div className="flex items-center text-sm text-gray-600">
+                                    <h2 className=" font- bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-center mr-1 ">Assigned By : </h2>
+                                    {task.assignedBy.name}
+                                </div>
+                                <div className="flex items-center text-sm text-gray-600">
+                                    <h2 className=" font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-center mr-1 ">Assigned User : </h2>
                                     {task.assignedTo}
                                 </div>
                             </div>
-                            <button
-                                onClick={() => toggleTask(task.id)}
-                                className={`mt-4 w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 ${task.completed
+                            {!task.complete && <button
+                                onClick={() => updateAssignedTodo({ id: task._id, complete: !task.complete })}
+                                className={`mt-4 w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 ${task.complete
                                     ? 'bg-green-100 text-green-700 hover:bg-green-200'
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
                                 <div className="flex items-center justify-center">
-                                    {task.completed ? (
+                                    {task.complete ? (
                                         <CheckCircle2 className="w-5 h-5 mr-2" />
                                     ) : (
                                         <Circle className="w-5 h-5 mr-2" />
                                     )}
-                                    {task.completed ? 'Completed' : 'Mark as Complete'}
+                                    {task.complete ? 'Completed' : 'Mark as Complete'}
                                 </div>
-                            </button>
+                            </button>}
                         </div>
                     ))
                 )}

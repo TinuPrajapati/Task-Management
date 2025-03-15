@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  Search } from 'lucide-react';
+import ShowProject from './ShowAssignedProject';
+import useProjectStore from '../../api/Store/useProjectStore';
 
-function Project() {
+function AssignedProject() {
+    const {allProjects,getProjects} = useProjectStore();
     const [filterStatus, setFilterStatus] = useState('all');
     const [filterPriority, setFilterPriority] = useState('all');
-   
 
-    // const filteredProjects = projects.filter(project => {
-    //     const statusMatch = filterStatus === 'all' || project.status === filterStatus;
-    //     const priorityMatch = filterPriority === 'all' || project.priority === filterPriority;
-    //     return statusMatch && priorityMatch;
-    // });
+    const filteredProjects = allProjects.filter(project => {
+        const statusMatch = filterStatus === 'all' || project.status === filterStatus;
+        const priorityMatch = filterPriority === 'all' || project.priority === filterPriority;
+        return statusMatch && priorityMatch;
+    });
+
+    useEffect(() => {    
+        getProjects();
+    }, []);
 
     return (
         <div className="min-h-[60vh] py-3 w-full">
@@ -51,8 +57,10 @@ function Project() {
                     </select>
                 </div>
             </div>
+
+           <ShowProject filteredProjects={filteredProjects} />
         </div>
     );
 }
 
-export default Project;
+export default AssignedProject;

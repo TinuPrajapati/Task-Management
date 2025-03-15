@@ -48,12 +48,12 @@ const ShowProject = ({ filteredProjects }) => {
                             </span>
                         </div>
 
-                        <p className="text-gray-600 mb-4 line-clamp-2">{project.description}</p>
+                        {/* <p className="text-gray-600 mb-4 line-clamp-2">{project.description}</p> */}
 
                         <div className="space-y-3">
                             <div className="flex items-center text-sm text-gray-500">
                                 <Calendar className="h-4 w-4 mr-2" />
-                                <span>{new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}</span>
+                                <span>{new Date(project.startDate).toLocaleDateString("en-GB")} - {new Date(project.endDate).toLocaleDateString("en-GB")}</span>
                             </div>
 
                             <div className="flex items-center text-sm">
@@ -65,8 +65,8 @@ const ShowProject = ({ filteredProjects }) => {
 
                             <div className="flex items-center gap-2">
                                 <User className='size-4' />
-                                <p className='text-purple-400 font-semibold'>Lead : </p>
-                                <p>Name</p>
+                                <p className='text-purple-400 font-semibold'>Assigned To : </p>
+                                <p>{project.assignedTo}</p>
                             </div>
                         </div>
 

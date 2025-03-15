@@ -11,6 +11,7 @@ const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   onlineUsers: [],
   users: [],
+  roleUser:[],
   socket: null,
 
   checkAuth:async ()=>{
@@ -28,6 +29,16 @@ const useAuthStore = create((set, get) => ({
     try {
       const res = await Instance.get("/admin/all_users");
       set({ users: res.data });
+    } catch (error) {
+      console.log("Error in getuser route", error.response.data);
+      toast.error(error.response.data.message);
+    }
+  },
+
+  getRoleByUsers: async (role) => {
+    try {
+      const res = await Instance.get(`/admin/users/${role}`);
+      set({ roleUser: res.data });
     } catch (error) {
       console.log("Error in getuser route", error.response.data);
       toast.error(error.response.data.message);

@@ -3,6 +3,7 @@ import YoruTodos from "./Todo/YourTodos";
 import AssignedTodos from "./Todo/AssignedTodos";
 import Project from "./Project/Project";
 import CreateProject from "./Project/CreateProject";
+import AssignedProject from "./Project/AssignedProject";
 import AllUsers from "./Users/Users";
 import CreateUser from "./Users/CreateUser";
 import Reports from "./Reports/Reports";
@@ -26,6 +27,7 @@ export {
     AssignedTodos,
     Project,
     CreateProject,
+    AssignedProject,
     AllUsers,
     CreateUser,
     Reports,

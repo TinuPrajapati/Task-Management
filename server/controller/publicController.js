@@ -1,4 +1,3 @@
-const Project = require("../models/projectModel");
 const User = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -55,46 +54,6 @@ exports.logout = async (req, res) => {
 exports.data = async (req, res) => {
   const { username, role } = req.user;
   res.status(200).json({ username, role });
-};
-
-// Specific User Projects
-exports.Projects = async (req, res) => {
-  const { name } = req.params;
-
-  try {
-    const allProject = await Project.find({ assignedTo: name });
-    res.status(200).json(allProject);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching projects", error });
-  }
-};
-
-// Update Project Status
-exports.ProjectStatus = async (req, res) => {
-  const { id, status } = req.body;
-
-  try {
-    await Project.findByIdAndUpdate(
-      id,
-      { status: status.toLowerCase() },
-      { new: true, runValidators: true }
-    );
-    res.status(200).json("Your project status has been updated");
-  } catch (error) {
-    res.status(500).json({ message: "Error updating project status", error });
-  }
-};
-
-// Delete Project
-exports.deleteProject = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    await Project.findByIdAndDelete(id);
-    res.status(200).json("Project deleted successfully");
-  } catch (error) {
-    res.status(500).json({ message: "Error deleting project", error });
-  }
 };
 
 // Send Email

@@ -12,6 +12,7 @@ const chatRouter = require("./router/chatRoutes");
 const {app,server} = require("./lib/socket.js");
 const selfTodoRoutes = require("./router/selfTodoRoutes.js");
 const assignedTodoRoutes = require("./router/AssignedTodoRoutes.js");
+const projectRoutes = require("./router/projectRoutes.js");
 
 // Middleware
 app.use(
@@ -47,6 +48,7 @@ app.use("/admin",adminRoutes);
 app.use("/chats",chatRouter);
 app.use("/selftodos", selfTodoRoutes);
 app.use("/assignedtodos", assignedTodoRoutes);
+app.use("/projects", projectRoutes);
 
 // Start the server
 server.listen(8000, () => {

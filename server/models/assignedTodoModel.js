@@ -19,9 +19,13 @@ const todoSchema = new Schema({
         type: String,
         required: [true, "Please enter category"],
     },
+    complete:{
+        type:Boolean,
+        default:false
+    },
     assignedTo: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
+        required: [true, "Please enter assigned to"],
     },
     assignedBy: {
         type: mongoose.Schema.Types.ObjectId,

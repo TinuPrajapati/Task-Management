@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom"
-import { Dashboard, Project, AllUsers, CreateUser, Reports, CreateReport, Reminder, Team, CreateTeam, SendEmail, Chats, Profile, Login, ForgotPassword, YoruTodos, AssignedTodos, OwnReminder, AssignedReminder, CreateProject, EmailHistory, GroupChat } from './Pages/index.js'
+import { Dashboard, Project, AllUsers, CreateUser, Reports, CreateReport, Reminder, Team, CreateTeam, SendEmail, Chats, Profile, Login, ForgotPassword, YoruTodos, AssignedTodos, OwnReminder, AssignedReminder, CreateProject, EmailHistory, GroupChat, AssignedProject } from './Pages/index.js'
 import { PrimeReactProvider } from 'primereact/api'
 import { Provider, useSelector } from "react-redux"
 import Store from './app/store.js'
@@ -18,6 +18,7 @@ const AppRouter = () => {
         <Route path="/todos/your" element={<YoruTodos />} />
         <Route path="/todos/assigned" element={<AssignedTodos />} />
         <Route path="/projects/your" element={<Project />} />
+        <Route path="/projects/assigned" element={<AssignedProject />} />
         <Route path="/projects/create" element={<CreateProject />} />
         <Route path="/users/all" element={<AllUsers />} />
         <Route path="/users/create" element={<CreateUser />} />

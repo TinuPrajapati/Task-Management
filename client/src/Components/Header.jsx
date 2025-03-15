@@ -27,10 +27,10 @@ const Header = () => {
                 <ThemeButton />
                 <div className='relative h-full' ref={menuRef}>
                     <button onClick={() => setIsMenu(true)}>
-                        {!authUser?.image ?
+                        {authUser?.image ?
                             <img src={authUser?.image} alt="no image" className='rounded-full size-10 object-fit' />
                             :
-                            <div className='Rock flex items-center justify-center text-xl font-semibold text-white bg-gradient-to-r from-purple-500 to-blue-500 rounded-md size-10'>
+                            <div className='Rock flex items-center justify-center text-xl font-semibold text-white bg-purple-400 rounded-md size-10'>
                                 <p>{authUser?.name.charAt(0)}</p>
                             </div>
                         }

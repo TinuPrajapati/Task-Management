@@ -81,7 +81,7 @@ function Sidebar() {
         </NavLink>
 
         {menuItems.map((item, index) => (
-          <MenuOption icon={item.icon} menu={item.title} options={item.subItems} />
+          <MenuOption key={index} icon={item.icon} menu={item.title} options={item.subItems} />
         ))}
       </nav>
     </div>
