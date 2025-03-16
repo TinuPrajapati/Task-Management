@@ -5,18 +5,35 @@ import toast from "react-hot-toast";
 const useProjectStore= create((set,get)=>({
     allProjects:[],
     projects:[],
+    projectLoader:false,
 
     getProjects: async () => {
+        set({projectLoader:true})
+        try {
+            const res = await Instance.get("/projects");
+            set({ projects: res.data });
+        } catch (error) {
+            console.log("Error in getuser route", error.response.data);
+            toast.error(error.response.data.message);
+        }finally{
+            set({projectLoader:false})
+        }
+    },
+    getAllProjects: async () => {
+        set({projectLoader:true})
         try {
             const res = await Instance.get("/projects/all");
             set({ allProjects: res.data });
         } catch (error) {
             console.log("Error in getuser route", error.response.data);
             toast.error(error.response.data.message);
+        }finally{
+            set({projectLoader:false})
         }
     },
 
     createProject: async (data,navigate) => {
+        set({projectLoader:true})
         try {
             const formdata = new FormData();
             formdata.append("name",data.name);
@@ -38,9 +55,12 @@ const useProjectStore= create((set,get)=>({
         } catch (error) {
             // console.log("Error in getuser route", error.response.data);
             toast.error(error.response.data.message);
+        }finally{
+            set({projectLoader:false})
         }
     },
     deleteProject: async (id,display) => {
+        set({projectLoader:true})
         try {
             const res = await Instance.delete(`/projects/delete/${id}`);
             toast.success(res.data.message);
@@ -49,6 +69,8 @@ const useProjectStore= create((set,get)=>({
         } catch (error) {
             // console.log("Error in getuser route", error.response.data);
             toast.error(error.response.data.message);
+        }finally{
+            set({projectLoader:false})
         }
     },
 

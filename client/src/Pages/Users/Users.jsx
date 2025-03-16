@@ -1,10 +1,27 @@
-import React, { use, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import ShowUser from './ShowUser';
 import useAuthStore from '../../api/Store/useAuthStore.js';
+import Admin from '../../assets/admin.jpg';
+import HR from '../../assets/HR.png';
+import Manager from '../../assets/manager.jpg';
+import Web from '../../assets/web.png';
+import Ui from '../../assets/ui.jpg';
+import Graphic from '../../assets/graphic.jpg';
+import Andorid from '../../assets/android.jpg';
 
 function App() {
     const [selectedUser, setSelectedUser] = useState(null);
-    const {users,getUsers} = useAuthStore();
+    const { users, getUsers } = useAuthStore();
+    const backgroundImages = {
+        "Admin":Admin, 
+        "HR":HR, 
+        "Manager":Manager, 
+        "Web Developer":Web, 
+        "Android Developer":Andorid, 
+        "IOS Developer":"", 
+        "Graphic Designer":Graphic, 
+        "UI/UX Designer":Ui
+    };
 
     useEffect(() => {
         getUsers();
@@ -16,37 +33,35 @@ function App() {
                 {users?.map((user) => (
                     <div
                         key={user.id}
-                        className="w-full bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
+                        className="w-full bg-white rounded-md cursor-pointer h-[45vh]"
                         onClick={() => setSelectedUser(user)}
                     >
-                        <div className="h-32 bg-purple-50">
-                            <img
-                                src="https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                alt="HR Banner"
-                                className="w-full h-full object-cover opacity-50"
-                            />
-                        </div>
-                        <div className="p-6">
+                        <img
+                            src={backgroundImages[user.role] || "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"}
+                            alt="HR Banner"
+                            className="w-full h-[40%] rounded-t-md"
+                        />
+                        <div className="px-3 py-2 h-[60%] flex flex-col gap-4">
                             <div className="flex items-center space-x-4">
                                 <img
                                     src={user?.image}
                                     alt={user?.name}
-                                    className="w-16 h-16 rounded-full border-2 border-white shadow-lg"
+                                    className="size-14 rounded-md"
                                 />
                                 <div>
-                                    <h3 className="text-lg font-semibold text-gray-800">{user?.name}</h3>
+                                    <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">{user?.name}</h3>
                                     <p className="text-gray-600">{user?.role}</p>
                                 </div>
                             </div>
 
-                            <div className="mt-6 grid grid-cols-2 gap-4">
-                                <div className="bg-purple-50 p-3 rounded-lg">
-                                    <p className="text-sm text-gray-600">Tasks</p>
-                                    <p className="text-xl font-semibold text-purple-600">{user.tasksCompleted?user.tasksCompleted:0}</p>
+                            <div className=" grid grid-cols-2 gap-4">
+                                <div className="border-2 border-purple-600 py-2 px-4 rounded-md flex items-center justify-between">
+                                    <p className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Tasks</p>
+                                    <p className="text-xl font-semibold">{user.tasksCompleted ? user.tasksCompleted : 0}</p>
                                 </div>
-                                <div className="bg-purple-50 p-3 rounded-lg">
-                                    <p className="text-sm text-gray-600">Team</p>
-                                    <p className="text-xl font-semibold text-purple-600">{user.teamSize?user.teamSize:0}</p>
+                                <div className="border-2 border-purple-600 py-2 px-4 rounded-md flex items-center justify-between">
+                                    <p className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Team</p>
+                                    <p className="text-xl font-semibold">{user.teamSize ? user.teamSize : 0}</p>
                                 </div>
                             </div>
                         </div>

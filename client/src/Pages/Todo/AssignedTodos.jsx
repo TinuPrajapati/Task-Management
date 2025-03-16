@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, Circle, MoreVertical, Edit2, Trash2, Filter, Plus } from 'lucide-react';
+import { CheckCircle2, Circle, MoreVertical, Edit2, Trash2, Filter, Plus, Search } from 'lucide-react';
 import CreateAssigned from '../../Components/CreateAssigned';
 import { useTodoStore } from '../../api/Store/useTodoStore';
+import useAuthStore from '../../api/Store/useAuthStore';
 
 function AssignedTodos() {
-    const { getAssignedTodos, assingedTodo, deleteAssignedTodos, updateAssignedTodo } = useTodoStore();
+    const { getAssignedTodosAll,getAssignedTodos, assingedTodo, deleteAssignedTodos, updateAssignedTodo } = useTodoStore();
     const [dialopBox, setDialogBox] = useState(false)
+    const { authUser } = useAuthStore();
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -17,19 +19,40 @@ function AssignedTodos() {
     };
 
     useEffect(() => {
-        getAssignedTodos()
-    }, [])
+        if (authUser?.role === "Admin" || authUser?.role === "HR" || authUser?.role === "Manager") {
+            getAssignedTodosAll()
+        }else{
+            getAssignedTodos()
+        }
+    }, [authUser?.role]);
 
     return (
         <div className="min-h-[60vh]">
             {dialopBox && <CreateAssigned setDialogBox={setDialogBox} />}
             {/* <CreateAssigned /> */}
-            <div className='flex justify-between items-center mb-4 h-10'>
-                <input type="text" placeholder='Search by Todo and Assigned Person' className='bg-white w-[70%] h-full px-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-none outline-none' />
-                <button className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[10%] h-full rounded-lg font-semibold active:scale-90'><Filter className='size-4' /> Filter</button>
-                <button
-                    onClick={() => setDialogBox(true)}
-                    className='flex items-center gap-2 justify-center text-white bg-purple-400 text-lg w-[18%] h-full rounded-lg font-semibold active:scale-90'><Plus /> Assigned Todo</button>
+            <div className="mb-4 h-12 flex justify-between gap-4 items-center w-full">
+                <div className="relative h-full w-[60%]">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        className="block w-full pl-10 pr-3 py-2 h-full border-2 border-purple-400 rounded-md bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-none"
+                        placeholder="Search "
+                    // value={searchTerm}
+                    // onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <button className='flex items-center gap-2 justify-center text-white bg-purple-400 text-xl px-4 h-full rounded-md font-semibold active:scale-90'><Filter className='size-5' /> Filter</button>
+                {authUser?.role === "Admin" || authUser?.role === "HR" || authUser?.role === "Manager" ?
+                    <button
+                        onClick={() => setDialogBox(true)}
+                        className='flex items-center gap-2 justify-center text-white bg-purple-400 text-xl px-4 h-full rounded-md font-semibold active:scale-90'>
+                        <Plus />
+                        Assigned Todo
+                    </button>
+                    : null
+                }
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

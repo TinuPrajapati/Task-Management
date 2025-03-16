@@ -4,9 +4,9 @@ const { createProject, allProjects, updateProject, projectByUser, deleteProject 
 const projectRoutes = express.Router();
 const {upload} = require("../lib/cloudinaryConfig.js")
 
-projectRoutes.post("/add",authenticate,upload.array("file",10), createProject);
 projectRoutes.get("/all",authenticate, allProjects);
-projectRoutes.get("/particular_project/:id",authenticate,projectByUser );
+projectRoutes.get("/",authenticate,projectByUser );
+projectRoutes.post("/add",authenticate,upload.array("file",10), createProject);
 projectRoutes.put("/update_project/:id",authenticate,updateProject)
 projectRoutes.delete("/delete/:id",authenticate,deleteProject)
 

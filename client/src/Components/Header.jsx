@@ -35,7 +35,7 @@ const Header = () => {
                             </div>
                         }
                     </button>
-                    <div className={`absolute right-0 top-12 w-48 py-1 bg-white rounded-lg shadow-lg border-2 border-purple-400 ${isMenu ? "block" : "hidden"}`}>
+                    <div className={`absolute z-[100] right-0 top-12 w-48 py-1 bg-white rounded-lg shadow-lg border-2 border-purple-400 ${isMenu ? "block" : "hidden"}`}>
                         <div className='flex items-center justify-center w-full h-10 mb-1 border-b-2 border-purple-400'>
                             <h2 className=' text-xl font-bold'>👋 {authUser?.name}</h2>
                         </div>

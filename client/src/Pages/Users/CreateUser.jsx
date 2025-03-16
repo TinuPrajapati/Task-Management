@@ -5,14 +5,17 @@ import { FaGenderless } from "react-icons/fa";
 import Input from "../../Components/Input.jsx";
 import Select from "../../Components/Select.jsx";
 import toast from "react-hot-toast";
+import useAuthStore from "../../api/Store/useAuthStore.js";
 const CreateUser = () => {
+  const {register} = useAuthStore();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     role: "",
     password: "",
     number: "",
-    photo: null,
+    image: null,
     address: "",
     gender: "Male"
   });
@@ -24,13 +27,14 @@ const CreateUser = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, photo: file }));
+    setFormData((prev) => ({ ...prev, image: file }));
   };
 
 
   const submitForm = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.role || !formData.password || !formData.number || !formData.address) return toast.error("All fields are required");
+    register(formData,navigate);
   };
 
   return (
@@ -40,8 +44,8 @@ const CreateUser = () => {
         {/* Photo Upload */}
         <div className="flex items-center w-full gap-10 px-10 mb-6">
           <div className="relative">
-            {formData.photo ? (
-              <img src={URL.createObjectURL(formData?.photo)} alt="Profile preview" className="object-cover w-32 h-32 border-4 rounded-md border-sky-400" />
+            {formData.image ? (
+              <img src={URL.createObjectURL(formData?.image)} alt="Profile preview" className="object-cover w-32 h-32 border-4 rounded-md border-sky-400" />
             ) : (
               <div className="flex items-center justify-center w-32 h-32 border-4 border-indigo-100 rounded-full bg-indigo-50">
                 <Camera className="w-8 h-8 text-indigo-400" />

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Editor } from 'primereact/editor';
+import useAuthStore from '../../api/Store/useAuthStore';
 
 const SendEmail = () => {
+    const { getRoleByUsers, roleUser } = useAuthStore();
     const { person } = useParams();
     const [user, setUser] = useState([]);
     const [formData, setFormData] = useState({
@@ -10,7 +12,7 @@ const SendEmail = () => {
         name: "",
         email: "",
         subject: "",
-        msg:""
+        msg: ""
     })
     const modules = {
         toolbar: [
@@ -25,11 +27,12 @@ const SendEmail = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         if (id == "role") {
-            getUserDetails(value);
+            getRoleByUsers(value);
+            setFormData({ ...formData, email: "" })
         }
         if (person == "office") {
             if (id == "name") {
-                const email = user.find(item => item.name == value).email
+                const email = roleUser.find(item => item.name == value).email
                 setFormData({ ...formData, email: email })
             }
         }
@@ -42,7 +45,7 @@ const SendEmail = () => {
             name: "",
             email: "",
             subject: "",
-            msg:""
+            msg: ""
         })
     }
 
@@ -55,7 +58,7 @@ const SendEmail = () => {
     }, [person])
 
     return (
-        <div className="w-full py-2">
+        <div className="w-full">
 
             <form className="w-full p-4 bg-white border-2 border-yellow-400 rounded-md" onSubmit={handleSubmit}>
                 {/* Category Field */}
@@ -70,12 +73,10 @@ const SendEmail = () => {
                             value={formData.role}
                             onChange={handleChange}
                         >
-                            <option value="">Select a category</option>
-                            <option value="Admin">Admin</option>
-                            <option value="HR">HR</option>
-                            <option value="Developer">Developer</option>
-                            <option value="Designer">Designer</option>
-                            <option value="All">All Employee</option>
+                            <option value="">Select a Category</option>
+                            {["Admin", "HR", "Manager", "Web Developer", "Android Developer", "IOS Developer", "Graphic Designer", "UI/UX Designer"].map((value, index) => (
+                                <option value={value}>{value}</option>
+                            ))}
                         </select>
                     </div>
                 }
@@ -92,12 +93,20 @@ const SendEmail = () => {
                             value={formData.name}
                             onChange={handleChange}
                         >
-                            <option value="">Select a Person</option>
-                            {user.length > 0 ? user.map((el) => (
-                                <option value={el.name} key={el._id}>{el.name}</option>
-                            )) :
-                                (<option value="">No User Found</option>)
-                            }
+                            {formData.role === "" ? (
+                                <option>Choose role first</option>
+                            ) : roleUser.length > 0 ? (
+                                <>
+                                    <option>Choose User</option>
+                                    {roleUser.map((user) => (
+                                        <option key={user._id} value={user.name}>
+                                            {user.name}
+                                        </option>
+                                    ))}
+                                </>
+                            ) : (
+                                <option>This role has no employee</option>
+                            )}
                         </select>
                     </div> :
                     <div className="flex flex-col gap-1 mb-2">

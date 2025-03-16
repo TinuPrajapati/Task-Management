@@ -44,7 +44,8 @@ exports.createProject = async (req, res) => {
 exports.projectByUser = async (req, res) => {
   const {userId} = req.user;
   try {
-    const project = await Project.findById(userId);
+    const user = await User.findById(userId);
+    const project = await Project.find({assignedTo:user.name}).populate("assignedBy", "_id name role");
     res.status(200).json(project);
   } catch (error) {
     console.log("error come in project show by user routes", error);
