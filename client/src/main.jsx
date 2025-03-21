@@ -5,8 +5,6 @@ import App from './App.jsx'
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom"
 import { Dashboard, Project, AllUsers, CreateUser, Reports, CreateReport, Reminder, Team, CreateTeam, SendEmail, Chats, Profile, Login, ForgotPassword, YoruTodos, AssignedTodos, OwnReminder, AssignedReminder, CreateProject, EmailHistory, GroupChat, AssignedProject } from './Pages/index.js'
 import { PrimeReactProvider } from 'primereact/api'
-import { Provider, useSelector } from "react-redux"
-import Store from './app/store.js'
 import ScrollToTop from './Components/Scroll.jsx'
 
 const AppRouter = () => {
@@ -18,7 +16,7 @@ const AppRouter = () => {
         <ScrollToTop />
         <App />
       </>}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/todos/your" element={<YoruTodos />} />
         <Route path="/todos/assigned" element={<AssignedTodos />} />
         <Route path="/projects/your" element={<Project />} />
@@ -48,11 +46,9 @@ const AppRouter = () => {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={Store}>
-      <PrimeReactProvider>
-        <AppRouter />
-      </PrimeReactProvider>
-    </Provider>
+    <PrimeReactProvider>
+      <AppRouter />
+    </PrimeReactProvider>
   </StrictMode>
 )
 

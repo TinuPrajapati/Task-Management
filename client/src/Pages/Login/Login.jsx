@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Building2, Eye, EyeOff } from 'lucide-react';
 import Input from '../../Components/Input';
-import { useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../api/Store/useAuthStore.js';
 
 function App() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {login} = useAuthStore();
 

@@ -1,0 +1,20 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "\"This website help to managament your company task but more funticality add time to time \"",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+    "start": "npm run start --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TinuPrajapati/Task-Management.git"
+  },
+  "author": "Tinu Prajapati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TinuPrajapati/Task-Management/issues"
+  },
+  "homepage": "https://github.com/TinuPrajapati/Task-Management#readme"
+}

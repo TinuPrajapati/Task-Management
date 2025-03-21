@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Tinu Prajapati\\",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "mongoose": "^8.8.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.16",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "task-management": "file:.."
   }
 }

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-    User, Users, Search, Send, Phone, Video, MoreVertical,
+    User, Users, Search, Send, Phone, Video,
     Image as ImageIcon, Paperclip, Smile, Plus,
     X
 } from 'lucide-react';
@@ -8,13 +8,7 @@ import useChatStore from '../../../api/Store/useChatStore';
 
 function ChatOption({ setIsDialogOpen, selectedUser }) {
     const [message, setMessage] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
     const { sendMessage, subscribeToChat, unSubscribeToChat, message: chats, getMessages } = useChatStore();
-    const messageEndRef = useRef(null);
-
-    // const filteredChats = chats.filter(chat =>
-    //     chat.name.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
 
     const handleSendMessage = () => {
         sendMessage(selectedUser._id, message);
@@ -29,12 +23,6 @@ function ChatOption({ setIsDialogOpen, selectedUser }) {
             unSubscribeToChat();
         }
     }, [subscribeToChat, unSubscribeToChat, handleSendMessage]);
-
-    useEffect(() => {
-        if (messageEndRef.current && chats) {
-            messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [chats]);
 
     return (
         <div className="absolute top-0 left-0 bg-black/40 flex items-center justify-center w-[100vw] h-[100vh] overflow-y-auto">
@@ -108,7 +96,6 @@ function ChatOption({ setIsDialogOpen, selectedUser }) {
                                 </div>
                             </div>
                         ))}
-                        <div ref={messageEndRef}></div>
                     </div>
                 </div>
 
