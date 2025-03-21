@@ -2,7 +2,7 @@ import React, {useEffect, useState } from 'react';
 import ShowUser from './ShowUser';
 import useAuthStore from '../../api/Store/useAuthStore.js';
 import Admin from '../../assets/admin.jpg';
-import HR from '../../assets/HR.png';
+import HR from '../../assets/Hr.png';
 import Manager from '../../assets/manager.jpg';
 import Web from '../../assets/Web.png';
 import Ui from '../../assets/ui.jpg';
