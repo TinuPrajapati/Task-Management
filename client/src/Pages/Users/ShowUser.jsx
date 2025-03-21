@@ -5,7 +5,6 @@ import {
     Phone,
     MapPin,
     Calendar,
-    Briefcase,
 } from 'lucide-react';
 
 const ShowUser = ({ selectedUser, setSelectedUser }) => {

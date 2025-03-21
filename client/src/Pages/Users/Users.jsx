@@ -4,7 +4,7 @@ import useAuthStore from '../../api/Store/useAuthStore.js';
 import Admin from '../../assets/admin.jpg';
 import HR from '../../assets/HR.png';
 import Manager from '../../assets/manager.jpg';
-import Web from '../../assets/web.png';
+import Web from '../../assets/Web.png';
 import Ui from '../../assets/ui.jpg';
 import Graphic from '../../assets/graphic.jpg';
 import Andorid from '../../assets/android.jpg';
