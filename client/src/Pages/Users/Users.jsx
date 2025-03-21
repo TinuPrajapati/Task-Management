@@ -5,9 +5,9 @@ import Admin from '../../assets/admin.jpg';
 import HR from '../../assets/Hr.png';
 import Manager from '../../assets/manager.jpg';
 import Web from '../../assets/Web.png';
-import Ui from '../../assets/ui.jpg';
-import Graphic from '../../assets/graphic.jpg';
-import Andorid from '../../assets/android.jpg';
+import Ui from '../../assets/Ui.jpg';
+import Graphic from '../../assets/Graphic.jpg';
+import Andorid from '../../assets/Android.jpg';
 
 function App() {
     const [selectedUser, setSelectedUser] = useState(null);
