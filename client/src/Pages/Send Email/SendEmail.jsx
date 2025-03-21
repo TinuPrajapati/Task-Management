@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Editor } from 'primereact/editor';
 import useAuthStore from '../../api/Store/useAuthStore';
+import useEmailStore from '../../api/Store/useEmailStore';
+import toast from 'react-hot-toast';
 
 const SendEmail = () => {
     const { getRoleByUsers, roleUser } = useAuthStore();
+    const {sendEmails,sendEmailToOther} = useEmailStore();
     const { person } = useParams();
-    const [user, setUser] = useState([]);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         role: "",
         name: "",
@@ -14,15 +17,6 @@ const SendEmail = () => {
         subject: "",
         msg: ""
     })
-    const modules = {
-        toolbar: [
-            [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image'],
-            ['clean'],
-        ],
-    };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -39,7 +33,7 @@ const SendEmail = () => {
         setFormData((prev) => ({ ...prev, [id]: value }));
     }
 
-    const changeRecipient = (value) => {
+    const changeRecipient = () => {
         setFormData({
             role: "",
             name: "",
@@ -51,6 +45,19 @@ const SendEmail = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if ( !formData.name || !formData.email || !formData.subject || !formData.msg) return toast.error("All fields are required");
+        if (person == "office") {
+            sendEmails(formData,navigate);
+        } else {
+            sendEmailToOther(formData,navigate);
+        }
+        setFormData({
+            role: "",
+            name: "",
+            email: "",
+            subject: "",
+            msg: ""
+        })
     }
 
     useEffect(() => {

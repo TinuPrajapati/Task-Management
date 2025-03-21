@@ -7,13 +7,17 @@ import { Dashboard, Project, AllUsers, CreateUser, Reports, CreateReport, Remind
 import { PrimeReactProvider } from 'primereact/api'
 import { Provider, useSelector } from "react-redux"
 import Store from './app/store.js'
+import ScrollToTop from './Components/Scroll.jsx'
 
 const AppRouter = () => {
   // const user = useSelector((state) => state.user.value)
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<App />}>
+      <Route path="/" element={<>
+        <ScrollToTop />
+        <App />
+      </>}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/todos/your" element={<YoruTodos />} />
         <Route path="/todos/assigned" element={<AssignedTodos />} />
@@ -22,18 +26,18 @@ const AppRouter = () => {
         <Route path="/projects/create" element={<CreateProject />} />
         <Route path="/users/all" element={<AllUsers />} />
         <Route path="/users/create" element={<CreateUser />} />
-        <Route path="/reports/your" element={<Reports />} />
+        {/* <Route path="/reports/your" element={<Reports />} />
         <Route path="/reports/create" element={<CreateReport />} />
         <Route path="/reminders/your" element={<OwnReminder />} />
-        <Route path="/reminders/assigned" element={<AssignedReminder />} />
+        <Route path="/reminders/assigned" element={<AssignedReminder />} /> */}
         <Route path="/team-projects/tasks" element={<Team />} />
         <Route path="/team-projects/create" element={<CreateTeam />} />
         <Route path="/emails/history" element={<EmailHistory />} />
         <Route path="/emails/:person" element={<SendEmail />} />
         <Route path="chats/direct" element={<Chats />} />
-        <Route path="chats/group" element={<GroupChat />} />
+        {/* <Route path="chats/group" element={<GroupChat />} /> */}
         <Route path="profile" element={<Profile />} />
-        <Route path="login" element={<Login /> } />
+        <Route path="login" element={<Login />} />
         <Route path="forget_password" element={<ForgotPassword />} />
       </Route>
     )

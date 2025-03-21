@@ -12,6 +12,8 @@ const selfTodoRoutes = require("./router/selfTodoRoutes.js");
 const assignedTodoRoutes = require("./router/AssignedTodoRoutes.js");
 const projectRoutes = require("./router/projectRoutes.js");
 const userRoutes = require("./router/userRoutes.js");
+const emailRoutes = require("./router/emailRoutes.js");
+const teamRoutes = require("./router/teamRoutes.js");
 
 // Middleware
 app.use(
@@ -48,6 +50,8 @@ app.use("/chats",chatRouter);
 app.use("/selftodos", selfTodoRoutes);
 app.use("/assignedtodos", assignedTodoRoutes);
 app.use("/projects", projectRoutes);
+app.use("/emails",emailRoutes)
+app.use("/teams",teamRoutes)
 
 // Start the server
 server.listen(8000, () => {

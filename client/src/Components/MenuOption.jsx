@@ -10,7 +10,7 @@ const MenuOption = ({ menu, options, icon }) => {
             <button
                 onClick={() => setExpandedItems(!expandedItems)}
                 className='flex justify-between items-center w-full h-10 hover:border-x-4 hover:border-purple-400  duration-300 px-2 rounded-lg  '>
-                <p className='flex items-center gap-2 text-xl font-semibold'>
+                <p className='flex items-center gap-2 text-lg font-semibold'>
                     {icon} {menu}
                 </p>
                 {
@@ -23,7 +23,7 @@ const MenuOption = ({ menu, options, icon }) => {
                     <NavLink
                         key={index}
                         to={option.link}
-                        className={({ isActive }) => `w-full h-10 px-2 flex items-center gap-2 text-lg  rounded-lg ${isActive ? 'text-white bg-purple-500 px-2 font-semibold ' : ' hover:text-white hover:bg-purple-400 hover:font-semibold  duration-300'}`} >
+                        className={({ isActive }) => `w-full h-10 px-2 flex items-center gap-2  rounded-lg ${isActive ? 'text-white bg-purple-500 px-2 font-semibold ' : ' hover:text-white hover:bg-purple-400 hover:font-semibold  duration-300'}`} >
                         {option.name}
                     </NavLink>
                 ))}

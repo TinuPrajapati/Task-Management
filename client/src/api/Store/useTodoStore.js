@@ -80,6 +80,8 @@ export const useTodoStore = create((set, get) => ({
       set({ assingedTodo: res.data });
     } catch (error) {
       toast.error(error.response.data.message);
+    }finally{
+      set({ todoLoader: false });
     }
   },
 

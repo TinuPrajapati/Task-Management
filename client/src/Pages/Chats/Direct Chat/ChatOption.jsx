@@ -6,10 +6,10 @@ import {
 } from 'lucide-react';
 import useChatStore from '../../../api/Store/useChatStore';
 
-function ChatOption({ setIsDialogOpen, selectedUser}) {
+function ChatOption({ setIsDialogOpen, selectedUser }) {
     const [message, setMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const { sendMessage,subscribeToChat,unSubscribeToChat,message:chats,getMessages } = useChatStore();
+    const { sendMessage, subscribeToChat, unSubscribeToChat, message: chats, getMessages } = useChatStore();
     const messageEndRef = useRef(null);
 
     // const filteredChats = chats.filter(chat =>
@@ -28,13 +28,13 @@ function ChatOption({ setIsDialogOpen, selectedUser}) {
         return () => {
             unSubscribeToChat();
         }
-    },[subscribeToChat,unSubscribeToChat,handleSendMessage]);
+    }, [subscribeToChat, unSubscribeToChat, handleSendMessage]);
 
     useEffect(() => {
         if (messageEndRef.current && chats) {
-          messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+            messageEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-      }, [chats]);
+    }, [chats]);
 
     return (
         <div className="absolute top-0 left-0 bg-black/40 flex items-center justify-center w-[100vw] h-[100vh] overflow-y-auto">
@@ -113,33 +113,29 @@ function ChatOption({ setIsDialogOpen, selectedUser}) {
                 </div>
 
                 {/* Message Input */}
-                <div className="p-2 bg-purple-300 border-t h-[15%] w-full flex items-center gap-4 rounded-b-xl">
-                    <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-2 w-[94%] h-[90%]">
-                        <button className=" text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full">
-                            <ImageIcon className="w-5 h-5" />
+                <div className="py-3 px-5 bg-purple-300 border-t h-[15%] w-full flex items-center gap-4 rounded-b-xl">
+                    <form className='flex items-center justify-between w-full h-full'>
+                        <div className='bg-white w-[95%] px-2 flex items-center gap-4 rounded-md h-full'>
+                            <label htmlFor='file' className=" text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <Paperclip className="w-5 h-5" />
+                            </label>
+                            <input type="file" name="file" id="file" className='hidden' />
+                            <input
+                                type='text'
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="Type a message..."
+                                className="w-full border-none outline-none text-lg"
+                            />
+                        </div>
+                        <button
+                            onClick={handleSendMessage}
+                            disabled={!message.trim()}
+                            className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <Send className="w-5 h-5" />
                         </button>
-                        <button className=" text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full">
-                            <Paperclip className="w-5 h-5" />
-                        </button>
-                        <button className=" text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full">
-                            <Smile className="w-5 h-5" />
-                        </button>
-                        <input
-                            type='text'
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Type a message..."
-                            className="w-full bg-transparent border-0 focus:ring-0 p-0 resize-none outline-none"
-                            rows={1}
-                        />
-                    </div>
-                    <button
-                        onClick={handleSendMessage}
-                        disabled={!message.trim()}
-                        className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        <Send className="w-5 h-5" />
-                    </button>
+                    </form>
                 </div>
             </div>
 

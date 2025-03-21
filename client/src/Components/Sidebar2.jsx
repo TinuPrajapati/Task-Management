@@ -8,39 +8,40 @@ import {
     Users2,
     Send,
     MessageCircle,
+    LayoutDashboard
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import MenuOption from './MenuOption';
 
 const menuItems = [
-    { title: 'Home', icon: <Home size={20} />, link: '/' },
+    { title: 'Dashboard', icon: <LayoutDashboard size={17} />, link: '/' },
     {
-        title: 'Todo', icon: <ListTodo size={20} />, subItems: [
+        title: 'Todo', icon: <ListTodo size={17} />, subItems: [
             { name: 'Your Todos', link: '/todos/your' },
             { name: 'Assigned Todos', link: '/todos/assigned' }
         ]
     },
-    { title: 'Projects', icon: <Target size={20} />, link: '/projects/your' },
-    {
-        title: 'Reports',
-        icon: <FileBarChart size={20} />,
-        subItems: [
-            { name: 'Your Reports', link: '/reports/your' },
-            { name: 'Submit Report', link: '/reports/submit' },
-        ],
-    },
-    {
-        title: 'Reminder',
-        icon: <Bell size={20} />,
-        subItems: [
-            { name: 'Your Reminders', link: '/reminders/your' },
-            { name: 'Assigned Reminders', link: '/reminders/assigned' },
-        ],
-    },
-    { title: 'Team Projects', icon: <Users2 size={20} />, link: '/team-projects/tasks' },
+    { title: 'Projects', icon: <Target size={17} />, link: '/projects/your' },
+    // {
+    //     title: 'Reports',
+    //     icon: <FileBarChart size={17} />,
+    //     subItems: [
+    //         { name: 'Your Reports', link: '/reports/your' },
+    //         { name: 'Submit Report', link: '/reports/submit' },
+    //     ],
+    // },
+    // {
+    //     title: 'Reminder',
+    //     icon: <Bell size={17} />,
+    //     subItems: [
+    //         { name: 'Your Reminders', link: '/reminders/your' },
+    //         { name: 'Assigned Reminders', link: '/reminders/assigned' },
+    //     ],
+    // },
+    { title: 'Team Projects', icon: <Users2 size={17} />, link: '/team-projects/tasks' },
     {
         title: 'Send Email',
-        icon: <Send size={20} />,
+        icon: <Send size={17} />,
         subItems: [
             { name: 'Employees', link: '/emails/office' },
             { name: 'History', link: '/emails/history' },
@@ -48,7 +49,7 @@ const menuItems = [
     },
     {
         title: 'Chats',
-        icon: <MessageCircle size={20} />,
+        icon: <MessageCircle size={17} />,
         link: '/chats/direct'
     },
 ];
@@ -74,7 +75,7 @@ const Sidebar2 = () => {
                         <NavLink
                             key={index}
                             className={({ isActive }) =>
-                                `w-full h-10 px-2 py-2 flex items-center gap-2 text-xl font-semibold rounded-lg ${isActive
+                                `w-full h-10 px-2 py-2 flex items-center gap-2 text-lg font-semibold rounded-lg ${isActive
                                     ? 'text-white bg-purple-500 px-2'
                                     : 'hover:text-white hover:bg-purple-400 duration-300'
                                 }`

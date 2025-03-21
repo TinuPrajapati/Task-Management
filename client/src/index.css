@@ -4,6 +4,11 @@
   font-family: "Nunito", sans-serif;
 }
 
+.p-calendar {
+  background-color: white !important;
+}
+
+
 #Roboto {
   font-family: "Roboto", sans-serif;
 }
@@ -128,13 +133,4 @@
 
 .input-focus-effect {
   @apply transition-all duration-300 border-2 border-transparent focus:border-purple-400 focus:ring-2 focus:ring-purple-200;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  position: absolute;
-  left: 1vw;
-  width: 4vw;
-  height: 3vh;
-  opacity: 0.6;
-  cursor: pointer;
 }

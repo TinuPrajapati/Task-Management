@@ -8,20 +8,22 @@ import useAuthStore from "./api/Store/useAuthStore.js";
 import useProjectStore from "./api/Store/useProjectStore.js";
 import Sidebar2 from "./Components/Sidebar2.jsx";
 import { useTodoStore } from "./api/Store/useTodoStore.js";
+import useEmailStore from "./api/Store/useEmailStore.js";
 
 function App() {
   const { pathname } = useLocation();
   const { checkAuth, authLoader, authUser } = useAuthStore();
   const { projectLoader } = useProjectStore();
-  const {todoLoader} = useTodoStore();
+  const { todoLoader } = useTodoStore();
+  const { emailLoader } = useEmailStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   return (
-    <div className="w-[100vw] h-[100vh] flex bg-gray-500 gap-2 relative">
-      {(authLoader || projectLoader || todoLoader) && <Loader />}
+    <div className="w-[100vw] h-[100vh] flex bg-purple-200 gap-2 relative">
+      {(authLoader || projectLoader || todoLoader || emailLoader) && <Loader />}
       {pathname === "/login" || pathname === "/forget_password" ? (
         <Outlet />
       ) : (

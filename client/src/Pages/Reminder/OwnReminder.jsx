@@ -5,17 +5,15 @@ import {
     Pin,
     Clock
 } from 'lucide-react';
+import useReminderStore from '../../api/Store/useReminderStore';
 
 function OwnReminder() {
-    const [reminders, setReminders] = useState([]);
-    const [newReminder, setNewReminder] = useState('');
-    const [reminderDate, setReminderDate] = useState('');
-    const [reminderType, setReminderType] = useState('meeting');
-    const [priority, setPriority] = useState('Medium');
-    const [openMenuId, setOpenMenuId] = useState(null);
-    const [isEditing, setIsEditing] = useState(null);
-    const priorities = ['High', 'Medium', 'Low'];
-    const reminderTypes = ['meeting', 'deadline', 'announcement'];
+    const { reminders } = useReminderStore();
+    const [formData, setFormData] = useState({
+        title: '',
+        date: '',
+        priority: 'Medium',
+    })
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -35,32 +33,16 @@ function OwnReminder() {
         }
     }
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+
     const addReminder = (e) => {
         e.preventDefault();
-        if (newReminder.trim() && reminderDate) {
-            setReminders([
-                ...reminders,
-                {
-                    id: Date.now(),
-                    title: newReminder.trim(),
-                    date: reminderDate,
-                    isPinned: false,
-                    type: reminderType,
-                },
-            ]);
-            setNewReminder('');
-            setReminderDate('');
-        }
     };
 
     const togglePin = (reminderId) => {
-        setReminders(
-            reminders.map((reminder) =>
-                reminder.id === reminderId
-                    ? { ...reminder, isPinned: !reminder.isPinned }
-                    : reminder
-            )
-        );
     };
 
     const deleteReminder = (reminderId) => {
@@ -68,46 +50,45 @@ function OwnReminder() {
     };
 
     return (
-        <div className="min-h-[70vh]">
-            <form onSubmit={addReminder} className="mb-6 bg-white p-6 rounded-xl shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <input
-                        type="text"
-                        value={newReminder}
-                        onChange={(e) => setNewReminder(e.target.value)}
-                        placeholder="Add a new reminder..."
-                        className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    <input
-                        type="datetime-local"
-                        value={reminderDate}
-                        onChange={(e) => setReminderDate(e.target.value)}
-                        className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    <select
-                        value={reminderType}
-                        onChange={(e) => setReminderType(e.target.value)}
-                        className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
-                    >
-                        {reminderTypes.map((type) => (
-                            <option key={type} value={type}>
-                                {type.charAt(0).toUpperCase() + type.slice(1)}
-                            </option>
-                        ))}
-                    </select>
-                    <button
-                        type="submit"
-                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center"
-                    >
-                        <PlusCircle className="w-5 h-5 mr-2" />
-                        Add Reminder
-                    </button>
-                </div>
+        <div className="min-h-[70vh] flex flex-col gap-4">
+            <form onSubmit={addReminder} className="flex items-center gap-4">
+                <input
+                    type="text"
+                    value={formData.title}
+                    onChange={handleChange}
+                    name="title"
+                    placeholder="Add a new reminder..."
+                    className="px-4 py-3 w-[50%] border tex-lg border-gray-300 rounded-md bg-white outline-none focus:ring-4 focus:ring-purple-500 focus:border-transparent"
+                />
+                <input
+                    type="datetime-local"
+                    value={formData.date}
+                    onChange={handleChange}
+                    name='date'
+                    className="px-4 py-3 border w-[20%] border-gray-300 rounded-md bg-white outline-none focus:ring-4 focus:ring-purple-500 focus:border-transparent"
+                />
+                <select
+                    value={formData.priority}
+                    onChange={handleChange}
+                    name='priority'
+                    className="px-4 py-3 border w-[15%] border-gray-300 rounded-md bg-white outline-none focus:ring-4 focus:ring-purple-500 focus:border-transparent"
+                >
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <button
+                    type="submit"
+                    className="px-4 py-3 bg-purple-600 w-[10%] text-white rounded-md flex items-center gap-2 justify-center outline-none text-lg font-bold active:scale-90 "
+                >
+                    <PlusCircle className="w-5 h-5 mr-2" />
+                    Add
+                </button>
             </form>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {reminders.length === 0 ? (
-                    <div className="col-span-full bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center text-gray-500">
+                    <div className="col-span-full bg-white text-2xl font-bold rounded shadow-sm border border-gray-200 p-6 text-center text-gray-500">
                         No reminders yet. Add your first reminder above!
                     </div>
                 ) : (

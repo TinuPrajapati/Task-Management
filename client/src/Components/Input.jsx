@@ -37,7 +37,7 @@ const Input = ({ text, icon, handleChange, value, type, id, placeholder }) => {
               id={id}
               name="phone"
               value={value}
-              className="block w-full h-[100%] pl-10 pr-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none"
+              className={`block w-full h-[100%] ${icon?"pl-10 pr-3":"px-4"} border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-purple-400 focus:border-none outline-none`}
               placeholder={placeholder}
               onChange={handleChange}
             />
